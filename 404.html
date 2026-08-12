@@ -3,21 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 404-siden vises på en vilkårlig adresse, fx /noget/der/ikke/findes/.
+     Uden denne <base> ville relative stier til CSS, JS og billeder blive slået
+     op ud fra den adresse og fejle. -->
+<base href="/">
 <script>
-  /* 404-siden vises på en vilkårlig adresse, fx /noget/der/ikke/findes/.
-     Uden en <base> ville relative stier til CSS, JS og billeder blive slået op
-     ud fra den adresse og fejle. Vi sætter derfor roden eksplicit, inden
-     resten af <head> parses. Ligger sitet i en undermappe (GitHub Pages),
-     bruges undermappen som rod. */
+  /* Ligger sitet i en undermappe (fx GitHub Pages), rettes roden til den mappe.
+     Skal køre her — før <link> og <img> parses, så de resolver mod den rigtige base. */
   (function () {
-    var rod = "/";
-    if (location.hostname.indexOf("github.io") > -1) {
-      var m = location.pathname.match(/^\/[^\/]+\//);
-      if (m) { rod = m[0]; }
-    }
-    var b = document.createElement("base");
-    b.href = rod;
-    document.head.appendChild(b);
+    if (location.hostname.indexOf("github.io") === -1) return;
+    var m = location.pathname.match(/^\/[^\/]+\//);
+    if (m) { document.getElementsByTagName("base")[0].href = m[0]; }
   })();
 </script>
 <title>Siden findes ikke — GarageKlar</title>
