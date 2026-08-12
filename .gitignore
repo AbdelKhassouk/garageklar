@@ -1,0 +1,10 @@
+# Originalt råmateriale fra kunden (ca. 110 MB video/foto).
+# Ligger lokalt — skal hverken i git eller op på webhotellet.
+kilde-materiale/
+
+# System- og editorfiler
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+node_modules/

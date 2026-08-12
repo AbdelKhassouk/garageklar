@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /bestilling.html
+
+Sitemap: https://www.garageklar.dk/sitemap.xml

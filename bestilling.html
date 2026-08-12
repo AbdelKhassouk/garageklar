@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Udfyld resten &amp; send — GarageKlar</title>
+<meta name="description" content="Udfyld dine kontaktoplysninger og send en uforpligtende forespørgsel til GarageKlar. Der kræves ingen betaling.">
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#0b0b0d">
+<link rel="canonical" href="https://www.garageklar.dk/bestilling.html">
+<link rel="icon" href="assets/img/brand/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/img/brand/apple-touch-icon.png">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<a class="spring-over" href="#indhold">Gå til indhold</a>
+
+<!-- ==================== TOPBJÆLKE ==================== -->
+<header class="bjaelke" id="bjaelke">
+  <div class="ramme bjaelke__inder">
+    <div class="bjaelke__venstre">
+      <a class="bfane" href="index.html#privat">Tilbud <b>–</b> <span class="lang">Private</span></a>
+      <a class="bfane" href="index.html#erhverv">Tilbud <b>–</b> <span class="lang">Erhverv</span></a>
+    </div>
+
+    <a class="logo" href="index.html" aria-label="GarageKlar — til forsiden">
+      <img src="assets/img/brand/logo-lys.png" alt="GarageKlar" width="900" height="198">
+    </a>
+
+    <div class="bjaelke__hoejre">
+      <a class="btlf" href="tel:+4529333640">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6.6 2h3l1.5 4-2.2 1.4a12 12 0 0 0 5.7 5.7L16 10.9l4 1.5v3a2 2 0 0 1-2.2 2A17.8 17.8 0 0 1 2.5 4.2 2 2 0 0 1 4.5 2h2.1Z" fill="currentColor"/></svg>
+        <span class="nr">Tlf: 29 33 36 40</span>
+        <span class="skjult-visuelt">Ring til GarageKlar</span>
+      </a>
+      <a class="bcta" href="index.html">Til forsiden</a>
+    </div>
+  </div>
+</header>
+
+<main id="indhold" class="trin2">
+  <div class="ramme">
+
+    <!-- trin-indikator -->
+    <div class="trinbjaelke">
+      <span class="fuld"><i>✓</i> <b>Beregn pris</b></span>
+      <hr>
+      <span class="aktiv"><i>2</i> <b>Dine oplysninger</b></span>
+      <hr>
+      <span><i>3</i> Vi kontakter dig</span>
+    </div>
+
+    <div class="trin2__kort" id="bestilkort">
+      <p class="mrk">Næste skridt</p>
+      <h1 style="font-size:clamp(1.7rem,4.4vw,2.5rem);margin-bottom:.5rem">Udfyld resten &amp; send</h1>
+      <p style="color:var(--tekst-2);margin-bottom:1.6rem">Vi bruger oplysningerne til at kontakte dig og planlægge opgaven. Der kræves <strong>ingen betaling</strong> for at sende forespørgslen.</p>
+
+      <!-- opsummering fra beregneren -->
+      <div class="opsum" id="opsum">
+        <span><b id="opsum-opgave">Garage</b></span>
+        <span aria-hidden="true">·</span>
+        <span id="opsum-timer">4 timer</span>
+        <span aria-hidden="true">·</span>
+        <span>Estimeret pris: <span class="pris" id="opsum-pris">4.780 kr.</span></span>
+        <a class="tekstlink ret" href="index.html#beregner">Ret beregning</a>
+      </div>
+
+      <form class="form" id="bestilform" novalidate>
+        <input type="hidden" id="f-opgave" name="opgave">
+        <input type="hidden" id="f-timer" name="timer">
+        <input type="hidden" id="f-pris" name="estimeret_pris">
+
+        <div class="form__rk">
+          <div>
+            <label class="etiket" for="b-navn">Navn <span class="kraev">*</span></label>
+            <input type="text" id="b-navn" name="navn" autocomplete="name" placeholder="For- og efternavn" required>
+            <p class="fejl" data-fejl-for="b-navn">Udfyld dit navn.</p>
+          </div>
+          <div>
+            <label class="etiket" for="b-telefon">Telefonnummer <span class="kraev">*</span></label>
+            <input type="tel" id="b-telefon" name="telefon" autocomplete="tel" inputmode="tel" placeholder="12 34 56 78" required>
+            <p class="fejl" data-fejl-for="b-telefon">Udfyld et gyldigt telefonnummer (mindst 8 cifre).</p>
+          </div>
+        </div>
+
+        <div class="form__rk">
+          <div>
+            <label class="etiket" for="b-adresse">Adresse <span class="kraev">*</span></label>
+            <input type="text" id="b-adresse" name="adresse" autocomplete="street-address" placeholder="Vejnavn og nummer" required>
+            <p class="fejl" data-fejl-for="b-adresse">Udfyld adressen, hvor opgaven skal løses.</p>
+          </div>
+          <div>
+            <label class="etiket" for="b-postnummer">Postnummer</label>
+            <input type="text" id="b-postnummer" name="postnummer" autocomplete="postal-code" inputmode="numeric" maxlength="4" placeholder="7400">
+          </div>
+        </div>
+
+        <div class="form__rk">
+          <div>
+            <label class="etiket" for="b-dato">Ønsket dato</label>
+            <input type="date" id="b-dato" name="onsket_dato">
+          </div>
+          <div>
+            <label class="etiket" for="b-email">E-mail</label>
+            <input type="email" id="b-email" name="email" autocomplete="email" placeholder="dig@eksempel.dk">
+          </div>
+        </div>
+
+        <div>
+          <label class="etiket" for="b-besked">Kort om opgaven</label>
+          <textarea id="b-besked" name="besked" placeholder="Fortæl gerne kort, hvad der skal ryddes, og om der er noget vi skal være opmærksomme på — fx tunge ting, trapper eller ting der skal bevares."></textarea>
+        </div>
+
+        <!-- billedupload -->
+        <div>
+          <label class="etiket" for="billeder">Vedhæft billeder</label>
+          <div class="upload" id="uploadboks">
+            <div class="upload__ikon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M3 17V7a2 2 0 0 1 2-2h3l1.5-2h5L16 5h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12" r="3.6" stroke="currentColor" stroke-width="1.8"/></svg>
+            </div>
+            <b>Vedhæft billeder</b>
+            <span>Send gerne 3-4 billeder</span>
+            <input type="file" id="billeder" name="billeder" accept="image/*" multiple capture="environment">
+          </div>
+          <p class="form__note" style="margin-top:.5rem">
+            <span id="filtal"></span>
+            Billederne hjælper os med at vurdere opgaven rigtigt. Maks 8 billeder à 12 MB.
+          </p>
+          <div class="filer" id="filliste" style="margin-top:.8rem"></div>
+        </div>
+
+        <p class="form__note">
+          <strong>*</strong> Navn, telefonnummer og adresse skal udfyldes, før ordren kan sendes.
+          Der kræves ingen betaling for at sende forespørgslen. Vi behandler dine oplysninger efter vores
+          <a href="persondatapolitik.html">persondatapolitik</a>.
+        </p>
+
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important">
+        <button class="knap knap--roed knap--fuld knap--stor" type="submit">
+          Send forespørgsel
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </form>
+    </div>
+
+  </div>
+</main>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="fod">
+  <div class="ramme">
+    <div class="fod__grid">
+      <div class="fod__brand">
+        <img src="assets/img/brand/logo-lys.png" alt="GarageKlar" width="900" height="198" loading="lazy">
+        <p>Rydningsfirma — fra rod til GarageKlar. Vi rydder garager, udhuse, annekser, kældre og indkørsler i Midtjylland.</p>
+        <div class="fod__sociale">
+          <a href="https://www.youtube.com/@garageklar" target="_blank" rel="noopener" aria-label="GarageKlar på YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.8-1.8C18.3 5 12 5 12 5s-6.3 0-7.8.5A2.5 2.5 0 0 0 2.4 7.3C2 8.8 2 12 2 12s0 3.2.4 4.7a2.5 2.5 0 0 0 1.8 1.8C5.7 19 12 19 12 19s6.3 0 7.8-.5a2.5 2.5 0 0 0 1.8-1.8C22 15.2 22 12 22 12ZM10 15V9l5.2 3L10 15Z"/></svg></a>
+          <a href="https://www.facebook.com/garageklar" target="_blank" rel="noopener" aria-label="GarageKlar på Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v7h3v-7h3l1-3h-4v-2c0-.6.4-1 1-1Z"/></svg></a>
+          <a href="mailto:Kundeservicegarageklar@hotmail.com" aria-label="Send en mail til GarageKlar"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="m3 7 9 6 9-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+
+      <div>
+        <h3>Ydelser</h3>
+        <ul>
+          <li><a href="garagerydning/">Rydning af garage</a></li>
+          <li><a href="udhus-og-anneks/">Udhus, anneks og skur</a></li>
+          <li><a href="doedsborydning/">Rydning af dødsbo</a></li>
+          <li><a href="erhvervsrydning/">Erhvervsrydning</a></li>
+          <li><a href="indkoersel-og-udearealer/">Indkørsel og udearealer</a></li>
+          <li><a href="priser/">Priser</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Områder</h3>
+        <ul>
+          <li><a href="rydningsfirma-herning/">Herning</a></li>
+          <li><a href="rydningsfirma-ikast/">Ikast</a></li>
+          <li><a href="rydningsfirma-silkeborg/">Silkeborg</a></li>
+          <li><a href="rydningsfirma-holstebro/">Holstebro</a></li>
+          <li><a href="rydningsfirma-viborg/">Viborg</a></li>
+          <li><a href="omraader/">Alle områder</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Kontakt</h3>
+        <address>
+          <a href="tel:+4529333640"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 2h3l1.5 4-2.2 1.4a12 12 0 0 0 5.7 5.7L16 10.9l4 1.5v3a2 2 0 0 1-2.2 2A17.8 17.8 0 0 1 2.5 4.2 2 2 0 0 1 4.5 2h2.1Z"/></svg> 29 33 36 40</a>
+          <a href="mailto:Kundeservicegarageklar@hotmail.com"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="m3 7 9 6 9-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> Kundeservicegarageklar@hotmail.com</a>
+          <span style="display:block;margin-top:.4rem">GarageKlar<br>Østergade 27B, 1. th<br>7400 Herning<br>CVR: 11223344</span>
+        </address>
+        <ul style="margin-top:1rem">
+          <li><a href="om-os/">Om os</a></li>
+          <li><a href="kontakt/">Kontakt</a></li>
+          <li><a href="index.html#faq">Spørgsmål &amp; svar</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="fod__bund">
+      <p>© <span id="aar">2026</span> GarageKlar. Alle rettigheder forbeholdes.</p>
+      <nav aria-label="Juridisk">
+        <a href="handelsbetingelser.html">Handelsbetingelser</a>
+        <a href="persondatapolitik.html">Persondatapolitik</a>
+        <a href="cookiepolitik.html">Cookies</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<div class="mobilbar">
+  <a class="knap knap--lys" href="tel:+4529333640">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 2h3l1.5 4-2.2 1.4a12 12 0 0 0 5.7 5.7L16 10.9l4 1.5v3a2 2 0 0 1-2.2 2A17.8 17.8 0 0 1 2.5 4.2 2 2 0 0 1 4.5 2h2.1Z"/></svg>
+    Ring
+  </a>
+  <a class="knap knap--roed" href="index.html">Til forsiden</a>
+</div>
+
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GarageKlar — Rydningsfirma i Midtjylland</title>
+<meta name="description" content="Vi rydder garager, udhuse, annekser og indkørsler i Midtjylland. Fast timepris på 1.195 kr. inkl. moms — beregn din pris med det samme.">
+<meta name="theme-color" content="#0b0b0d">
+<link rel="canonical" href="https://www.garageklar.dk/">
+
+<link rel="icon" href="assets/img/brand/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/img/brand/apple-touch-icon.png">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="da_DK">
+<meta property="og:site_name" content="GarageKlar">
+<meta property="og:title" content="GarageKlar — Rydningsfirma i Midtjylland">
+<meta property="og:description" content="Fra rod til GarageKlar. Vi rydder garager, udhuse, annekser og indkørsler. Fast timepris 1.195 kr. inkl. moms.">
+<meta property="og:image" content="assets/img/team/kasper-kristian.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preload" as="image" href="assets/video/hero-poster.jpg" fetchpriority="high">
+<link rel="stylesheet" href="assets/css/style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "GarageKlar",
+  "description": "Rydningsfirma der rydder garager, udhuse, annekser, kældre og indkørsler i Midtjylland.",
+  "url": "https://www.garageklar.dk/",
+  "telephone": "+4529333640",
+  "email": "Kundeservicegarageklar@hotmail.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Østergade 27B, 1. th",
+    "postalCode": "7400",
+    "addressLocality": "Herning",
+    "addressCountry": "DK"
+  },
+  "areaServed": "Midtjylland",
+  "priceRange": "1195 DKK/time"
+}
+</script>
+</head>
+<body>
+
+<a class="spring-over" href="#indhold">Gå til indhold</a>
+
+<!-- ==================== TOPBJÆLKE (sticky) ==================== -->
+<header class="bjaelke" id="bjaelke">
+  <div class="ramme bjaelke__inder">
+    <div class="bjaelke__venstre">
+      <button class="menuknap" id="menuknap" aria-expanded="false" aria-controls="menu">
+        <span class="menuknap__streger" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="menuknap__tekst">Menu</span>
+        <span class="skjult-visuelt">Åbn menu</span>
+      </button>
+      <a class="bfane" href="#privat">Tilbud <b>–</b> <span class="lang">Private</span></a>
+      <a class="bfane" href="#erhverv">Tilbud <b>–</b> <span class="lang">Erhverv</span></a>
+    </div>
+
+    <a class="logo" href="#top" aria-label="GarageKlar — til forsiden">
+      <img src="assets/img/brand/logo-lys.png" alt="GarageKlar" width="900" height="198">
+    </a>
+
+    <div class="bjaelke__hoejre">
+      <a class="btlf" href="tel:+4529333640">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6.6 2h3l1.5 4-2.2 1.4a12 12 0 0 0 5.7 5.7L16 10.9l4 1.5v3a2 2 0 0 1-2.2 2A17.8 17.8 0 0 1 2.5 4.2 2 2 0 0 1 4.5 2h2.1Z" fill="currentColor"/></svg>
+        <span class="nr">Tlf: 29 33 36 40</span>
+        <span class="skjult-visuelt">Ring til GarageKlar</span>
+      </a>
+      <button class="bcta" data-aabn-ring>
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.5 9.5 0 0 1-2.8-.4L4 21l1.3-3.6A8.2 8.2 0 0 1 3 11.5C3 6.8 7 3 12 3s9 3.8 9 8.5Z" fill="currentColor"/></svg>
+        Bliv ringet op
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ==================== MENU-OVERLAY ==================== -->
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Hovedmenu">
+  <div class="ramme menu__top">
+    <button class="menuknap" data-luk-menu aria-label="Luk menu">
+      <span class="menuknap__streger" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+    <a class="logo" href="#top" data-luk-menu>
+      <img src="assets/img/brand/logo-lys.png" alt="GarageKlar" width="900" height="198">
+    </a>
+    <span style="width:60px"></span>
+  </div>
+
+  <div class="ramme menu__krop">
+    <div class="menu__grid">
+      <nav class="menu__nav" aria-label="Ydelser">
+        <a href="garagerydning/" data-luk-menu>Rydning af garage</a>
+        <a href="udhus-og-anneks/" data-luk-menu>Udhus, anneks og skur</a>
+        <a href="doedsborydning/" data-luk-menu>Rydning af dødsbo</a>
+        <a href="erhvervsrydning/" data-luk-menu>Erhvervsrydning</a>
+        <a href="indkoersel-og-udearealer/" data-luk-menu>Indkørsel og udearealer</a>
+        <a href="priser/" data-luk-menu>Priser</a>
+        <a href="omraader/" data-luk-menu>Områder vi dækker</a>
+        <a href="om-os/" data-luk-menu>Om os</a>
+        <a href="kontakt/" data-luk-menu>Kontakt</a>
+      </nav>
+
+      <div class="menu__side">
+        <div class="menu__knapper">
+          <a class="knap knap--lys" href="#beregner" data-luk-menu>Beregn din pris</a>
+          <button class="knap knap--roed" data-aabn-ring data-luk-menu>Bliv ringet op</button>
+        </div>
+
+        <div class="menu__blok">
+          <h3>På denne side</h3>
+          <a href="#foer-efter" data-luk-menu>Før &amp; efter</a>
+          <a href="#video" data-luk-menu>Se os arbejde</a>
+          <a href="#anmeldelser" data-luk-menu>Anmeldelser</a>
+          <a href="#faq" data-luk-menu>Spørgsmål &amp; svar</a>
+        </div>
+
+        <div class="menu__blok">
+          <h3>Områder</h3>
+          <a href="rydningsfirma-herning/">Herning</a>
+          <a href="rydningsfirma-ikast/">Ikast</a>
+          <a href="rydningsfirma-silkeborg/">Silkeborg</a>
+          <a href="rydningsfirma-holstebro/">Holstebro</a>
+          <a href="rydningsfirma-viborg/">Viborg</a>
+        </div>
+
+        <div class="menu__blok">
+          <h3>Kontakt</h3>
+          <a href="tel:+4529333640">Tlf. 29 33 36 40</a>
+          <a href="mailto:Kundeservicegarageklar@hotmail.com">Kundeservicegarageklar@hotmail.com</a>
+        </div>
+
+        <div class="menu__blok">
+          <h3>Information</h3>
+          <a href="handelsbetingelser.html">Handelsbetingelser</a>
+          <a href="persondatapolitik.html">Persondatapolitik</a>
+          <a href="cookiepolitik.html">Cookie- og privatlivspolitik</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main id="indhold">
+
+<!-- ==================== HERO ==================== -->
+<section class="hero" id="top">
+  <div class="hero__medie" aria-hidden="true">
+    <img src="assets/video/hero-poster.jpg" alt="" width="720" height="1280" fetchpriority="high">
+    <video id="herovideo" muted loop playsinline preload="none" poster="assets/video/hero-poster.jpg" aria-hidden="true"></video>
+  </div>
+  <div class="hero__slor" aria-hidden="true"></div>
+
+  <a class="hero__yt" href="https://www.youtube.com/@garageklar" target="_blank" rel="noopener">
+    <svg viewBox="0 0 28 20" aria-hidden="true"><rect width="28" height="20" rx="5" fill="#FF0000"/><path d="M11 6l7 4-7 4V6Z" fill="#fff"/></svg>
+    <span>Se os på YouTube</span>
+  </a>
+
+  <div class="ramme hero__inder">
+    <p class="hero__eyebrow">
+      <span>Garage</span><span>Udhuse</span><span>Anneks</span><span>Indkørsel</span>
+    </p>
+
+    <h1>Garage<em>Klar</em></h1>
+
+    <div class="hero__under">
+      <h2>Rydningsfirma</h2>
+      <i aria-hidden="true"></i>
+    </div>
+
+    <p class="hero__tagline">Fra rod til GarageKlar</p>
+
+    <div class="hero__knapper">
+      <button class="knap knap--roed knap--stor" data-aabn-ring>
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.5 9.5 0 0 1-2.8-.4L4 21l1.3-3.6A8.2 8.2 0 0 1 3 11.5C3 6.8 7 3 12 3s9 3.8 9 8.5Z" fill="currentColor"/></svg>
+        Bliv ringet op
+      </button>
+      <a class="knap knap--lys knap--stor" href="tel:+4529333640">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6.6 2h3l1.5 4-2.2 1.4a12 12 0 0 0 5.7 5.7L16 10.9l4 1.5v3a2 2 0 0 1-2.2 2A17.8 17.8 0 0 1 2.5 4.2 2 2 0 0 1 4.5 2h2.1Z" fill="currentColor"/></svg>
+        29 33 36 40
+      </a>
+    </div>
+
+    <div class="hero__fakta">
+      <div><b>1.195 kr./time</b><span>Inkl. moms — fast pris</span></div>
+      <div><b>Gratis tilbud</b><span>Ingen betaling for forespørgsel</span></div>
+      <div><b>Forsikret</b><span>Erhvervsansvarsforsikring</span></div>
+      <div><b>Midtjylland</b><span>Hurtigt ude hos dig</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== YDELSER ==================== -->
+<section class="sektion" id="ydelser">
+  <div class="ramme">
+    <div class="shoved shoved--midt ind">
+      <p class="mrk">Vores ydelser</p>
+      <h2>Vi rydder op — du får pladsen tilbage</h2>
+      <p class="underrubrik">Uanset om det er en garage, der ikke har været ryddet i årevis, eller et erhvervslokale, der skal tømmes, tager vi opgaven fra ende til anden: tømning, sortering, bortskaffelse og oprydning.</p>
+    </div>
+
+    <div class="ydelser__grid">
+
+      <article class="ykort ind" id="privat">
+        <div class="ykort__billede">
+          <picture>
+            <source srcset="assets/img/ydelser/privat.webp" type="image/webp">
+            <img src="assets/img/ydelser/privat.jpg" alt="Nyryddet og fejet privat garage med tomt gulv" width="1200" height="800" loading="lazy">
+          </picture>
+          <span class="ykort__badge">Tilbud – Private</span>
+          <h3 class="ykort__titel">Private hjem</h3>
+        </div>
+        <div class="ykort__krop">
+          <p>Garager, udhuse, annekser, skure, kældre og indkørsler. Vi sorterer sammen med dig, bærer det tunge og kører affaldet på genbrugspladsen — så rummet står klar til brug igen.</p>
+          <ul class="tjek">
+            <li>Garage, carport, udhus og anneks</li>
+            <li>Kælder, loft og pulterrum</li>
+            <li>Indkørsel og udearealer</li>
+            <li>Dødsboer — håndteret med respekt og diskretion</li>
+          </ul>
+          <div class="ykort__fod">
+            <a class="knap knap--sort" href="#beregner">Beregn din pris
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="ykort ind" id="erhverv">
+        <div class="ykort__billede">
+          <picture>
+            <source srcset="assets/img/ydelser/erhverv.webp" type="image/webp">
+            <img src="assets/img/ydelser/erhverv.jpg" alt="Tømt erhvervslager med ryddede reoler og fejet gulv" width="1200" height="800" loading="lazy">
+          </picture>
+          <span class="ykort__badge">Tilbud – Erhverv</span>
+          <h3 class="ykort__titel">Erhverv</h3>
+        </div>
+        <div class="ykort__krop">
+          <p>Lager, værksted, depotrum og lejemål der skal afleveres. Vi rydder effektivt, sorterer korrekt og efterlader lokalet ryddeligt — så I kan komme videre uden at bruge egne folk på det.</p>
+          <ul class="tjek">
+            <li>Lager, depot og værksted</li>
+            <li>Fraflytning af lejemål</li>
+            <li>Bortskaffelse og miljørigtig sortering</li>
+            <li>Fast timepris — også ved større opgaver</li>
+          </ul>
+          <div class="ykort__fod">
+            <a class="knap knap--sort" href="tel:+4529333640">Ring og få en vurdering
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PRIS + BEREGNER ==================== -->
+<section class="sektion sektion--sand" id="priser">
+  <div class="ramme">
+    <div class="shoved shoved--midt ind">
+      <p class="mrk">Prisberegner</p>
+      <h2>Beregn din pris med det samme</h2>
+      <p class="underrubrik">Én fast timepris — ingen skjulte gebyrer og ingen lange spørgeskemaer. Du behøver ikke oplyse mere end det nødvendige.</p>
+    </div>
+
+    <div class="pris__grid">
+
+      <!-- Prissektion -->
+      <div class="priskort ind">
+        <p class="priskort__tal">
+          <strong>1.195 kr.</strong><span>pr. time</span>
+        </p>
+        <p class="priskort__note">Inkl. moms. Vi afregner efter medgået arbejdstid, og der er en minimumsopgave på 4 timer på en given adresse.</p>
+
+        <h3>Inkluderet i prisen</h3>
+        <ul class="tjek">
+          <li>Tømning</li>
+          <li>Sortering</li>
+          <li>Oprydning</li>
+          <li>Rengøring af indkørsel</li>
+          <li>Bortskaffelse af affald</li>
+          <li>Genbrug og miljørigtig sortering</li>
+          <li>Tunge løft</li>
+          <li>Ryddeligt resultat</li>
+        </ul>
+
+        <div class="priskort__fod">
+          <div>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+            <span>Vi har erhvervsansvarsforsikring, mens vi arbejder hos dig.</span>
+          </div>
+          <div>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 8v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/></svg>
+            <span>Arbejdet afregnes pr. påbegyndt time. Er opgaven større end forventet, aftaler vi det med dig, inden vi fortsætter.</span>
+          </div>
+          <div>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Det koster ingenting at sende en forespørgsel — og du binder dig ikke til noget.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beregner -->
+      <form class="beregner ind" id="beregner" novalidate>
+        <div class="beregner__hoved">
+          <h3>GarageKlar beregning</h3>
+          <p>Fast timepris på 1.195 kr./time inkl. moms.</p>
+        </div>
+
+        <div class="felt">
+          <label for="opgavetype">Type opgave</label>
+          <select id="opgavetype" name="opgave">
+            <option>Garage</option>
+            <option>Carport</option>
+            <option>Udhus / skur</option>
+            <option>Anneks</option>
+            <option>Indkørsel</option>
+            <option>Kælder / loft</option>
+            <option>Dødsbo</option>
+            <option>Erhvervslokale</option>
+            <option>Andet</option>
+          </select>
+        </div>
+
+        <div class="felt">
+          <label for="timer">Antal timer</label>
+          <div class="timer">
+            <button type="button" id="minus" aria-label="Færre timer">−</button>
+            <input type="number" id="timer" name="timer" value="4" min="4" max="40" step="1" inputmode="numeric">
+            <button type="button" id="plus" aria-label="Flere timer">+</button>
+          </div>
+        </div>
+        <p class="beregner__hint">Minimum 4 timer. Er du i tvivl om, hvor lang tid din opgave tager, så vælg et bud — vi vender tilbage med en vurdering.</p>
+
+        <div class="resultat">
+          <div>
+            <p class="resultat__mrk">Estimeret pris</p>
+            <p class="resultat__tal" id="pris" aria-live="polite">4.780 kr.</p>
+            <p class="resultat__spec" id="spec">Garage · 4 timer × 1.195 kr.</p>
+          </div>
+          <a class="knap knap--roed knap--stor" id="videre" href="bestilling.html">
+            Udfyld resten &amp; send
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <p class="beregner__disclaimer">Beregningen er et vejledende estimat ud fra vores faste timepris og udgør ikke et bindende tilbud. Den endelige pris afregnes efter medgået tid, jf. <a href="handelsbetingelser.html" style="color:inherit;text-decoration:underline">handelsbetingelserne</a>.</p>
+      </form>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FØR / EFTER ==================== -->
+<section class="sektion sektion--moerk" id="foer-efter">
+  <div class="ramme">
+    <div class="shoved shoved--midt ind">
+      <p class="mrk">Før &amp; efter</p>
+      <h2>Se forskellen fra vores egne opgaver</h2>
+      <p class="underrubrik">Alle billeder er fra rigtige opgaver, vi har løst. Træk i håndtaget for at se, hvordan der så ud før — og bagefter.</p>
+    </div>
+
+    <div class="fe__grid" id="fe-grid">
+      <!-- fyldes af main.js -->
+    </div>
+  </div>
+</section>
+
+<!-- ==================== VIDEO ==================== -->
+<section class="sektion" id="video">
+  <div class="ramme video__grid">
+    <div class="video__tekst ind">
+      <p class="mrk">Se os arbejde</p>
+      <h2>Sådan ser en opgave ud hos os</h2>
+      <p class="underrubrik">Vi filmer og fotograferer vores opgaver, så du kan se præcis, hvad du får. Du bestemmer altid selv, om billeder fra din opgave må bruges.</p>
+      <ul class="tjek">
+        <li>Vi rydder, sorterer og bortskaffer — du skal ikke løfte en finger</li>
+        <li>Du behøver ikke være hjemme, når vi arbejder</li>
+        <li>Området efterlades fejet og præsentabelt</li>
+      </ul>
+      <div class="hero__knapper" style="margin-top:1.8rem">
+        <a class="knap knap--roed" href="https://www.youtube.com/@garageklar" target="_blank" rel="noopener">
+          <svg viewBox="0 0 28 20" aria-hidden="true" style="width:1.4em;height:1em"><rect width="28" height="20" rx="5" fill="currentColor" opacity=".25"/><path d="M11 6l7 4-7 4V6Z" fill="currentColor"/></svg>
+          Se flere videoer på YouTube
+        </a>
+        <button class="knap knap--linje" data-aabn-ring>Bliv ringet op</button>
+      </div>
+    </div>
+
+    <div class="video__afspiller ind" id="afspiller">
+      <video id="reklame" playsinline preload="none" poster="assets/video/reklame-poster.jpg" src="assets/video/reklame.mp4"></video>
+      <button class="video__play" id="playknap" aria-label="Afspil video">
+        <span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7L8 5Z"/></svg></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== OMRÅDER ==================== -->
+<section class="sektion sektion--sand" id="omraader">
+  <div class="ramme omr__grid">
+    <div class="omr__kort ind">
+      <img src="assets/img/danmark.svg" alt="Kort over Danmark med GarageKlars base i Herning markeret" width="1000" height="792" loading="lazy">
+    </div>
+
+    <div class="ind">
+      <p class="mrk">Områder vi dækker</p>
+      <h2>Vi kører primært i Midtjylland</h2>
+      <p class="underrubrik">Vi har base i Herning og fokuserer på at levere hurtig og fleksibel service i vores nærområde — herunder:</p>
+
+      <ul class="omr__byer">
+        <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>Herning</li>
+        <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>Ikast</li>
+        <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>Snejbjerg</li>
+        <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>Tjørring</li>
+        <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>Sunds</li>
+        <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>Vildbjerg</li>
+        <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>Aulum</li>
+        <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>Kibæk</li>
+        <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>Brande</li>
+        <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>Silkeborg</li>
+        <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>Holstebro</li>
+        <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>Viborg</li>
+      </ul>
+
+      <p class="omr__boks">Bor du uden for området? Du er stadig meget velkommen til at kontakte os — så vurderer vi, om vi kan hjælpe med din opgave.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ANMELDELSER ==================== -->
+<section class="sektion" id="anmeldelser">
+  <div class="ramme">
+    <div class="shoved shoved--midt ind">
+      <p class="mrk">Kundeanmeldelser</p>
+      <h2>Hvad siger vores kunder?</h2>
+    </div>
+
+    <div class="anm__boks ind">
+      <span class="anm__logo">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8L12 2Z"/></svg>
+        Trustpilot
+      </span>
+      <div class="anm__stjerner" aria-hidden="true">
+        <span><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8L12 2Z"/></svg></span>
+        <span><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8L12 2Z"/></svg></span>
+        <span><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8L12 2Z"/></svg></span>
+        <span><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8L12 2Z"/></svg></span>
+        <span><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8L12 2Z"/></svg></span>
+      </div>
+
+      <p>Vi er et ungt firma, og vi bygger vores omdømme op én opgave ad gangen. Har vi hjulpet dig, betyder det rigtig meget, at du deler din oplevelse — og er du på vej til at bestille, er du altid velkommen til at ringe og høre nærmere først.</p>
+
+      <div class="hero__knapper" style="justify-content:center">
+        <a class="knap knap--sort" id="tp-link" href="https://dk.trustpilot.com/evaluate/garageklar.dk" target="_blank" rel="noopener">Skriv en anmeldelse</a>
+        <a class="knap knap--linje" id="tp-se" href="https://dk.trustpilot.com/review/garageklar.dk" target="_blank" rel="noopener">Se alle anmeldelser</a>
+      </div>
+
+      <!-- Trustpilot TrustBox: indsæt jeres officielle widget-kode her, når profilen er oprettet.
+           https://dk.business.trustpilot.com/  →  Integrationer  →  TrustBox
+           Erstat blokken herunder med scriptet derfra. -->
+      <div id="trustbox"></div>
+
+      <!-- NB: Der er bevidst ikke skrevet eksempel-anmeldelser ind i koden.
+           Opdigtede anmeldelser er ulovlige efter markedsføringsloven.
+           Rigtige anmeldelser hentes automatisk, når TrustBox-widgetten sættes ind ovenfor. -->
+    </div>
+  </div>
+</section>
+
+<!-- ==================== OM OS ==================== -->
+<section class="sektion sektion--moerk" id="om-os">
+  <div class="ramme om__grid">
+    <figure class="om__billede ind" style="margin:0">
+      <picture>
+        <source srcset="assets/img/team/kasper-kristian.webp" type="image/webp">
+        <img src="assets/img/team/kasper-kristian.jpg" alt="Kristian og Kasper fra GarageKlar i arbejdstøj foran en garageport" width="1184" height="880" loading="lazy">
+      </picture>
+      <figcaption>Kristian og Kasper — folkene bag GarageKlar</figcaption>
+    </figure>
+
+    <div class="om__tekst ind">
+      <p class="mrk">Om os</p>
+      <h2>To unge iværksættere med sans for orden</h2>
+
+      <p>Bag virksomheden står Kristian og Kasper — to unge iværksættere med en fælles passion for at hjælpe mennesker og skabe orden i hverdagen.</p>
+      <p>Vi startede virksomheden, fordi vi kunne se en stigende efterspørgsel efter professionel oprydning af garager, udhuse, annekser, kældre og andre opbevaringsrum. Samtidig oplevede vi, at mange enten ikke havde tiden, kræfterne eller det rette udstyr til at få opgaven løst. Det ønskede vi at ændre.</p>
+      <p>For os handler oprydning om meget mere end blot at flytte ting fra A til B. Det handler om at skabe plads, overblik og ro. Vi ved, at et ryddeligt rum kan gøre en stor forskel — uanset om det er en garage, der skal bruges igen, et udhus, der er blevet fyldt gennem årene, eller et dødsbo, der skal håndteres med respekt.</p>
+      <p>Vi går til hver eneste opgave med en positiv indstilling, høj arbejdsmoral og stor respekt for både kunden og kundens ejendele. Vi lytter til dine ønsker, arbejder effektivt og sørger altid for, at området efterlades rent, ryddeligt og klar til brug.</p>
+      <p>Vores mål er at levere en service, hvor du kan føle dig tryg fra første kontakt til den sidste kasse er båret ud. Vi tror på ærlig kommunikation, fair priser og et resultat, vi selv kan være stolte af.</p>
+      <p>Vi glæder os til at hjælpe dig med dit næste oprydningsprojekt.</p>
+
+      <div class="om__folk">
+        <div class="om__person">
+          <img src="assets/img/team/kristian.jpg" alt="" width="480" height="480" loading="lazy">
+          <div><b>Kristian</b><span>Medstifter</span></div>
+        </div>
+        <div class="om__person">
+          <img src="assets/img/team/kasper.jpg" alt="" width="480" height="480" loading="lazy">
+          <div><b>Kasper</b><span>Medstifter</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FAQ ==================== -->
+<section class="sektion sektion--sand" id="faq">
+  <div class="ramme">
+    <div class="shoved shoved--midt ind">
+      <p class="mrk">Spørgsmål &amp; svar</p>
+      <h2>Det spørger folk os oftest om</h2>
+    </div>
+
+    <div class="faq ind">
+      <details>
+        <summary>Hvilke områder rydder I op?</summary>
+        <div class="faq__svar">
+          <p>Vi hjælper med oprydning af garager, udhuse, annekser, skure, indkørsler og værksteder.</p>
+          <p>Har du en opgave, som ikke er nævnt her, er du altid velkommen til at kontakte os. Vi tager gerne en snak om dine behov og finder en løsning, der passer til netop din situation.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Har I alternative tilbud til større opgaver?</summary>
+        <div class="faq__svar">
+          <p>Ja. Ved større oprydningsopgaver tilbyder vi altid en uforpligtende vurdering og et tilbud, så du på forhånd kender prisen. Vi tager gerne en snak om opgaven over telefonen og finder sammen en løsning, der passer til dine behov.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Skal jeg selv sortere mine ting?</summary>
+        <div class="faq__svar">
+          <p>Nej. Vi kan hjælpe med at sortere, så du kan beslutte, hvad der skal gemmes, sælges eller bortskaffes.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Hvad med værdifulde genstande, I finder under oprydningen?</summary>
+        <div class="faq__svar">
+          <p>Hvis vi under en oprydning finder genstande, som vurderes at have en mulig værdi, kan vi efter aftale købe dem.</p>
+          <p>Inden noget sælges, laver vi altid en skriftlig aftale sammen med kunden, hvor det fremgår, hvilke genstande der sælges, hvordan salget foregår, og hvordan eventuelle indtægter håndteres.</p>
+          <p>Vi sælger ikke personlige ejendele eller værdigenstande uden kundens godkendelse.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Hvad sker der med de ting, I fjerner?</summary>
+        <div class="faq__svar">
+          <p>Vi sorterer affaldet så vidt muligt og afleverer det på genbrugspladsen efter gældende regler. Genanvendelige materialer bliver sorteret korrekt.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Hjælper I med tunge løft?</summary>
+        <div class="faq__svar">
+          <p>Ja. Vi håndterer både tunge møbler, værktøj, byggematerialer og andre tunge genstande.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Rengør I efter oprydningen?</summary>
+        <div class="faq__svar">
+          <p>Ja. Vi fejer og rydder op, så området efterlades pænt og præsentabelt. Ønskes en grundigere rengøring, kan det aftales.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Arbejder I i hele Danmark?</summary>
+        <div class="faq__svar">
+          <p>Vi arbejder primært i Midtjylland og fokuserer på at levere hurtig og fleksibel service i vores nærområde. Hvis du bor uden for området, er du stadig velkommen til at kontakte os — så vurderer vi, om vi kan hjælpe med din opgave.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Hvor hurtigt kan I komme?</summary>
+        <div class="faq__svar">
+          <p>Det afhænger af kalenderen, men vi bestræber os på at kunne hjælpe indenfor få hverdage.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Skal jeg være hjemme under oprydningen?</summary>
+        <div class="faq__svar">
+          <p>Det er ikke nødvendigt, så længe vi har adgang til området og har aftalt opgaven på forhånd.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Er mine ting forsikrede?</summary>
+        <div class="faq__svar">
+          <p>Ja. Vi behandler dine ejendele med stor omhu og har en erhvervsansvarsforsikring, der giver dig ekstra tryghed, mens vi udfører arbejdet.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Hjælper I med dødsboer?</summary>
+        <div class="faq__svar">
+          <p>Ja. Vi kan hjælpe med oprydning af dødsboer og udfører arbejdet med respekt og diskretion.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Kan I køre ting på genbrugspladsen?</summary>
+        <div class="faq__svar">
+          <p>Ja. Vi tilbyder bortskaffelse og korrekt sortering af affald som en del af vores service.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Kan I rydde meget fyldte eller beskidte rum?</summary>
+        <div class="faq__svar">
+          <p>Ja. Vi tager både små og store opgaver — også garager eller udhuse, der ikke har været ryddet i mange år.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CTA-BÅND ==================== -->
+<section class="band">
+  <div class="band__bg" aria-hidden="true">
+    <picture>
+      <source srcset="assets/img/ydelser/indkoersel.webp" type="image/webp">
+      <img src="assets/img/ydelser/indkoersel.jpg" alt="" width="1600" height="1067" loading="lazy">
+    </picture>
+  </div>
+  <div class="ramme band__inder">
+    <div>
+      <h2>Klar til at få pladsen tilbage?</h2>
+      <p>Send en uforpligtende forespørgsel — eller lad os ringe dig op.</p>
+    </div>
+    <div class="band__knapper">
+      <a class="knap knap--sort knap--stor" href="#beregner">Beregn din pris</a>
+      <button class="knap knap--lys knap--stor" data-aabn-ring>Bliv ringet op</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="fod">
+  <div class="ramme">
+    <div class="fod__grid">
+      <div class="fod__brand">
+        <img src="assets/img/brand/logo-lys.png" alt="GarageKlar" width="900" height="198" loading="lazy">
+        <p>Rydningsfirma — fra rod til GarageKlar. Vi rydder garager, udhuse, annekser, kældre og indkørsler i Midtjylland.</p>
+        <div class="fod__sociale">
+          <a href="https://www.youtube.com/@garageklar" target="_blank" rel="noopener" aria-label="GarageKlar på YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.8-1.8C18.3 5 12 5 12 5s-6.3 0-7.8.5A2.5 2.5 0 0 0 2.4 7.3C2 8.8 2 12 2 12s0 3.2.4 4.7a2.5 2.5 0 0 0 1.8 1.8C5.7 19 12 19 12 19s6.3 0 7.8-.5a2.5 2.5 0 0 0 1.8-1.8C22 15.2 22 12 22 12ZM10 15V9l5.2 3L10 15Z"/></svg></a>
+          <a href="https://www.facebook.com/garageklar" target="_blank" rel="noopener" aria-label="GarageKlar på Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v7h3v-7h3l1-3h-4v-2c0-.6.4-1 1-1Z"/></svg></a>
+          <a href="mailto:Kundeservicegarageklar@hotmail.com" aria-label="Send en mail til GarageKlar"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="m3 7 9 6 9-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+
+      <div>
+        <h3>Ydelser</h3>
+        <ul>
+          <li><a href="garagerydning/">Rydning af garage</a></li>
+          <li><a href="udhus-og-anneks/">Udhus, anneks og skur</a></li>
+          <li><a href="doedsborydning/">Rydning af dødsbo</a></li>
+          <li><a href="erhvervsrydning/">Erhvervsrydning</a></li>
+          <li><a href="indkoersel-og-udearealer/">Indkørsel og udearealer</a></li>
+          <li><a href="priser/">Priser</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Områder</h3>
+        <ul>
+          <li><a href="rydningsfirma-herning/">Herning</a></li>
+          <li><a href="rydningsfirma-ikast/">Ikast</a></li>
+          <li><a href="rydningsfirma-silkeborg/">Silkeborg</a></li>
+          <li><a href="rydningsfirma-holstebro/">Holstebro</a></li>
+          <li><a href="rydningsfirma-viborg/">Viborg</a></li>
+          <li><a href="omraader/">Alle områder</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Kontakt</h3>
+        <address>
+          <a href="tel:+4529333640"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 2h3l1.5 4-2.2 1.4a12 12 0 0 0 5.7 5.7L16 10.9l4 1.5v3a2 2 0 0 1-2.2 2A17.8 17.8 0 0 1 2.5 4.2 2 2 0 0 1 4.5 2h2.1Z"/></svg> 29 33 36 40</a>
+          <a href="mailto:Kundeservicegarageklar@hotmail.com"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="m3 7 9 6 9-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> Kundeservicegarageklar@hotmail.com</a>
+          <span style="display:block;margin-top:.4rem">GarageKlar<br>Østergade 27B, 1. th<br>7400 Herning<br>CVR: 11223344</span>
+        </address>
+        <ul style="margin-top:1rem">
+          <li><a href="om-os/">Om os</a></li>
+          <li><a href="kontakt/">Kontakt</a></li>
+          <li><a href="index.html#faq">Spørgsmål &amp; svar</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="fod__bund">
+      <p>© <span id="aar">2026</span> GarageKlar. Alle rettigheder forbeholdes.</p>
+      <nav aria-label="Juridisk">
+        <a href="handelsbetingelser.html">Handelsbetingelser</a>
+        <a href="persondatapolitik.html">Persondatapolitik</a>
+        <a href="cookiepolitik.html">Cookies</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<!-- ==================== MOBIL BUNDBAR ==================== -->
+<div class="mobilbar">
+  <a class="knap knap--lys" href="tel:+4529333640">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 2h3l1.5 4-2.2 1.4a12 12 0 0 0 5.7 5.7L16 10.9l4 1.5v3a2 2 0 0 1-2.2 2A17.8 17.8 0 0 1 2.5 4.2 2 2 0 0 1 4.5 2h2.1Z"/></svg>
+    Ring
+  </a>
+  <button class="knap knap--roed" data-aabn-ring>
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.5 9.5 0 0 1-2.8-.4L4 21l1.3-3.6A8.2 8.2 0 0 1 3 11.5C3 6.8 7 3 12 3s9 3.8 9 8.5Z"/></svg>
+    Bliv ringet op
+  </button>
+</div>
+
+<!-- ==================== MODAL: BLIV RINGET OP ==================== -->
+<div class="modal" id="ringmodal" role="dialog" aria-modal="true" aria-labelledby="ringtitel">
+  <div class="modal__kort">
+    <button class="modal__luk" data-luk-ring aria-label="Luk">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+    </button>
+
+    <div id="ringindhold">
+      <span class="modal__mrk">Ved klik på “Bliv ringet op”</span>
+      <h2 id="ringtitel">Ja tak, ring til mig</h2>
+      <p>Udfyld felterne, så ringer vi dig op hurtigst muligt.</p>
+
+      <form class="form" id="ringform" novalidate>
+        <div class="form__rk">
+          <div>
+            <label class="etiket" for="r-fornavn">Fornavn <span class="kraev">*</span></label>
+            <input type="text" id="r-fornavn" name="fornavn" autocomplete="given-name" placeholder="Fornavn" required>
+            <p class="fejl" data-fejl-for="r-fornavn">Udfyld dit fornavn.</p>
+          </div>
+          <div>
+            <label class="etiket" for="r-efternavn">Efternavn</label>
+            <input type="text" id="r-efternavn" name="efternavn" autocomplete="family-name" placeholder="Efternavn">
+          </div>
+        </div>
+
+        <div class="form__rk">
+          <div>
+            <label class="etiket" for="r-telefon">Telefon <span class="kraev">*</span></label>
+            <input type="tel" id="r-telefon" name="telefon" autocomplete="tel" inputmode="tel" placeholder="12 34 56 78" required>
+            <p class="fejl" data-fejl-for="r-telefon">Udfyld et gyldigt telefonnummer (mindst 8 cifre).</p>
+          </div>
+          <div>
+            <label class="etiket" for="r-postnummer">Postnummer</label>
+            <input type="text" id="r-postnummer" name="postnummer" autocomplete="postal-code" inputmode="numeric" maxlength="4" placeholder="7400">
+          </div>
+        </div>
+
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important">
+        <button class="knap knap--roed knap--fuld knap--stor" type="submit">Ja, tak! Ring mig op</button>
+
+        <p class="form__note">Vi bruger kun dine oplysninger til at kontakte dig om din henvendelse. Læs mere i vores <a href="persondatapolitik.html">persondatapolitik</a>.</p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>
