@@ -1,7 +1,13 @@
 # GarageKlar — hjemmeside
 
-Statisk one-page hjemmeside. Ren HTML, CSS og JavaScript — ingen frameworks, ingen
+Statisk hjemmeside. Ren HTML, CSS og JavaScript — ingen frameworks, ingen
 byggeproces. Filerne kan lægges direkte op på et hvilket som helst webhotel.
+
+**Forhåndsvisning:** <https://abdelkhassouk.github.io/garageklar/>
+
+Forhåndsvisningen kører på GitHub Pages og er kun til gennemsyn. Alle `canonical`-tags
+peger på `https://www.garageklar.dk`, så forhåndsvisningen bliver ikke indekseret af
+Google og kommer ikke til at konkurrere med det rigtige domæne.
 
 ---
 
