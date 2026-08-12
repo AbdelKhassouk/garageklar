@@ -116,11 +116,22 @@
     <h1 style="font-size:clamp(1.6rem,4vw,2.4rem);margin-bottom:.8rem">Siden her findes ikke</h1>
     <p style="color:var(--tekst-2);max-width:48ch;margin:0 auto 2rem">Enten er linket forkert, eller også er siden flyttet. Prøv forsiden — eller ring til os, hvis du leder efter noget bestemt.</p>
     <div class="hero__knapper" style="justify-content:center">
-      <a class="knap knap--roed knap--stor" href="/">Til forsiden</a>
+      <a class="knap knap--roed knap--stor" href="/" id="hjemlink">Til forsiden</a>
       <a class="knap knap--linje knap--stor" href="tel:+4529333640"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 2h3l1.5 4-2.2 1.4a12 12 0 0 0 5.7 5.7L16 10.9l4 1.5v3a2 2 0 0 1-2.2 2A17.8 17.8 0 0 1 2.5 4.2 2 2 0 0 1 4.5 2h2.1Z"/></svg> 29 33 36 40</a>
     </div>
   </div>
 </section>
+
+<script>
+  /* Ligger sitet i en undermappe (fx GitHub Pages), skal "Til forsiden"
+     pege på undermappen i stedet for domænets rod. */
+  (function () {
+    var m = location.pathname.match(/^\/[^\/]+\//);
+    if (m && location.hostname.indexOf("github.io") > -1) {
+      document.getElementById("hjemlink").setAttribute("href", m[0]);
+    }
+  })();
+</script>
 
 </main>
 
