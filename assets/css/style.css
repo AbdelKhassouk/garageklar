@@ -993,7 +993,9 @@ p { margin: 0; text-wrap: pretty; }
 @media (max-width: 900px) { .fod__grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .fod__grid { grid-template-columns: 1fr; } }
 
-.fod__brand img { height: 30px; margin-bottom: 1rem; }
+/* width: auto er nødvendig — uden den bruger browseren width="900" fra
+   HTML-attributten som bredde, og logoet bliver trukket i bredden. */
+.fod__brand img { height: 30px; width: auto; margin-bottom: 1rem; }
 .fod__brand p { font-size: .92rem; max-width: 34ch; }
 .fod__sociale { display: flex; gap: .6rem; margin-top: 1.2rem; }
 .fod__sociale a {
