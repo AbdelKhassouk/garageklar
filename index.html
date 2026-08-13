@@ -98,6 +98,7 @@
         <a href="doedsborydning/" data-luk-menu>Rydning af dødsbo</a>
         <a href="erhvervsrydning/" data-luk-menu>Erhvervsrydning</a>
         <a href="indkoersel-og-udearealer/" data-luk-menu>Indkørsel og udearealer</a>
+        <a href="fliserensning/" data-luk-menu>Fliserensning</a>
         <a href="priser/" data-luk-menu>Priser</a>
         <a href="omraader/" data-luk-menu>Områder vi dækker</a>
         <a href="om-os/" data-luk-menu>Om os</a>
@@ -255,6 +256,46 @@
       </article>
 
     </div>
+
+    <!-- Tilkøb: fliserensning -->
+    <article class="tilkoeb ind" id="fliserensning">
+      <div class="tilkoeb__billede">
+        <span class="tilkoeb__badge">Tilkøb</span>
+        <picture>
+          <source srcset="assets/img/ydelser/fliserensning.webp" type="image/webp">
+          <img src="assets/img/ydelser/fliserensning.jpg" alt="Indkørsel hvor den ene halvdel er renset og den anden stadig er grøn af alger" width="1280" height="853" loading="lazy">
+        </picture>
+      </div>
+      <div class="tilkoeb__krop">
+        <h3>Fliserensning</h3>
+        <p class="tilkoeb__citat">“Nu hvor vi alligevel er så godt i gang med at rydde din garage — skal vi så ikke også få gjort den helt perfekt?”</p>
+        <p>Når garagen er ryddet, står indkørslen tilbage. Vi er der alligevel, og vi har udstyret med — så vi kan tage fliserne i samme omgang.</p>
+
+        <ul class="tjek">
+          <li>Rensning af fliser</li>
+          <li>Fugerensning</li>
+          <li>Opfyldning af sand — No Grow</li>
+        </ul>
+
+        <div class="tilkoeb__priser">
+          <div class="prisboks">
+            <b>2.000 kr.</b>
+            <span>Op til 36 m² — derefter 45 kr. pr. m²</span>
+          </div>
+          <div class="prisboks prisboks--let">
+            <b>+ 1.000 kr.</b>
+            <span>Tilkøb af imprægnering</span>
+          </div>
+        </div>
+
+        <div>
+          <a class="knap knap--roed" href="fliserensning/">Læs om fliserensning
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+    </article>
+
   </div>
 </section>
 
@@ -274,7 +315,7 @@
         <p class="priskort__tal">
           <strong>1.195 kr.</strong><span>pr. time</span>
         </p>
-        <p class="priskort__note">Inkl. moms. Vi afregner efter medgået arbejdstid, og der er en minimumsopgave på 4 timer på en given adresse.</p>
+        <p class="priskort__note">Inkl. moms. Du betaler kun for den tid, opgaven tager — afregnet pr. påbegyndt time. Én times arbejde koster 1.195 kr.</p>
 
         <h3>Inkluderet i prisen</h3>
         <ul class="tjek">
@@ -319,7 +360,6 @@
             <option>Udhus / skur</option>
             <option>Anneks</option>
             <option>Indkørsel</option>
-            <option>Kælder / loft</option>
             <option>Dødsbo</option>
             <option>Erhvervslokale</option>
             <option>Andet</option>
@@ -330,17 +370,17 @@
           <label for="timer">Antal timer</label>
           <div class="timer">
             <button type="button" id="minus" aria-label="Færre timer">−</button>
-            <input type="number" id="timer" name="timer" value="4" min="4" max="40" step="1" inputmode="numeric">
+            <input type="number" id="timer" name="timer" value="2" min="1" max="40" step="1" inputmode="numeric">
             <button type="button" id="plus" aria-label="Flere timer">+</button>
           </div>
         </div>
-        <p class="beregner__hint">Minimum 4 timer. Er du i tvivl om, hvor lang tid din opgave tager, så vælg et bud — vi vender tilbage med en vurdering.</p>
+        <p class="beregner__hint">Der er ingen minimumsopgave — du betaler kun for den tid, opgaven tager, pr. påbegyndt time. Er du i tvivl, så vælg et bud; vi vender tilbage med en vurdering.</p>
 
         <div class="resultat">
           <div>
             <p class="resultat__mrk">Estimeret pris</p>
-            <p class="resultat__tal" id="pris" aria-live="polite">4.780 kr.</p>
-            <p class="resultat__spec" id="spec">Garage · 4 timer × 1.195 kr.</p>
+            <p class="resultat__tal" id="pris" aria-live="polite">2.390 kr.</p>
+            <p class="resultat__spec" id="spec">Garage · 2 timer × 1.195 kr.</p>
           </div>
           <a class="knap knap--roed knap--stor" id="videre" href="bestilling.html">
             Udfyld resten &amp; send
@@ -665,6 +705,7 @@
           <li><a href="doedsborydning/">Rydning af dødsbo</a></li>
           <li><a href="erhvervsrydning/">Erhvervsrydning</a></li>
           <li><a href="indkoersel-og-udearealer/">Indkørsel og udearealer</a></li>
+          <li><a href="fliserensning/">Fliserensning</a></li>
           <li><a href="priser/">Priser</a></li>
         </ul>
       </div>

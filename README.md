@@ -38,6 +38,7 @@ Ydelsessider (SEO-landingssider)
   doedsborydning/
   erhvervsrydning/
   indkoersel-og-udearealer/
+  fliserensning/          Tilkøb — fast pakkepris, ikke timepris
 
 Øvrige sider
   priser/                 Prismodel + beregner
@@ -132,8 +133,9 @@ afsnittet om tredjeparter i `cookiepolitik.html` skal opdateres.
 ### Prisen ligger ét sted
 
 ```js
-TIMEPRIS: 1195,   // kr. inkl. moms
-MIN_TIMER: 4,     // minimumsopgave
+TIMEPRIS: 1195,    // kr. inkl. moms, pr. påbegyndt time
+MIN_TIMER: 1,      // ingen minimumsopgave
+START_TIMER: 2,    // beregnerens udgangspunkt
 MAKS_TIMER: 40,
 ```
 
@@ -165,6 +167,19 @@ mere i listen. Billederne skal være kvadratiske.
 `hero.mp4` (2,3 MB) hentes først, når resten af siden er indlæst, og springes helt
 over, hvis brugeren er på en langsom forbindelse eller har slået animationer fra.
 Indtil da vises posterbilledet.
+
+---
+
+## Fliserensning — bemærk prisen
+
+Ønskedokumentet indeholder **to forskellige priser** på fliserensning:
+
+1. Tidligt i afsnittet: *44 kr. pr. m², minimumspris 1.500 kr.*
+2. Senere, med pakkeindhold: *2.000 kr. for op til 36 m², derefter 45 kr. pr. m².*
+
+Siden bruger **nr. 2**, da den står sidst og er den mest detaljerede — sammen med
+pakken (rensning, fugerensning, No Grow-sand) og imprægnering som tilkøb til
+1.000 kr. Bekræft gerne, at det er den rigtige.
 
 ---
 

@@ -16,8 +16,9 @@
     // Ekstra felter der sendes med (fx en access key hos andre udbydere)
     FORM_EKSTRA: {},
 
-    TIMEPRIS: 1195,      // kr. inkl. moms
-    MIN_TIMER: 4,        // minimumsopgave, jf. prismodellen
+    TIMEPRIS: 1195,      // kr. inkl. moms, pr. påbegyndt time
+    MIN_TIMER: 1,        // ingen minimumsopgave — der betales for medgået tid
+    START_TIMER: 2,      // beregnerens udgangspunkt
     MAKS_TIMER: 40,
 
     MAKS_FILER: 8,
@@ -129,7 +130,7 @@
 
     fTimer.min = KONFIG.MIN_TIMER;
     fTimer.max = KONFIG.MAKS_TIMER;
-    if (Number(fTimer.value) < KONFIG.MIN_TIMER) { fTimer.value = KONFIG.MIN_TIMER; }
+    if (Number(fTimer.value) < KONFIG.MIN_TIMER) { fTimer.value = KONFIG.START_TIMER; }
 
     function timer() {
       var v = parseInt(fTimer.value, 10);
@@ -171,9 +172,9 @@
   var FE = [
     { slug: "bryggers", titel: "Bryggers / depot", sted: "Privat bolig" },
     { slug: "carport",  titel: "Carport",          sted: "Privat bolig" },
-    { slug: "entre",    titel: "Entré og gang",    sted: "Dødsbo" },
-    { slug: "vaerelse", titel: "Lille værelse",    sted: "Dødsbo" },
-    { slug: "stue",     titel: "Stue",             sted: "Dødsbo" }
+    { slug: "entre",    titel: "Entré og gang",    sted: "Privat bolig" },
+    { slug: "vaerelse", titel: "Lille værelse",    sted: "Privat bolig" },
+    { slug: "stue",     titel: "Stue",             sted: "Privat bolig" }
   ];
 
   var feGrid = $("#fe-grid");

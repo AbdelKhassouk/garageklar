@@ -470,8 +470,9 @@ p { margin: 0; text-wrap: pretty; }
   display: grid; grid-template-columns: repeat(4, 1fr);
 }
 .hero__fakta div {
-  padding: 1.15rem 1.2rem 1.4rem 0;
+  padding: 1.15rem 1rem 1.4rem;
   border-right: 1px solid rgba(255, 255, 255, .12);
+  text-align: center;
 }
 .hero__fakta div:last-child { border-right: 0; }
 .hero__fakta b {
@@ -563,6 +564,57 @@ p { margin: 0; text-wrap: pretty; }
   mask-composite: exclude;
 }
 .ykort__fod { margin-top: auto; padding-top: .3rem; }
+
+/* Tilkøb — fremhævet ydelse under de to hovedkort */
+.tilkoeb {
+  margin-top: clamp(1.2rem, 2.6vw, 2rem);
+  display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  background: var(--sort); color: var(--paa-moerk);
+  border-radius: var(--r-l); overflow: hidden;
+  box-shadow: var(--skygge-l);
+}
+@media (max-width: 860px) { .tilkoeb { grid-template-columns: 1fr; } }
+
+.tilkoeb__billede { position: relative; min-height: 240px; }
+.tilkoeb__billede img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.tilkoeb__billede::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(to right, transparent 55%, rgba(11, 11, 13, .9));
+}
+@media (max-width: 860px) {
+  .tilkoeb__billede { min-height: 200px; }
+  .tilkoeb__billede::after { background: linear-gradient(to bottom, transparent 45%, rgba(11, 11, 13, .9)); }
+}
+.tilkoeb__badge {
+  position: absolute; left: 1rem; top: 1rem; z-index: 2;
+  padding: .42rem .8rem; border-radius: 100px; background: var(--roed); color: #fff;
+  font-family: "Outfit", sans-serif; font-size: .68rem; font-weight: 700;
+  letter-spacing: .13em; text-transform: uppercase;
+}
+
+.tilkoeb__krop {
+  padding: clamp(1.4rem, 3.4vw, 2.4rem);
+  display: grid; gap: 1rem; align-content: center;
+}
+.tilkoeb__krop h3 { font-size: clamp(1.35rem, 3.2vw, 1.9rem); color: #fff; }
+.tilkoeb__citat {
+  font-size: clamp(1rem, 2.1vw, 1.1rem); color: #fff;
+  border-left: 3px solid var(--roed); padding-left: 1rem; line-height: 1.5;
+}
+.tilkoeb__krop > p { color: var(--paa-moerk-2); font-size: .95rem; }
+.tilkoeb .tjek li { color: var(--paa-moerk); }
+
+.tilkoeb__priser { display: flex; flex-wrap: wrap; gap: .7rem; }
+.prisboks {
+  flex: 1 1 190px; padding: .85rem 1.05rem;
+  border: 1px solid rgba(255, 255, 255, .18); border-radius: var(--r-m);
+}
+.prisboks b {
+  display: block; font-family: "Outfit", sans-serif; font-weight: 800;
+  font-size: 1.35rem; color: #fff; line-height: 1.1; letter-spacing: -.02em;
+}
+.prisboks span { font-size: .82rem; color: var(--paa-moerk-2); }
+.prisboks--let { border-style: dashed; }
 
 /* ===================================================================
    PRIS + BEREGNER
