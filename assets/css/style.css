@@ -733,6 +733,71 @@ p { margin: 0; text-wrap: pretty; }
   font-size: .8rem; color: var(--paa-moerk-2); margin-top: -.5rem; margin-bottom: 1.1rem;
 }
 
+/* --- tilvalg i beregneren (fliserensning m.m.) --- */
+.tilvalg {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: .65rem; align-items: start; margin-bottom: .3rem;
+}
+@media (max-width: 520px) { .tilvalg { grid-template-columns: 1fr; } }
+
+.skjul { display: none !important; }
+
+.tilvalg__boks {
+  position: relative;
+  display: flex; align-items: center; gap: .65rem;
+  padding: .82rem 1rem; min-height: 52px;
+  background: rgba(255, 255, 255, .07);
+  border: 1.5px solid rgba(255, 255, 255, .16);
+  border-radius: var(--r-s);
+  font-size: .9rem; font-weight: 600; color: var(--paa-moerk);
+  cursor: pointer; user-select: none;
+  transition: border-color .18s var(--ease), background-color .18s var(--ease), color .18s var(--ease);
+  animation: tilvalgInd .28s var(--ease);
+}
+.tilvalg__boks:hover { border-color: rgba(255, 255, 255, .42); }
+.tilvalg__boks.valgt {
+  border-color: var(--roed); background: rgba(237, 26, 33, .16); color: #fff;
+}
+
+@keyframes tilvalgInd {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.tilvalg__boks input {
+  position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0;
+}
+.tilvalg__boks i {
+  flex: none; width: 20px; height: 20px; border-radius: 5px;
+  border: 1.5px solid rgba(255, 255, 255, .4);
+  display: grid; place-items: center;
+  transition: background-color .18s var(--ease), border-color .18s var(--ease);
+}
+.tilvalg__boks input:checked + i { background: var(--roed); border-color: var(--roed); }
+.tilvalg__boks input:checked + i::after {
+  content: ""; width: 12px; height: 12px; background: #fff;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M20 6 9 17l-5-5' fill='none' stroke='black' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / contain no-repeat;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M20 6 9 17l-5-5' fill='none' stroke='black' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / contain no-repeat;
+}
+.tilvalg__boks input:focus-visible + i { outline: 3px solid var(--roed); outline-offset: 3px; }
+
+/* m²-feltet — samme udseende som "Type opgave" og "Antal timer" */
+.felt--m2 { margin-bottom: 0; animation: tilvalgInd .28s var(--ease); }
+.felt--m2 input {
+  -moz-appearance: textfield;
+  font-family: "Outfit", sans-serif; font-weight: 700; font-size: 1.05rem;
+}
+.felt--m2 input::-webkit-outer-spin-button,
+.felt--m2 input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* dynamisk prisoversigt */
+.resultat__linjer {
+  list-style: none; margin: .45rem 0 0; padding: 0;
+  display: grid; gap: .18rem;
+  font-size: .84rem; color: var(--paa-moerk-2);
+  font-variant-numeric: tabular-nums;
+}
+
 .resultat {
   position: relative;
   margin-top: 1.5rem; padding-top: 1.5rem;
@@ -1269,15 +1334,26 @@ p { margin: 0; text-wrap: pretty; }
 .trinbjaelke hr { flex: 1; min-width: 18px; border: 0; border-top: 1px solid var(--linje); }
 
 .opsum {
-  display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem;
+  display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1.4rem;
   padding: 1rem 1.2rem; margin-bottom: 1.6rem;
   background: var(--sand); border: 1px solid var(--linje);
   border-left: 4px solid var(--roed); border-radius: var(--r-m);
   font-size: .92rem;
 }
 .opsum b { font-family: "Outfit", sans-serif; }
+.opsum__linjer {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: .15rem;
+  flex: 1 1 240px; color: var(--tekst-2); font-size: .88rem;
+  font-variant-numeric: tabular-nums;
+}
+.opsum__linjer li:first-child { color: var(--tekst); font-weight: 600; }
+.opsum__total { font-weight: 600; white-space: nowrap; }
 .opsum .pris { color: var(--roed); font-weight: 700; font-size: 1.05rem; }
 .opsum .ret { margin-left: auto; font-size: .84rem; }
+@media (max-width: 560px) {
+  .opsum .ret { margin-left: 0; }
+}
 
 /* ===================================================================
    JURIDISKE SIDER

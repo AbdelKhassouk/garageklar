@@ -279,11 +279,11 @@
 
         <div class="tilkoeb__priser">
           <div class="prisboks">
-            <b>2.000 kr.</b>
+            <b>1.995 kr.</b>
             <span>Op til 36 m² — derefter 45 kr. pr. m²</span>
           </div>
           <div class="prisboks prisboks--let">
-            <b>+ 1.000 kr.</b>
+            <b>+ 995 kr.</b>
             <span>Tilkøb af imprægnering</span>
           </div>
         </div>
@@ -374,21 +374,46 @@
             <button type="button" id="plus" aria-label="Flere timer">+</button>
           </div>
         </div>
-        <p class="beregner__hint">Der er ingen minimumsopgave — du betaler kun for den tid, opgaven tager, pr. påbegyndt time. Er du i tvivl, så vælg et bud; vi vender tilbage med en vurdering.</p>
+
+        <div class="tilvalg">
+          <label class="tilvalg__boks" id="boks-fliser">
+            <input type="checkbox" id="tv-fliser">
+            <i aria-hidden="true"></i>
+            <span>Fliserensning 1.995,-</span>
+          </label>
+
+          <label class="tilvalg__boks skjul" id="boks-over36">
+            <input type="checkbox" id="tv-over36">
+            <i aria-hidden="true"></i>
+            <span>Over 36 m²</span>
+          </label>
+
+          <label class="tilvalg__boks skjul" id="boks-impraeg">
+            <input type="checkbox" id="tv-impraeg">
+            <i aria-hidden="true"></i>
+            <span>Imprægnering 995,-</span>
+          </label>
+
+          <div class="felt felt--m2 skjul" id="boks-m2">
+            <label for="tv-m2">Antal m²</label>
+            <input type="number" id="tv-m2" value="50" min="37" max="1000" step="1" inputmode="numeric">
+          </div>
+        </div>
 
         <div class="resultat">
           <div>
             <p class="resultat__mrk">Estimeret pris</p>
             <p class="resultat__tal" id="pris" aria-live="polite">2.390 kr.</p>
-            <p class="resultat__spec" id="spec">Garage · 2 timer × 1.195 kr.</p>
+            <ul class="resultat__linjer" id="linjer">
+              <li>Garage · 2 timer × 1.195 kr.</li>
+            </ul>
           </div>
           <a class="knap knap--roed knap--stor" id="videre" href="bestilling.html">
-            Udfyld resten &amp; send
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Udfyld resten &amp; send <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
 
-        <p class="beregner__disclaimer">Beregningen er et vejledende estimat ud fra vores faste timepris og udgør ikke et bindende tilbud. Den endelige pris afregnes efter medgået tid, jf. <a href="handelsbetingelser.html" style="color:inherit;text-decoration:underline">handelsbetingelserne</a>.</p>
+        <p class="beregner__disclaimer">Beregningen er et vejledende estimat ud fra vores faste priser og udgør ikke et bindende tilbud. Rydningen afregnes efter medgået tid, jf. <a href="handelsbetingelser.html" style="color:inherit;text-decoration:underline">handelsbetingelserne</a>.</p>
       </form>
 
     </div>

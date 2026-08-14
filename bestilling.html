@@ -58,17 +58,17 @@
 
       <!-- opsummering fra beregneren -->
       <div class="opsum" id="opsum">
-        <span><b id="opsum-opgave">Garage</b></span>
-        <span aria-hidden="true">·</span>
-        <span id="opsum-timer">2 timer</span>
-        <span aria-hidden="true">·</span>
-        <span>Estimeret pris: <span class="pris" id="opsum-pris">2.390 kr.</span></span>
+        <ul class="opsum__linjer" id="opsum-linjer">
+          <li>Garage · 2 timer × 1.195 kr.</li>
+        </ul>
+        <p class="opsum__total">Estimeret pris: <span class="pris" id="opsum-pris">2.390 kr.</span></p>
         <a class="tekstlink ret" href="index.html#beregner">Ret beregning</a>
       </div>
 
       <form class="form" id="bestilform" novalidate>
         <input type="hidden" id="f-opgave" name="opgave">
         <input type="hidden" id="f-timer" name="timer">
+        <input type="hidden" id="f-tilvalg" name="tilvalg">
         <input type="hidden" id="f-pris" name="estimeret_pris">
 
         <div class="form__rk">

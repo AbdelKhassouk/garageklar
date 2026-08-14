@@ -21,6 +21,13 @@
     START_TIMER: 2,      // beregnerens udgangspunkt
     MAKS_TIMER: 40,
 
+    // Tilkøb: fliserensning
+    FLISER_PRIS: 1995,   // pakkepris for op til M2_INKL m²
+    IMPRAEG_PRIS: 995,   // tilkøb af imprægnering
+    M2_INKL: 36,         // kvadratmeter med i pakkeprisen
+    M2_PRIS: 45,         // pr. ekstra kvadratmeter
+    MAKS_M2: 1000,
+
     MAKS_FILER: 8,
     MAKS_FIL_MB: 12
   };
@@ -114,15 +121,26 @@
 
   /* =====================================================================
      3. PRISBEREGNER
+     Tilvalgene foldes ud trinvist: fliserensning er synlig fra start, og
+     først når den er valgt, dukker imprægnering og "over 36 m²" op.
      ===================================================================== */
   var fTimer = $("#timer");
   if (fTimer) {
     var fType = $("#opgavetype");
     var uPris = $("#pris");
-    var uSpec = $("#spec");
+    var uLinjer = $("#linjer");
     var bVidere = $("#videre");
     var bMinus = $("#minus");
     var bPlus = $("#plus");
+
+    var cbFliser = $("#tv-fliser");
+    var cbOver36 = $("#tv-over36");
+    var cbImpraeg = $("#tv-impraeg");
+    var fM2 = $("#tv-m2");
+    var boksFliser = $("#boks-fliser");
+    var boksOver36 = $("#boks-over36");
+    var boksImpraeg = $("#boks-impraeg");
+    var boksM2 = $("#boks-m2");
 
     // Beregneren findes både på forsiden og på /priser/. Basisstien læses fra
     // knappens eget href, så linket peger rigtigt uanset hvor siden ligger.
@@ -132,24 +150,73 @@
     fTimer.max = KONFIG.MAKS_TIMER;
     if (Number(fTimer.value) < KONFIG.MIN_TIMER) { fTimer.value = KONFIG.START_TIMER; }
 
-    function timer() {
-      var v = parseInt(fTimer.value, 10);
-      if (isNaN(v)) { v = KONFIG.MIN_TIMER; }
-      return Math.min(KONFIG.MAKS_TIMER, Math.max(KONFIG.MIN_TIMER, v));
+    function heltal(felt, mini, maks, reserve) {
+      var v = parseInt(felt.value, 10);
+      if (isNaN(v)) { v = reserve; }
+      return Math.min(maks, Math.max(mini, v));
     }
+    function timer() { return heltal(fTimer, KONFIG.MIN_TIMER, KONFIG.MAKS_TIMER, KONFIG.START_TIMER); }
+    function m2() { return heltal(fM2, KONFIG.M2_INKL + 1, KONFIG.MAKS_M2, KONFIG.M2_INKL + 1); }
+
+    function vis(el, synlig) { el.classList.toggle("skjul", !synlig); }
 
     function opdater() {
-      var t = timer();
-      var pris = t * KONFIG.TIMEPRIS;
+      /* --- trinvis udfoldning --- */
+      var fliser = cbFliser.checked;
+      if (!fliser) { cbOver36.checked = false; cbImpraeg.checked = false; }
+      var over36 = fliser && cbOver36.checked;
 
-      uPris.textContent = kr(pris);
-      uSpec.textContent = fType.value + " · " + t + " timer × " + kr(KONFIG.TIMEPRIS);
+      vis(boksOver36, fliser);
+      vis(boksImpraeg, fliser);
+      vis(boksM2, over36);
+
+      boksFliser.classList.toggle("valgt", fliser);
+      boksOver36.classList.toggle("valgt", over36);
+      boksImpraeg.classList.toggle("valgt", cbImpraeg.checked);
+
+      /* --- beregning --- */
+      var t = timer();
+      var total = t * KONFIG.TIMEPRIS;
+      var linjer = [fType.value + " · " + t + " timer × " + kr(KONFIG.TIMEPRIS)];
+      var ekstra = 0, areal = 0;
+
+      if (fliser) {
+        total += KONFIG.FLISER_PRIS;
+        linjer.push("Fliserensning · " + kr(KONFIG.FLISER_PRIS));
+
+        if (over36) {
+          areal = m2();
+          ekstra = Math.max(0, areal - KONFIG.M2_INKL);
+          if (ekstra > 0) {
+            total += ekstra * KONFIG.M2_PRIS;
+            linjer.push("Ekstra m² · " + ekstra + " × " + kr(KONFIG.M2_PRIS));
+          }
+        }
+        if (cbImpraeg.checked) {
+          total += KONFIG.IMPRAEG_PRIS;
+          linjer.push("Imprægnering · " + kr(KONFIG.IMPRAEG_PRIS));
+        }
+      }
+
+      uPris.textContent = kr(total);
+      uLinjer.innerHTML = "";
+      linjer.forEach(function (tekst) {
+        var li = document.createElement("li");
+        li.textContent = tekst;
+        uLinjer.appendChild(li);
+      });
 
       bMinus.disabled = t <= KONFIG.MIN_TIMER;
       bPlus.disabled = t >= KONFIG.MAKS_TIMER;
 
-      bVidere.href = VIDERE_BASE + "?opgave=" + encodeURIComponent(fType.value) +
-        "&timer=" + t + "&pris=" + pris;
+      /* --- link videre med alle valg --- */
+      var q = "?opgave=" + encodeURIComponent(fType.value) + "&timer=" + t;
+      if (fliser) {
+        q += "&fliser=1";
+        if (over36) { q += "&m2=" + areal; }
+        if (cbImpraeg.checked) { q += "&impraeg=1"; }
+      }
+      bVidere.href = VIDERE_BASE + q + "&pris=" + total;
     }
 
     bMinus.addEventListener("click", function () {
@@ -161,6 +228,13 @@
     fTimer.addEventListener("input", opdater);
     fTimer.addEventListener("blur", function () { fTimer.value = timer(); opdater(); });
     fType.addEventListener("change", opdater);
+
+    [cbFliser, cbOver36, cbImpraeg].forEach(function (cb) {
+      cb.addEventListener("change", opdater);
+    });
+    fM2.addEventListener("input", opdater);
+    fM2.addEventListener("blur", function () { fM2.value = m2(); opdater(); });
+
     $("#beregner").addEventListener("submit", function (e) { e.preventDefault(); });
 
     opdater();
@@ -415,22 +489,55 @@
     var opgave = q.get("opgave") || "";
     var t = parseInt(q.get("timer"), 10);
     var p = parseInt(q.get("pris"), 10);
+    var fliser = q.get("fliser") === "1";
+    var impraeg = q.get("impraeg") === "1";
+    var areal = parseInt(q.get("m2"), 10);
 
-    if (!t || t < KONFIG.MIN_TIMER) { t = KONFIG.MIN_TIMER; }
-    if (!p || p < 0) { p = t * KONFIG.TIMEPRIS; }
+    if (!t || t < KONFIG.MIN_TIMER) { t = KONFIG.START_TIMER; }
+    if (!areal || areal <= KONFIG.M2_INKL) { areal = 0; }
+
+    // Samme opstilling som i beregneren, så kunden ser præcis det samme her.
+    var linjer = [opgave + " · " + t + " timer × " + kr(KONFIG.TIMEPRIS)];
+    var beregnet = t * KONFIG.TIMEPRIS;
+    var tilvalg = [];
+
+    if (fliser) {
+      beregnet += KONFIG.FLISER_PRIS;
+      linjer.push("Fliserensning · " + kr(KONFIG.FLISER_PRIS));
+      tilvalg.push("Fliserensning");
+
+      if (areal) {
+        var ekstra = areal - KONFIG.M2_INKL;
+        beregnet += ekstra * KONFIG.M2_PRIS;
+        linjer.push("Ekstra m² · " + ekstra + " × " + kr(KONFIG.M2_PRIS));
+        tilvalg.push(areal + " m² i alt");
+      }
+      if (impraeg) {
+        beregnet += KONFIG.IMPRAEG_PRIS;
+        linjer.push("Imprægnering · " + kr(KONFIG.IMPRAEG_PRIS));
+        tilvalg.push("Imprægnering");
+      }
+    }
+    if (!p || p < 0) { p = beregnet; }
 
     var opsum = $("#opsum");
     if (opgave) {
-      $("#opsum-opgave").textContent = opgave;
-      $("#opsum-timer").textContent = t + " timer";
+      var ul = $("#opsum-linjer");
+      ul.innerHTML = "";
+      linjer.forEach(function (tekst) {
+        var li = document.createElement("li");
+        li.textContent = tekst;
+        ul.appendChild(li);
+      });
       $("#opsum-pris").textContent = kr(p);
     } else if (opsum) {
-      opsum.innerHTML = '<span>Du har ikke beregnet en pris endnu.</span>' +
+      opsum.innerHTML = '<p class="opsum__total">Du har ikke beregnet en pris endnu.</p>' +
         '<a class="tekstlink ret" href="index.html#beregner">Beregn din pris →</a>';
     }
 
     $("#f-opgave").value = opgave;
     $("#f-timer").value = opgave ? t : "";
+    $("#f-tilvalg").value = tilvalg.length ? tilvalg.join(", ") : "Ingen";
     $("#f-pris").value = opgave ? p : "";
 
     /* --- billedupload --- */

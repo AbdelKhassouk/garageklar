@@ -225,37 +225,107 @@
       </div>
     </div>
 
-    <form class="beregner ind" id="beregner" novalidate>
-      <div class="beregner__hoved">
-        <h2 style="font-size:clamp(1.4rem,3.2vw,1.85rem);color:#fff;margin-bottom:.35rem">GarageKlar beregning</h2>
-        <p>Fast timepris på 1.195 kr./time inkl. moms.</p>
-      </div>
-      <div class="felt">
-        <label for="opgavetype">Type opgave</label>
-        <select id="opgavetype" name="opgave">
-          <option>Garage</option><option>Carport</option><option>Udhus / skur</option>
-          <option>Anneks</option><option>Indkørsel</option><option>Dødsbo</option><option>Erhvervslokale</option><option>Andet</option>
-        </select>
-      </div>
-      <div class="felt">
-        <label for="timer">Antal timer</label>
-        <div class="timer">
-          <button type="button" id="minus" aria-label="Færre timer">−</button>
-          <input type="number" id="timer" name="timer" value="2" min="1" max="40" step="1" inputmode="numeric">
-          <button type="button" id="plus" aria-label="Flere timer">+</button>
+      <form class="beregner ind" id="beregner" novalidate>
+        <div class="beregner__hoved">
+          <h2>GarageKlar beregning</h2>
+          <p>Fast timepris på 1.195 kr./time inkl. moms.</p>
         </div>
+
+        <div class="felt">
+          <label for="opgavetype">Type opgave</label>
+          <select id="opgavetype" name="opgave">
+            <option>Garage</option>
+            <option>Carport</option>
+            <option>Udhus / skur</option>
+            <option>Anneks</option>
+            <option>Indkørsel</option>
+            <option>Dødsbo</option>
+            <option>Erhvervslokale</option>
+            <option>Andet</option>
+          </select>
+        </div>
+
+        <div class="felt">
+          <label for="timer">Antal timer</label>
+          <div class="timer">
+            <button type="button" id="minus" aria-label="Færre timer">−</button>
+            <input type="number" id="timer" name="timer" value="2" min="1" max="40" step="1" inputmode="numeric">
+            <button type="button" id="plus" aria-label="Flere timer">+</button>
+          </div>
+        </div>
+
+        <div class="tilvalg">
+          <label class="tilvalg__boks" id="boks-fliser">
+            <input type="checkbox" id="tv-fliser">
+            <i aria-hidden="true"></i>
+            <span>Fliserensning 1.995,-</span>
+          </label>
+
+          <label class="tilvalg__boks skjul" id="boks-over36">
+            <input type="checkbox" id="tv-over36">
+            <i aria-hidden="true"></i>
+            <span>Over 36 m²</span>
+          </label>
+
+          <label class="tilvalg__boks skjul" id="boks-impraeg">
+            <input type="checkbox" id="tv-impraeg">
+            <i aria-hidden="true"></i>
+            <span>Imprægnering 995,-</span>
+          </label>
+
+          <div class="felt felt--m2 skjul" id="boks-m2">
+            <label for="tv-m2">Antal m²</label>
+            <input type="number" id="tv-m2" value="50" min="37" max="1000" step="1" inputmode="numeric">
+          </div>
+        </div>
+
+        <div class="resultat">
+          <div>
+            <p class="resultat__mrk">Estimeret pris</p>
+            <p class="resultat__tal" id="pris" aria-live="polite">2.390 kr.</p>
+            <ul class="resultat__linjer" id="linjer">
+              <li>Garage · 2 timer × 1.195 kr.</li>
+            </ul>
+          </div>
+          <a class="knap knap--roed knap--stor" id="videre" href="../bestilling.html">
+            Udfyld resten &amp; send <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <p class="beregner__disclaimer">Beregningen er et vejledende estimat ud fra vores faste priser og udgør ikke et bindende tilbud. Rydningen afregnes efter medgået tid, jf. <a href="../handelsbetingelser.html" style="color:inherit;text-decoration:underline">handelsbetingelserne</a>.</p>
+      </form>
+
+  </div>
+</section>
+
+<section class="sektion" style="padding-top:0">
+  <div class="ramme">
+    <article class="tilkoeb ind" id="fliserensning">
+      <div class="tilkoeb__billede">
+        <span class="tilkoeb__badge">Tilkøb</span>
+        <picture>
+          <source srcset="../assets/img/ydelser/fliserensning.webp" type="image/webp">
+          <img src="../assets/img/ydelser/fliserensning.jpg" alt="Indkørsel hvor den ene halvdel er renset og den anden stadig er grøn af alger" width="1280" height="853" loading="lazy">
+        </picture>
       </div>
-      <p class="beregner__hint">Der er ingen minimumsopgave — du betaler kun for den tid, opgaven tager, pr. påbegyndt time. Er du i tvivl, så vælg et bud; vi vender tilbage med en vurdering.</p>
-      <div class="resultat">
+      <div class="tilkoeb__krop">
+        <h2 style="font-size:clamp(1.35rem,3.2vw,1.9rem);color:#fff">Fliserensning</h2>
+        <p class="tilkoeb__citat">“Nu hvor vi alligevel er så godt i gang med at rydde din garage — skal vi så ikke også få gjort den helt perfekt?”</p>
+        <p>Fliserensning er et tilkøb til rydningen. Sæt flueben i beregneren ovenfor, så regnes det med i estimatet.</p>
+        <ul class="tjek">
+          <li>Rensning af fliser</li>
+          <li>Fugerensning</li>
+          <li>Opfyldning af sand — No Grow</li>
+        </ul>
+        <div class="tilkoeb__priser">
+          <div class="prisboks"><b>1.995 kr.</b><span>Op til 36 m² — derefter 45 kr. pr. m²</span></div>
+          <div class="prisboks prisboks--let"><b>+ 995 kr.</b><span>Tilkøb af imprægnering</span></div>
+        </div>
         <div>
-          <p class="resultat__mrk">Estimeret pris</p>
-          <p class="resultat__tal" id="pris" aria-live="polite">2.390 kr.</p>
-          <p class="resultat__spec" id="spec">Garage · 2 timer × 1.195 kr.</p>
+          <a class="knap knap--roed" href="../fliserensning/">Læs om fliserensning <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
-        <a class="knap knap--roed knap--stor" id="videre" href="../bestilling.html">Udfyld resten &amp; send <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
-      <p class="beregner__disclaimer">Beregningen er et vejledende estimat ud fra vores faste timepris og udgør ikke et bindende tilbud. Den endelige pris afregnes efter medgået tid, jf. <a href="../handelsbetingelser.html" style="color:inherit;text-decoration:underline">handelsbetingelserne</a>.</p>
-    </form>
+    </article>
   </div>
 </section>
 
@@ -325,7 +395,7 @@
       <a class="rkort ind" href="../doedsborydning/"><b>Rydning af dødsbo</b><span>Håndteret med respekt, diskretion og skriftlige aftaler.</span></a>
       <a class="rkort ind" href="../erhvervsrydning/"><b>Erhvervsrydning</b><span>Lager, depot, værksted og fraflytning af lejemål.</span></a>
       <a class="rkort ind" href="../indkoersel-og-udearealer/"><b>Indkørsel og udearealer</b><span>Byggeaffald væk og indkørslen fejet ren.</span></a>
-      <a class="rkort ind" href="../fliserensning/"><b>Fliserensning</b><span>Tilkøb: rene fliser, friske fuger og skarpe kanter.</span></a>
+      <a class="rkort ind" href="../fliserensning/"><b>Fliserensning</b><span>Tilkøb: Rene fliser, friske fuger og skarpe kanter.</span></a>
     </div>
   </div>
 </section>
