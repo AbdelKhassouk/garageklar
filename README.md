@@ -42,6 +42,7 @@ Ydelsessider (SEO-landingssider)
 
 Øvrige sider
   priser/                 Prismodel + beregner
+  servicefradrag/         Sådan trækker kunden arbejdslønnen fra i skat
   omraader/               Oversigt over dækningsområde
   om-os/
   kontakt/
@@ -106,7 +107,7 @@ steder.
 
 | Hvor | Hvad mangler |
 |---|---|
-| Alle sider (footer) | **CVR-nummer** — der står `11223344`, som ser ud til at være en pladsholder |
+| `assets/img/foer-efter/` | **Før/efter-billeder fra fliserensning** — se afsnittet herunder |
 | `persondatapolitik.html` | Navnet på **webhotel/hostmaster** (markeret i en gul boks på siden) |
 | `index.html` | **Trustpilot TrustBox** — indsæt jeres widget-kode i `<div id="trustbox">` |
 | `index.html` + footer | **YouTube- og Facebook-URL** (står nu som `@garageklar` / `/garageklar`) |
@@ -133,11 +134,19 @@ afsnittet om tredjeparter i `cookiepolitik.html` skal opdateres.
 ### Prisen ligger ét sted
 
 ```js
-TIMEPRIS: 1195,    // kr. inkl. moms, pr. påbegyndt time
-MIN_TIMER: 1,      // ingen minimumsopgave
-START_TIMER: 2,    // beregnerens udgangspunkt
+TIMEPRIS: 1195,      // kr. inkl. moms, pr. påbegyndt time
+MIN_TIMER: 1,        // ingen minimumsopgave
+START_TIMER: 2,      // beregnerens udgangspunkt
 MAKS_TIMER: 40,
+
+FLISER_PRIS: 1995,   // fliserensning, op til M2_INKL m²
+IMPRAEG_PRIS: 995,   // tilkøb af imprægnering
+M2_INKL: 36,         // m² med i pakkeprisen
+M2_PRIS: 45,         // pr. ekstra m²
 ```
+
+Erhvervssiden viser prisen **ekskl. moms** (956 kr.). Ændres timeprisen, skal
+det tal rettes med i `erhvervsrydning/index.html`.
 
 Ændrer I `TIMEPRIS`, husk at rette de steder, tallet også står som tekst:
 prissektionen og beregnerens overskrift i `index.html`.
@@ -170,16 +179,50 @@ Indtil da vises posterbilledet.
 
 ---
 
-## Fliserensning — bemærk prisen
+## Fliserensning — prismodel
 
-Ønskedokumentet indeholder **to forskellige priser** på fliserensning:
+- **1.995 kr.** for op til 36 m² (rensning af fliser, fugerensning, opfyldning
+  af fugesand — No Grow)
+- **45 kr. pr. m²** for hver kvadratmeter derover
+- **995 kr.** for imprægnering som tilkøb
 
-1. Tidligt i afsnittet: *44 kr. pr. m², minimumspris 1.500 kr.*
-2. Senere, med pakkeindhold: *2.000 kr. for op til 36 m², derefter 45 kr. pr. m².*
+Priserne står tre steder i koden: `FLISER_PRIS` og `IMPRAEG_PRIS` i
+`assets/js/main.js` (beregneren) samt som tekst på fliserensningskortet på
+forsiden, på `priser/` og på `fliserensning/`.
 
-Siden bruger **nr. 2**, da den står sidst og er den mest detaljerede — sammen med
-pakken (rensning, fugerensning, No Grow-sand) og imprægnering som tilkøb til
-1.000 kr. Bekræft gerne, at det er den rigtige.
+---
+
+## Mangler: før/efter fra fliserensning
+
+Galleriet på forsiden mangler billede nr. 6 — før/efter fra en fliserensning.
+Billederne lå hverken lokalt eller i Google Drive-mappen *Content (Billeder/Videoer)*,
+da siden blev bygget.
+
+Sådan sætter du dem ind:
+
+1. Beskær de to fotos **kvadratisk** og gem dem som
+   `fliser-foer.jpg`, `fliser-foer.webp`, `fliser-efter.jpg` og `fliser-efter.webp`
+   i `assets/img/foer-efter/` (ca. 900 × 900 px).
+2. Åbn `assets/js/main.js`, find listen `var FE = [` og fjern de to skråstreger
+   foran linjen med `{ slug: "fliser", ... }`.
+
+Der er bevidst ikke sat et AI-genereret billede ind i stedet — galleriet siger
+"Alle billeder er fra rigtige opgaver, vi har løst", og det skal blive ved at passe.
+
+---
+
+## Servicefradrag-siden
+
+Teksten, der var lovet nederst i ønskedokumentet, var ikke med i PDF'en. Siden er
+derfor skrevet fra bunden med de generelle regler for BoligJobordningen.
+
+**Bemærk:** Der står bevidst **ingen beløbsgrænse** på siden. Grænsen fastsættes af
+Skattestyrelsen og ændres hvert år, så siden henviser i stedet til skat.dk. Det
+betyder også, at siden ikke skal opdateres hvert år.
+
+Der står heller ikke, at fliserensning *med sikkerhed* er omfattet — det afhænger af
+Skattestyrelsens liste. Vil I skrive det mere direkte, så få det bekræftet af jeres
+revisor først, og send mig formuleringen.
 
 ---
 

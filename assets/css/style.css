@@ -616,6 +616,24 @@ p { margin: 0; text-wrap: pretty; }
 .prisboks span { font-size: .82rem; color: var(--paa-moerk-2); }
 .prisboks--let { border-style: dashed; }
 
+/* "Spar penge — Læs om servicefradrag" under prisboksene */
+.spar {
+  display: inline-flex; flex-direction: column; gap: .12rem;
+  text-decoration: none; align-self: flex-start;
+}
+.spar b {
+  font-family: "Outfit", sans-serif; font-size: .72rem; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--roed);
+}
+.spar span {
+  display: inline-flex; align-items: center; gap: .4rem;
+  color: var(--roed); font-weight: 600; font-size: .95rem;
+  border-bottom: 1.5px solid currentColor; padding-bottom: 1px;
+  transition: gap .18s var(--ease);
+}
+.spar:hover span { gap: .7rem; }
+.spar svg { width: 15px; height: 15px; flex: none; }
+
 /* ===================================================================
    PRIS + BEREGNER
    =================================================================== */
@@ -738,7 +756,16 @@ p { margin: 0; text-wrap: pretty; }
   display: grid; grid-template-columns: 1fr 1fr;
   gap: .65rem; align-items: start; margin-bottom: .3rem;
 }
-@media (max-width: 520px) { .tilvalg { grid-template-columns: 1fr; } }
+/* På mobil stables tilvalgene i én kolonne, og imprægnering skal ligge lige
+   under fliserensning — derfor byttes rækkefølgen visuelt her. DOM-rækkefølgen
+   bevares, så tastaturnavigation følger den logiske gruppering på desktop. */
+@media (max-width: 520px) {
+  .tilvalg { grid-template-columns: 1fr; }
+  #boks-fliser  { order: 1; }
+  #boks-impraeg { order: 2; }
+  #boks-over36  { order: 3; }
+  #boks-m2      { order: 4; }
+}
 
 .skjul { display: none !important; }
 
