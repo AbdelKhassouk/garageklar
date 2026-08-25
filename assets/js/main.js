@@ -248,12 +248,8 @@
     { slug: "carport",  titel: "Carport",          sted: "Privat bolig" },
     { slug: "entre",    titel: "Entré og gang",    sted: "Privat bolig" },
     { slug: "vaerelse", titel: "Lille værelse",    sted: "Privat bolig" },
-    { slug: "stue",     titel: "Stue",             sted: "Privat bolig" }
-
-    // Nr. 6 — fliserensning. Læg fliser-foer.jpg + fliser-foer.webp og
-    // fliser-efter.jpg + fliser-efter.webp (kvadratiske) i assets/img/foer-efter/,
-    // og fjern de to skråstreger på linjen herunder:
-    // , { slug: "fliser", titel: "Fliserensning", sted: "Indkørsel" }
+    { slug: "stue",     titel: "Stue",             sted: "Privat bolig" },
+    { slug: "fliser",   titel: "Terrasse",         sted: "Fliserensning" }
   ];
 
   var feGrid = $("#fe-grid");

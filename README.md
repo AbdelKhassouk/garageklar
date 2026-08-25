@@ -64,7 +64,7 @@ assets/
   js/main.js              Al interaktion. Konfiguration ligger øverst i filen.
   fonts/                  Outfit + Inter, hostet lokalt (ingen Google-CDN)
   img/brand/              Logo (lys + mørk), ikon, favicons
-  img/foer-efter/         10 billeder — 5 opgaver × før/efter
+  img/foer-efter/         12 billeder — 6 opgaver × før/efter
   img/team/               Kristian, Kasper og fælles billede
   img/ydelser/            Billeder til Private / Erhverv / CTA-bånd
   img/danmark.svg         Kort med Herning markeret
@@ -107,7 +107,6 @@ steder.
 
 | Hvor | Hvad mangler |
 |---|---|
-| `assets/img/foer-efter/` | **Før/efter-billeder fra fliserensning** — se afsnittet herunder |
 | `persondatapolitik.html` | Navnet på **webhotel/hostmaster** (markeret i en gul boks på siden) |
 | `index.html` | **Trustpilot TrustBox** — indsæt jeres widget-kode i `<div id="trustbox">` |
 | `index.html` + footer | **YouTube- og Facebook-URL** (står nu som `@garageklar` / `/garageklar`) |
@@ -169,7 +168,8 @@ var FE = [
 
 Tilføj en ny opgave ved at lægge `NAVN-foer.jpg`, `NAVN-foer.webp`,
 `NAVN-efter.jpg` og `NAVN-efter.webp` i `assets/img/foer-efter/` og skrive en linje
-mere i listen. Billederne skal være kvadratiske.
+mere i listen. Billederne skal være **kvadratiske og beskåret ens**, så motivet
+flugter, når man trækker i slideren.
 
 ### Videoer
 
@@ -189,25 +189,6 @@ Indtil da vises posterbilledet.
 Priserne står tre steder i koden: `FLISER_PRIS` og `IMPRAEG_PRIS` i
 `assets/js/main.js` (beregneren) samt som tekst på fliserensningskortet på
 forsiden, på `priser/` og på `fliserensning/`.
-
----
-
-## Mangler: før/efter fra fliserensning
-
-Galleriet på forsiden mangler billede nr. 6 — før/efter fra en fliserensning.
-Billederne lå hverken lokalt eller i Google Drive-mappen *Content (Billeder/Videoer)*,
-da siden blev bygget.
-
-Sådan sætter du dem ind:
-
-1. Beskær de to fotos **kvadratisk** og gem dem som
-   `fliser-foer.jpg`, `fliser-foer.webp`, `fliser-efter.jpg` og `fliser-efter.webp`
-   i `assets/img/foer-efter/` (ca. 900 × 900 px).
-2. Åbn `assets/js/main.js`, find listen `var FE = [` og fjern de to skråstreger
-   foran linjen med `{ slug: "fliser", ... }`.
-
-Der er bevidst ikke sat et AI-genereret billede ind i stedet — galleriet siger
-"Alle billeder er fra rigtige opgaver, vi har løst", og det skal blive ved at passe.
 
 ---
 
