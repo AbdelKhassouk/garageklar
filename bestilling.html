@@ -29,9 +29,9 @@
     </a>
 
     <div class="bjaelke__hoejre">
-      <a class="btlf" href="tel:+4529333640">
+      <a class="btlf" href="tel:+4570707880">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6.6 2h3l1.5 4-2.2 1.4a12 12 0 0 0 5.7 5.7L16 10.9l4 1.5v3a2 2 0 0 1-2.2 2A17.8 17.8 0 0 1 2.5 4.2 2 2 0 0 1 4.5 2h2.1Z" fill="currentColor"/></svg>
-        <span class="nr">Tlf: 29 33 36 40</span>
+        <span class="nr">Tlf: 70 70 78 80</span>
         <span class="skjult-visuelt">Ring til GarageKlar</span>
       </a>
       <a class="bcta" href="index.html">Til forsiden</a>
@@ -44,7 +44,7 @@
 
     <!-- trin-indikator -->
     <div class="trinbjaelke">
-      <span class="fuld"><i>✓</i> <b>Beregn pris</b></span>
+      <span class="fuld"><i>✓</i> <b>Få et tilbud</b></span>
       <hr>
       <span class="aktiv"><i>2</i> <b>Dine oplysninger</b></span>
       <hr>
@@ -54,22 +54,22 @@
     <div class="trin2__kort" id="bestilkort">
       <p class="mrk">Næste skridt</p>
       <h1 style="font-size:clamp(1.7rem,4.4vw,2.5rem);margin-bottom:.5rem">Udfyld resten &amp; send</h1>
-      <p style="color:var(--tekst-2);margin-bottom:1.6rem">Vi bruger oplysningerne til at kontakte dig og planlægge opgaven. Der kræves <strong>ingen betaling</strong> for at sende forespørgslen.</p>
+      <p style="color:var(--tekst-2);margin-bottom:1.6rem">Vi bruger oplysningerne til at give dig en fast pris og planlægge opgaven. Der kræves <strong>ingen betaling</strong> for at sende forespørgslen.</p>
 
       <!-- opsummering fra beregneren -->
       <div class="opsum" id="opsum">
         <ul class="opsum__linjer" id="opsum-linjer">
-          <li>Garage · 2 timer × 1.195 kr.</li>
+          <li>Garage</li>
         </ul>
-        <p class="opsum__total">Estimeret pris: <span class="pris" id="opsum-pris">2.390 kr.</span></p>
-        <a class="tekstlink ret" href="index.html#beregner">Ret beregning</a>
+        <p class="opsum__total">Din pris: <span class="pris" id="opsum-pris">Fra 595 kr.</span></p>
+        <a class="tekstlink ret" href="index.html#beregner">Ret dine valg</a>
       </div>
 
       <form class="form" id="bestilform" novalidate>
         <input type="hidden" id="f-opgave" name="opgave">
-        <input type="hidden" id="f-timer" name="timer">
-        <input type="hidden" id="f-tilvalg" name="tilvalg">
-        <input type="hidden" id="f-pris" name="estimeret_pris">
+        <input type="hidden" id="f-maengde" name="maengde">
+        <input type="hidden" id="f-tillaeg" name="tillaeg">
+        <input type="hidden" id="f-pris" name="fra_pris">
 
         <div class="form__rk">
           <div>
@@ -153,6 +153,7 @@
     <div class="fod__grid">
       <div class="fod__brand">
         <img src="assets/img/brand/logo-lys.png" alt="GarageKlar" width="900" height="198" loading="lazy">
+        <p class="fod__slogan">Vi skaber plads til dine drømme</p>
         <p>Rydningsfirma — fra rod til GarageKlar. Vi rydder garager, udhuse, annekser, kældre og indkørsler i Midtjylland.</p>
         <div class="fod__sociale">
           <a href="https://www.youtube.com/@garageklar" target="_blank" rel="noopener" aria-label="GarageKlar på YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.8-1.8C18.3 5 12 5 12 5s-6.3 0-7.8.5A2.5 2.5 0 0 0 2.4 7.3C2 8.8 2 12 2 12s0 3.2.4 4.7a2.5 2.5 0 0 0 1.8 1.8C5.7 19 12 19 12 19s6.3 0 7.8-.5a2.5 2.5 0 0 0 1.8-1.8C22 15.2 22 12 22 12ZM10 15V9l5.2 3L10 15Z"/></svg></a>
@@ -166,10 +167,10 @@
         <ul>
           <li><a href="garagerydning/">Rydning af garage</a></li>
           <li><a href="udhus-og-anneks/">Udhus, anneks og skur</a></li>
+          <li><a href="kaelderrum/">Rydning af kælderrum</a></li>
           <li><a href="doedsborydning/">Rydning af dødsbo</a></li>
           <li><a href="erhvervsrydning/">Erhvervsrydning</a></li>
           <li><a href="indkoersel-og-udearealer/">Indkørsel og udearealer</a></li>
-          <li><a href="fliserensning/">Fliserensning</a></li>
           <li><a href="priser/">Priser</a></li>
           <li><a href="servicefradrag/">Servicefradrag</a></li>
         </ul>
@@ -190,8 +191,9 @@
       <div>
         <h3>Kontakt</h3>
         <address>
-          <a href="tel:+4529333640"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 2h3l1.5 4-2.2 1.4a12 12 0 0 0 5.7 5.7L16 10.9l4 1.5v3a2 2 0 0 1-2.2 2A17.8 17.8 0 0 1 2.5 4.2 2 2 0 0 1 4.5 2h2.1Z"/></svg> 29 33 36 40</a>
+          <a href="tel:+4570707880"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 2h3l1.5 4-2.2 1.4a12 12 0 0 0 5.7 5.7L16 10.9l4 1.5v3a2 2 0 0 1-2.2 2A17.8 17.8 0 0 1 2.5 4.2 2 2 0 0 1 4.5 2h2.1Z"/></svg> 70 70 78 80</a>
           <a href="mailto:Kundeservicegarageklar@hotmail.com"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="m3 7 9 6 9-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> Kundeservicegarageklar@hotmail.com</a>
+          <span class="fod__tider"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5.2l3.2 1.9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Man–fre 9–17 · Lør–søn lukket</span>
           <span style="display:block;margin-top:.4rem">GarageKlar<br>Østergade 27B, 1. th<br>7400 Herning<br>CVR: 46711904</span>
         </address>
         <ul style="margin-top:1rem">
@@ -214,7 +216,7 @@
 </footer>
 
 <div class="mobilbar">
-  <a class="knap knap--lys" href="tel:+4529333640">
+  <a class="knap knap--lys" href="tel:+4570707880">
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 2h3l1.5 4-2.2 1.4a12 12 0 0 0 5.7 5.7L16 10.9l4 1.5v3a2 2 0 0 1-2.2 2A17.8 17.8 0 0 1 2.5 4.2 2 2 0 0 1 4.5 2h2.1Z"/></svg>
     Ring
   </a>

@@ -38,7 +38,7 @@ Ydelsessider (SEO-landingssider)
   doedsborydning/
   erhvervsrydning/
   indkoersel-og-udearealer/
-  fliserensning/          Tilkøb — fast pakkepris, ikke timepris
+  kaelderrum/
 
 Øvrige sider
   priser/                 Prismodel + beregner
@@ -64,7 +64,7 @@ assets/
   js/main.js              Al interaktion. Konfiguration ligger øverst i filen.
   fonts/                  Outfit + Inter, hostet lokalt (ingen Google-CDN)
   img/brand/              Logo (lys + mørk), ikon, favicons
-  img/foer-efter/         12 billeder — 6 opgaver × før/efter
+  img/foer-efter/         10 billeder — 5 opgaver × før/efter
   img/team/               Kristian, Kasper og fælles billede
   img/ydelser/            Billeder til Private / Erhverv / CTA-bånd
   img/danmark.svg         Kort med Herning markeret
@@ -130,25 +130,32 @@ afsnittet om tredjeparter i `cookiepolitik.html` skal opdateres.
 
 ## Ting der er værd at kende
 
-### Prisen ligger ét sted
+### Priserne ligger ét sted
 
 ```js
-TIMEPRIS: 1195,      // kr. inkl. moms, pr. påbegyndt time
-MIN_TIMER: 1,        // ingen minimumsopgave
-START_TIMER: 2,      // beregnerens udgangspunkt
-MAKS_TIMER: 40,
-
-FLISER_PRIS: 1995,   // fliserensning, op til M2_INKL m²
-IMPRAEG_PRIS: 995,   // tilkøb af imprægnering
-M2_INKL: 36,         // m² med i pakkeprisen
-M2_PRIS: 45,         // pr. ekstra m²
+FRA_PRISER: {
+  "Garage":         595,
+  "Carport":        595,
+  "Indkørsel":      595,
+  "Udhus / skur":   995,
+  "Anneks":         995,
+  "Kælderrum":     1195,
+  "Dødsbo":        2495,
+  "Erhvervslokale": null,   // null giver "Kontakt os"
+  "Andet":          null
+}
 ```
 
-Erhvervssiden viser prisen **ekskl. moms** (956 kr.). Ændres timeprisen, skal
-det tal rettes med i `erhvervsrydning/index.html`.
+Det er priserne i tilbudsboksen ("Få et gratis tilbud"). De styrer både det store
+tal i det hvide kort og "Fra ___ kr." i den mørke rubrik — begge steder skifter,
+når kunden vælger opgavetype.
 
-Ændrer I `TIMEPRIS`, husk at rette de steder, tallet også står som tekst:
-prissektionen og beregnerens overskrift i `index.html`.
+⚠ **Prislisten på `/priser/` er en anden.** Den står som almindelig tekst i
+`priser/index.html` under overskriften "Hvad koster det?", fordi I har oplyst
+andre tal til den. Se afsnittet **To forskellige prislister** nedenfor.
+
+Tilbudsboksen regner ikke længere en pris ud. Mængde og tillæg sendes blot med
+videre til trin 2, så I kan give en fast pris ud fra oplysningerne.
 
 ### Farver
 
@@ -161,7 +168,7 @@ Listen står i toppen af `main.js`:
 
 ```js
 var FE = [
-  { slug: "bryggers", titel: "Bryggers / depot", sted: "Privat bolig" },
+  { slug: "bryggers", titel: "Udhus", sted: "Privat bolig" },
   ...
 ];
 ```
@@ -179,18 +186,54 @@ Indtil da vises posterbilledet.
 
 ---
 
-## Fliserensning — prismodel
+## To forskellige prislister
 
-- **1.995 kr.** for op til 36 m² (rensning af fliser, fugerensning, opfyldning
-  af fugesand — No Grow)
-- **45 kr. pr. m²** for hver kvadratmeter derover
-- **995 kr.** for imprægnering som tilkøb
+I ønskedokumentet af 23. september står der **to forskellige sæt fra-priser** for
+de samme ydelser. Begge er lagt ind præcis der, hvor I har bedt om dem:
 
-Priserne står tre steder i koden: `FLISER_PRIS` og `IMPRAEG_PRIS` i
-`assets/js/main.js` (beregneren) samt som tekst på fliserensningskortet på
-forsiden, på `priser/` og på `fliserensning/`.
+| Ydelse | Prislisten på `/priser/` | Tilbudsboksen |
+|---|---|---|
+| Garage | 795,- | 595,- |
+| Carport | 795,- | 595,- |
+| Udhus / skur | 1.195,- | 995,- |
+| Anneks | 1.195,- | 995,- |
+| Indkørsel | 595,- | 595,- |
+| Dødsbo | 2.495,- | 2.495,- |
+| **Kælderrum** | **995,-** | **1.195,-** |
+| Erhvervslokale | Kontakt os | Kontakt os |
+
+De to lister står under 200 px fra hinanden på `/priser/` — en kunde ser dem
+samtidig. **Det skal rettes til ét sæt tal, inden siden går i luften.**
+
+Sig hvilket sæt der er det rigtige, så retter jeg det ene sted:
+prislisten i `priser/index.html` og `FRA_PRISER` i `assets/js/main.js`.
+Ydelsessiderne og bysiderne bruger i dag prislisten fra `/priser/`.
 
 ---
+
+## Mangler fra jer: tre billeder
+
+Følgende tre billeder er nævnt i ønskedokumentet, men ligger hverken i projektet
+eller i Drive-mappen **Content (Billeder/Videoer)**:
+
+| Billede | Hvor det skal bruges | Status |
+|---|---|---|
+| Kasper og Kristian - Om os | `om-os/` — erstatter det nuværende fællesbillede | Ikke uploadet |
+| Kælderrum - Før | Før/efter-galleriet, plads nr. 6 | Ikke uploadet |
+| Kælderrum - Efter | Før/efter-galleriet, plads nr. 6 | Ikke uploadet |
+
+Pladserne er gjort klar. Når billederne kommer:
+
+- **Om os:** læg filen som `assets/img/team/kasper-kristian.jpg` (+ `.webp`),
+  samme udsnit som nu (1184 × 880). Så skifter den af sig selv.
+- **Kælderrum:** læg `kaelderrum-foer.jpg`, `kaelderrum-foer.webp`,
+  `kaelderrum-efter.jpg` og `kaelderrum-efter.webp` i `assets/img/foer-efter/`
+  (kvadratiske, 900 × 900, beskåret helt ens) og fjern `//`-tegnene omkring den
+  sidste linje i `FE`-listen i `assets/js/main.js`. Linjen ligger klar.
+
+Der er **bevidst ikke indsat et midlertidigt eller AI-genereret billede** i
+galleriet. Overskriften siger "fra rigtige opgaver", og så skal billederne være
+fra rigtige opgaver.
 
 ## Servicefradrag-siden
 
@@ -201,9 +244,18 @@ derfor skrevet fra bunden med de generelle regler for BoligJobordningen.
 Skattestyrelsen og ændres hvert år, så siden henviser i stedet til skat.dk. Det
 betyder også, at siden ikke skal opdateres hvert år.
 
-Der står heller ikke, at fliserensning *med sikkerhed* er omfattet — det afhænger af
-Skattestyrelsens liste. Vil I skrive det mere direkte, så få det bekræftet af jeres
-revisor først, og send mig formuleringen.
+---
+
+## Handelsbetingelserne
+
+Punkt 3 (Tilbud og pris) er skrevet om til fast pris, og der er indsat et nyt
+punkt 4 (Ændringer og uforudsete forhold). Alle punkter derefter er rykket ét
+nummer op, og tilfredshedsgarantien er endt som **punkt 16** — ikke 15 som i
+ønskedokumentet, netop fordi det nye punkt 4 kom ind foran. Det gamle punkt 15
+om fliserensning er slettet.
+
+Ændres nummereringen igen, så husk at der ikke er nogen indholdsfortegnelse at
+rette med — numrene står kun i overskrifterne.
 
 ---
 

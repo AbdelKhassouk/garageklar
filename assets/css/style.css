@@ -458,8 +458,15 @@ p { margin: 0; text-wrap: pretty; }
 
 .hero__tagline {
   font-size: clamp(1rem, 2.3vw, 1.3rem);
-  color: rgba(255, 255, 255, .88); margin-bottom: clamp(1.6rem, 4vw, 2.4rem);
+  color: rgba(255, 255, 255, .88); margin-bottom: .3rem;
   max-width: 30ch;
+}
+
+/* Kundens slogan — står lige under taglinen i heroen. */
+.hero__slogan {
+  font-family: "Outfit", sans-serif; font-weight: 600;
+  font-size: clamp(1.05rem, 2.4vw, 1.35rem); color: #fff;
+  margin-bottom: clamp(1.6rem, 4vw, 2.4rem); max-width: 26ch;
 }
 
 .hero__knapper { display: flex; flex-wrap: wrap; gap: .8rem; }
@@ -663,6 +670,10 @@ p { margin: 0; text-wrap: pretty; }
   font-size: clamp(2.6rem, 7vw, 3.9rem); line-height: 1;
   letter-spacing: -.035em; color: var(--sort);
 }
+.priskort__tal em {
+  font-family: "Outfit", sans-serif; font-weight: 700; font-style: normal;
+  font-size: clamp(1.1rem, 2.6vw, 1.5rem); color: var(--tekst-2);
+}
 .priskort__tal span {
   font-family: "Outfit", sans-serif; font-weight: 700;
   font-size: clamp(1rem, 2.4vw, 1.25rem); color: var(--roed);
@@ -729,93 +740,134 @@ p { margin: 0; text-wrap: pretty; }
   border-color: var(--roed); background: rgba(255, 255, 255, .1); outline: none;
 }
 
-.timer { display: flex; align-items: stretch; gap: .5rem; }
-.timer input {
-  text-align: center; font-family: "Outfit", sans-serif;
-  font-weight: 700; font-size: 1.15rem;
-  -moz-appearance: textfield;
-}
-.timer input::-webkit-outer-spin-button,
-.timer input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-.timer button {
-  flex: none; width: 48px; border-radius: var(--r-s);
-  background: rgba(255, 255, 255, .09);
-  border: 1.5px solid rgba(255, 255, 255, .16);
-  color: #fff; font-size: 1.35rem; font-weight: 600; line-height: 1;
-  transition: background-color .18s var(--ease), border-color .18s;
-}
-.timer button:hover:not([disabled]) { background: var(--roed); border-color: var(--roed); }
-.timer button[disabled] { opacity: .3; cursor: not-allowed; }
-
 .beregner__hint {
   font-size: .8rem; color: var(--paa-moerk-2); margin-top: -.5rem; margin-bottom: 1.1rem;
 }
 
-/* --- tilvalg i beregneren (fliserensning m.m.) --- */
-.tilvalg {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: .65rem; align-items: start; margin-bottom: .3rem;
+/* --- "Hvor meget skal hentes ca.?" --- */
+.felt--maengde { border: 0; padding: 0; margin: 0 0 1.1rem; }
+.felt--maengde legend {
+  padding: 0; margin-bottom: .45rem;
+  font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
+  font-weight: 600; color: var(--paa-moerk-2);
 }
-/* På mobil stables tilvalgene i én kolonne, og imprægnering skal ligge lige
-   under fliserensning — derfor byttes rækkefølgen visuelt her. DOM-rækkefølgen
-   bevares, så tastaturnavigation følger den logiske gruppering på desktop. */
-@media (max-width: 520px) {
-  .tilvalg { grid-template-columns: 1fr; }
-  #boks-fliser  { order: 1; }
-  #boks-impraeg { order: 2; }
-  #boks-over36  { order: 3; }
-  #boks-m2      { order: 4; }
-}
+.felt--maengde legend span { text-transform: none; letter-spacing: 0; opacity: .7; }
 
-.skjul { display: none !important; }
-
-.tilvalg__boks {
+.maengde { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; }
+.maengde__boks {
   position: relative;
-  display: flex; align-items: center; gap: .65rem;
-  padding: .82rem 1rem; min-height: 52px;
+  display: grid; justify-items: center; gap: .1rem;
+  padding: .9rem .7rem 1rem; text-align: center;
   background: rgba(255, 255, 255, .07);
   border: 1.5px solid rgba(255, 255, 255, .16);
   border-radius: var(--r-s);
-  font-size: .9rem; font-weight: 600; color: var(--paa-moerk);
-  cursor: pointer; user-select: none;
-  transition: border-color .18s var(--ease), background-color .18s var(--ease), color .18s var(--ease);
-  animation: tilvalgInd .28s var(--ease);
+  color: var(--paa-moerk); cursor: pointer; user-select: none;
+  transition: border-color .18s var(--ease), background-color .18s var(--ease);
 }
-.tilvalg__boks:hover { border-color: rgba(255, 255, 255, .42); }
-.tilvalg__boks.valgt {
-  border-color: var(--roed); background: rgba(237, 26, 33, .16); color: #fff;
+.maengde__boks:hover { border-color: rgba(255, 255, 255, .42); }
+.maengde__boks input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+.maengde__boks svg { width: 26px; height: 26px; color: var(--paa-moerk-2); margin-bottom: .3rem; }
+.maengde__boks b {
+  font-family: "Outfit", sans-serif; font-weight: 700; font-size: .95rem; color: #fff;
 }
+.maengde__boks i { font-style: normal; font-size: .78rem; color: var(--paa-moerk-2); }
+.maengde__boks:has(input:checked) {
+  border-color: var(--roed); background: rgba(237, 26, 33, .16);
+}
+.maengde__boks:has(input:checked) svg,
+.maengde__boks:has(input:checked) i { color: var(--roed); }
+.maengde__boks:has(input:checked) b { color: var(--roed); }
+.maengde__boks:has(input:focus-visible) { outline: 3px solid var(--roed); outline-offset: 3px; }
 
-@keyframes tilvalgInd {
-  from { opacity: 0; transform: translateY(-4px); }
-  to   { opacity: 1; transform: none; }
+/* --- tillæg (besværlig adgang / tunge genstande) --- */
+.tillaeg { display: grid; gap: .65rem; margin-bottom: .9rem; }
+.tillaeg__boks {
+  position: relative;
+  display: flex; align-items: center; gap: .75rem;
+  padding: .8rem 1rem;
+  background: rgba(255, 255, 255, .07);
+  border: 1.5px solid rgba(255, 255, 255, .16);
+  border-radius: var(--r-s);
+  color: var(--paa-moerk); cursor: pointer; user-select: none;
+  transition: border-color .18s var(--ease), background-color .18s var(--ease);
 }
-
-.tilvalg__boks input {
-  position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0;
-}
-.tilvalg__boks i {
+.tillaeg__boks:hover { border-color: rgba(255, 255, 255, .42); }
+.tillaeg__boks input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+.tillaeg__boks i {
   flex: none; width: 20px; height: 20px; border-radius: 5px;
   border: 1.5px solid rgba(255, 255, 255, .4);
   display: grid; place-items: center;
   transition: background-color .18s var(--ease), border-color .18s var(--ease);
 }
-.tilvalg__boks input:checked + i { background: var(--roed); border-color: var(--roed); }
-.tilvalg__boks input:checked + i::after {
+.tillaeg__boks input:checked + i { background: var(--roed); border-color: var(--roed); }
+.tillaeg__boks input:checked + i::after {
   content: ""; width: 12px; height: 12px; background: #fff;
   -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M20 6 9 17l-5-5' fill='none' stroke='black' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / contain no-repeat;
   mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M20 6 9 17l-5-5' fill='none' stroke='black' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / contain no-repeat;
 }
-.tilvalg__boks input:focus-visible + i { outline: 3px solid var(--roed); outline-offset: 3px; }
-
-/* m²-feltet — samme udseende som "Type opgave" og "Antal timer" */
-.felt--m2 { margin-bottom: 0; animation: tilvalgInd .28s var(--ease); }
-.felt--m2 input {
-  -moz-appearance: textfield;
-  font-family: "Outfit", sans-serif; font-weight: 700; font-size: 1.05rem;
+.tillaeg__boks input:focus-visible + i { outline: 3px solid var(--roed); outline-offset: 3px; }
+.tillaeg__boks b {
+  display: block; font-family: "Outfit", sans-serif; font-weight: 700;
+  font-size: .92rem; color: #fff;
 }
-.felt--m2 input::-webkit-outer-spin-button,
-.felt--m2 input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.tillaeg__boks em { font-style: normal; font-size: .79rem; color: var(--paa-moerk-2); }
+.tillaeg__boks:has(input:checked) { border-color: var(--roed); background: rgba(237, 26, 33, .12); }
+
+/* lille note over resultatet */
+.beregner__note {
+  display: flex; align-items: flex-start; gap: .5rem;
+  font-size: .8rem; line-height: 1.5; color: var(--paa-moerk-2);
+}
+.beregner__note svg { width: 15px; height: 15px; flex: none; margin-top: .15rem; }
+
+@media (max-width: 360px) {
+  .maengde { grid-template-columns: 1fr; }
+}
+
+/* --- prisliste på /priser/ --- */
+.prisliste {
+  list-style: none; margin: 0 auto; padding: 0; max-width: 760px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0 3rem;
+  background: var(--kort); border: 1px solid var(--linje);
+  border-radius: var(--r-m); padding: .6rem 1.8rem;
+}
+.prisliste li {
+  display: flex; align-items: baseline; gap: .75rem;
+  padding: .95rem 0; border-bottom: 1px solid var(--linje);
+}
+/* sidste række i hver kolonne skal ikke have streg under */
+.prisliste li:last-child,
+.prisliste li:nth-last-child(2) { border-bottom: 0; }
+.prisliste span {
+  font-family: "Outfit", sans-serif; font-weight: 600; font-size: 1.02rem; color: var(--sort);
+}
+.prisliste li::after {
+  content: ""; flex: 1 1 auto; height: 1px; margin-bottom: .22rem;
+  background: repeating-linear-gradient(to right, var(--linje) 0 3px, transparent 3px 7px);
+}
+.prisliste b {
+  order: 3; flex: none;
+  font-family: "Outfit", sans-serif; font-weight: 800; font-size: 1.08rem;
+  color: var(--roed); font-variant-numeric: tabular-nums;
+}
+.prisliste b.kontakt { font-size: .98rem; }
+
+.prisliste__fod {
+  max-width: 620px; margin: 1.3rem auto 0; text-align: center;
+  color: var(--tekst-2); font-size: .92rem;
+}
+.prisliste__knap { display: flex; justify-content: center; margin-top: 1.6rem; }
+
+.band__slogan {
+  font-family: "Outfit", sans-serif; font-weight: 600;
+  font-size: .95rem; letter-spacing: .01em; opacity: .75; margin-bottom: .3rem;
+}
+
+@media (max-width: 640px) {
+  .prisliste { grid-template-columns: 1fr; gap: 0; padding: .4rem 1.2rem; }
+  .prisliste li:nth-last-child(2) { border-bottom: 1px solid var(--linje); }
+  .prisliste li:last-child { border-bottom: 0; }
+}
 
 /* dynamisk prisoversigt */
 .resultat__linjer {
@@ -834,7 +886,7 @@ p { margin: 0; text-wrap: pretty; }
 }
 .resultat__tal {
   font-family: "Outfit", sans-serif; font-weight: 800;
-  font-size: clamp(2.2rem, 6.5vw, 3.1rem); line-height: 1;
+  font-size: clamp(1.9rem, 5.6vw, 2.75rem); line-height: 1.05;
   letter-spacing: -.035em; color: var(--roed);
   font-variant-numeric: tabular-nums;
 }
@@ -1162,6 +1214,23 @@ p { margin: 0; text-wrap: pretty; }
 .fod address { font-style: normal; font-size: .93rem; display: grid; gap: .5rem; }
 .fod address a { display: inline-flex; align-items: center; gap: .5rem; }
 .fod address svg { width: 15px; height: 15px; color: var(--roed); flex: none; }
+.fod address .fod__tider { display: inline-flex; align-items: center; gap: .5rem; }
+.menu__tid { display: block; color: var(--tekst-2); font-size: .88rem; padding-top: .2rem; }
+
+/* Åbningstider i sidekortet på kontaktsiden. */
+.sidekort .tider {
+  border: 1px solid var(--linje); border-radius: 10px;
+  padding: .75rem .9rem; margin-bottom: .9rem; line-height: 1.55;
+}
+.sidekort .tider b {
+  display: block; font-family: "Outfit", sans-serif;
+  font-size: .78rem; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--roed); margin-bottom: .2rem;
+}
+.fod__slogan {
+  font-family: "Outfit", sans-serif; font-weight: 600;
+  color: #fff; font-size: 1rem; margin-bottom: .45rem;
+}
 
 .fod__bund {
   border-top: 1px solid rgba(255, 255, 255, .1);
