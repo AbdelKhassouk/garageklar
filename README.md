@@ -41,8 +41,7 @@ Ydelsessider (SEO-landingssider)
   kaelderrum/
 
 Øvrige sider
-  priser/                 Prismodel + beregner
-  servicefradrag/         Sådan trækker kunden arbejdslønnen fra i skat
+  priser/                 Prisliste + tilbudsboks
   omraader/               Oversigt over dækningsområde
   om-os/
   kontakt/
@@ -64,7 +63,7 @@ assets/
   js/main.js              Al interaktion. Konfiguration ligger øverst i filen.
   fonts/                  Outfit + Inter, hostet lokalt (ingen Google-CDN)
   img/brand/              Logo (lys + mørk), ikon, favicons
-  img/foer-efter/         10 billeder — 5 opgaver × før/efter
+  img/foer-efter/         10 billeder — 5 opgaver × før/efter (diamantopstilling)
   img/team/               Kristian, Kasper og fælles billede
   img/ydelser/            Billeder til Private / Erhverv / CTA-bånd
   img/danmark.svg         Kort med Herning markeret
@@ -110,6 +109,7 @@ steder.
 | `persondatapolitik.html` | Navnet på **webhotel/hostmaster** (markeret i en gul boks på siden) |
 | `index.html` | **Trustpilot TrustBox** — indsæt jeres widget-kode i `<div id="trustbox">` |
 | `index.html` + footer | **YouTube- og Facebook-URL** (står nu som `@garageklar` / `/garageklar`) |
+| `assets/js/main.js` | **`YOUTUBE_ABONNENTER`** — antal abonnenter til roadmappen i "Vores drøm" |
 
 ### 3. Trustpilot-anmeldelser
 
@@ -186,63 +186,87 @@ Indtil da vises posterbilledet.
 
 ---
 
-## To forskellige prislister
+## Priserne
 
-I ønskedokumentet af 23. september står der **to forskellige sæt fra-priser** for
-de samme ydelser. Begge er lagt ind præcis der, hvor I har bedt om dem:
+Ét sæt fra-priser, inkl. moms — brugt både i prislisten på `/priser/`, i
+tilbudsboksen og på ydelsessiderne:
 
-| Ydelse | Prislisten på `/priser/` | Tilbudsboksen |
-|---|---|---|
-| Garage | 795,- | 595,- |
-| Carport | 795,- | 595,- |
-| Udhus / skur | 1.195,- | 995,- |
-| Anneks | 1.195,- | 995,- |
-| Indkørsel | 595,- | 595,- |
-| Dødsbo | 2.495,- | 2.495,- |
-| **Kælderrum** | **995,-** | **1.195,-** |
-| Erhvervslokale | Kontakt os | Kontakt os |
+| Ydelse | Fra |
+|---|---|
+| Garage | 595,- |
+| Carport | 595,- |
+| Indkørsel | 595,- |
+| Udhus / skur | 995,- |
+| Anneks | 995,- |
+| Kælderrum | 1.195,- |
+| Dødsbo | 2.495,- |
+| Erhvervslokale | Kontakt os |
 
-De to lister står under 200 px fra hinanden på `/priser/` — en kunde ser dem
-samtidig. **Det skal rettes til ét sæt tal, inden siden går i luften.**
-
-Sig hvilket sæt der er det rigtige, så retter jeg det ene sted:
-prislisten i `priser/index.html` og `FRA_PRISER` i `assets/js/main.js`.
-Ydelsessiderne og bysiderne bruger i dag prislisten fra `/priser/`.
+Skal et tal ændres, skal det rettes **tre steder**: `FRA_PRISER` i
+`assets/js/main.js`, prislisten i `priser/index.html` og prisboksen på den
+pågældende ydelsesside (`sidekort__pris` samt `price`/`minPrice` i den
+strukturerede data i toppen af filen).
 
 ---
 
-## Mangler fra jer: tre billeder
+## Mangler fra jer
 
-Følgende tre billeder er nævnt i ønskedokumentet, men ligger hverken i projektet
-eller i Drive-mappen **Content (Billeder/Videoer)**:
+### Tre billeder
+
+Nævnt i ønskedokumenterne, men ligger hverken i projektet eller i Drive-mappen
+**Content (Billeder/Videoer)** — tjekket igen 1. oktober:
 
 | Billede | Hvor det skal bruges | Status |
 |---|---|---|
-| Kasper og Kristian - Om os | `om-os/` — erstatter det nuværende fællesbillede | Ikke uploadet |
+| Kasper og Kristian - Om os | `Vores drøm` på forsiden og `/om-os/` | Ikke uploadet |
 | Kælderrum - Før | Før/efter-galleriet, plads nr. 6 | Ikke uploadet |
 | Kælderrum - Efter | Før/efter-galleriet, plads nr. 6 | Ikke uploadet |
 
-Pladserne er gjort klar. Når billederne kommer:
+Pladserne er klar. Når billederne kommer:
 
-- **Om os:** læg filen som `assets/img/team/kasper-kristian.jpg` (+ `.webp`),
-  samme udsnit som nu (1184 × 880). Så skifter den af sig selv.
+- **Om os-billedet:** læg filen som `assets/img/team/kasper-kristian.jpg`
+  (+ `.webp`), samme udsnit som nu (1184 × 880). Så skifter den begge steder
+  af sig selv.
 - **Kælderrum:** læg `kaelderrum-foer.jpg`, `kaelderrum-foer.webp`,
   `kaelderrum-efter.jpg` og `kaelderrum-efter.webp` i `assets/img/foer-efter/`
   (kvadratiske, 900 × 900, beskåret helt ens) og fjern `//`-tegnene omkring den
-  sidste linje i `FE`-listen i `assets/js/main.js`. Linjen ligger klar.
+  sidste linje i `FE`-listen i `assets/js/main.js`.
 
-Der er **bevidst ikke indsat et midlertidigt eller AI-genereret billede** i
-galleriet. Overskriften siger "fra rigtige opgaver", og så skal billederne være
-fra rigtige opgaver.
+  ⚠ Galleriet står i dag som en **diamant** — tre kort øverst, to forskudt
+  nedenunder. Den opstilling gælder kun ved præcis fem kort. Kommer kælderrum
+  ind som nr. 6, falder galleriet automatisk tilbage til et almindeligt
+  3 + 3-gitter. Det sker af sig selv, men så er diamanten væk.
 
-## Servicefradrag-siden
+Der er **bevidst ikke sat et midlertidigt eller AI-genereret billede** ind i
+galleriet. Overskriften siger "fra rigtige opgaver".
 
-Teksten, der var lovet nederst i ønskedokumentet, var ikke med i PDF'en. Siden er
-derfor skrevet fra bunden med de generelle regler for BoligJobordningen.
+### Antal YouTube-abonnenter
 
-**Bemærk:** Der står bevidst **ingen beløbsgrænse** på siden. Grænsen fastsættes af
-Skattestyrelsen og ændres hvert år, så siden henviser i stedet til skat.dk. Det
-betyder også, at siden ikke skal opdateres hvert år.
+"Vores drøm" har en roadmap mod 100.000 abonnenter. Tallet for, hvor I er i
+dag, står ikke nogen steder — så det er ikke gættet:
+
+```js
+YOUTUBE_ABONNENTER: null,   // i assets/js/main.js
+```
+
+Så længe det er `null`, er chippen "Abonnenter i dag" skjult, og ingen milepæle
+er markeret som nået. Sæt tallet (fx `YOUTUBE_ABONNENTER: 340`), så vises det,
+og de milepæle I har passeret, bliver røde.
+
+Husk samtidig at rette den rigtige YouTube-URL — den står stadig som
+`@garageklar` i footeren, i heroen og på knappen i "Vores drøm".
+
+---
+
+## Vores drøm
+
+Sektionen på forsiden (tidligere "Om os") er bygget efter jeres eget oplæg:
+overskrift, tre kort, roadmap og et afsluttende bånd. Billedet af Kasper og
+Kristian er beholdt til venstre, som I bad om.
+
+Teksten fra den gamle Om os-sektion er væk fra forsiden, men **siden
+`/om-os/` findes stadig uændret** og ligger fortsat i menuen. Sig til, hvis den
+også skal laves om.
 
 ---
 
@@ -252,7 +276,7 @@ Punkt 3 (Tilbud og pris) er skrevet om til fast pris, og der er indsat et nyt
 punkt 4 (Ændringer og uforudsete forhold). Alle punkter derefter er rykket ét
 nummer op, og tilfredshedsgarantien er endt som **punkt 16** — ikke 15 som i
 ønskedokumentet, netop fordi det nye punkt 4 kom ind foran. Det gamle punkt 15
-om fliserensning er slettet.
+om fliserensning er slettet. Tilfredshedsgarantien har en frist på 14 dage efter opgavens afslutning.
 
 Ændres nummereringen igen, så husk at der ikke er nogen indholdsfortegnelse at
 rette med — numrene står kun i overskrifterne.

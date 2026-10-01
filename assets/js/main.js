@@ -30,6 +30,11 @@
       "Andet":          null
     },
 
+    /* Antal YouTube-abonnenter til "Vores drøm".
+       Sæt tallet, når I kender det — så vises "Abonnenter i dag", og de
+       milepæle, I har passeret, bliver markeret på vejen. null = skjult. */
+    YOUTUBE_ABONNENTER: null,
+
     MAKS_FILER: 8,
     MAKS_FIL_MB: 12
   };
@@ -266,12 +271,35 @@
         '<div class="fe__fod"><h3>' + it.titel + '</h3><span>' + it.sted + '</span></div>';
       feGrid.appendChild(art);
     });
+
+    /* Med præcis fem kort stilles de op som 3 + 2 forskudt, så titlen og
+       billederne danner en diamant. Kommer der et sjette kort, falder
+       galleriet automatisk tilbage til et almindeligt 3 + 3-gitter. */
+    if (FE.length === 5) { feGrid.classList.add("fe__grid--diamant"); }
   }
 
   // Alle vinduer på siden — både de netop byggede og undersidernes faste kort.
   $$("[data-fe]").forEach(function (vindue, i) {
     gorFeInteraktiv(vindue, i % 2 === 0 ? 50 : 46);
   });
+
+  /* =====================================================================
+     4b. VORES DRØM — milepæle på vejen mod 100.000 abonnenter
+     Tallet er ikke sat af sig selv. Står KONFIG.YOUTUBE_ABONNENTER til null,
+     vises hverken antal eller markering — så der ikke står et gætteri på siden.
+     ===================================================================== */
+  var rute = $("#droem-rute");
+  if (rute && typeof KONFIG.YOUTUBE_ABONNENTER === "number") {
+    var antal = KONFIG.YOUTUBE_ABONNENTER;
+    var chip = $("#droem-antal");
+    if (chip) {
+      $("b", chip).textContent = new Intl.NumberFormat("da-DK").format(antal);
+      chip.hidden = false;
+    }
+    $$("li", rute).forEach(function (li) {
+      if (antal >= parseInt(li.getAttribute("data-maal"), 10)) { li.classList.add("naaet"); }
+    });
+  }
 
   /* =====================================================================
      5. HERO-VIDEO — hentes først når siden er klar

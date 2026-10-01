@@ -708,6 +708,7 @@ p { margin: 0; text-wrap: pretty; }
   pointer-events: none;
 }
 .beregner__hoved { position: relative; margin-bottom: 1.6rem; }
+.beregner__hoved h2,
 .beregner__hoved h3 {
   font-size: clamp(1.4rem, 3.2vw, 1.85rem); color: #fff; margin-bottom: .35rem;
 }
@@ -914,6 +915,16 @@ p { margin: 0; text-wrap: pretty; }
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr));
 }
 
+/* Diamantopstilling: tre kort øverst, to forskudt nedenunder, så de ligger
+   midt mellem kortene ovenover. Seks kolonner med spring på to giver præcis
+   samme kortbredde som det almindelige tre-kolonnegitter. */
+@media (min-width: 1040px) {
+  .fe__grid--diamant { grid-template-columns: repeat(6, 1fr); }
+  .fe__grid--diamant > .fe { grid-column: span 2; }
+  .fe__grid--diamant > .fe:nth-child(4) { grid-column: 2 / span 2; }
+  .fe__grid--diamant > .fe:nth-child(5) { grid-column: 4 / span 2; }
+}
+
 .fe {
   background: var(--hvid); border: 1px solid var(--linje);
   border-radius: var(--r-l); overflow: hidden; box-shadow: var(--skygge-s);
@@ -1081,6 +1092,118 @@ p { margin: 0; text-wrap: pretty; }
 /* ===================================================================
    OM OS
    =================================================================== */
+/* =========================================================================
+   VORES DRØM
+   ========================================================================= */
+.droem__top {
+  display: grid; gap: clamp(1.8rem, 4.5vw, 3.5rem);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center; margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+}
+@media (max-width: 900px) { .droem__top { grid-template-columns: 1fr; } }
+
+.droem__billede {
+  position: relative; border-radius: var(--r-l); overflow: hidden;
+  box-shadow: var(--skygge-m);
+}
+.droem__billede img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; }
+.droem__billede figcaption {
+  position: absolute; left: 0; right: 0; bottom: 0; padding: 2.4rem 1.4rem 1.1rem;
+  background: linear-gradient(to top, rgba(6, 6, 8, .88), transparent);
+  color: var(--paa-moerk); font-size: .88rem;
+}
+
+.droem__titel {
+  font-family: "Outfit", sans-serif; font-weight: 800; text-transform: uppercase;
+  font-size: clamp(2.6rem, 7.5vw, 4.6rem); line-height: .9; letter-spacing: -.04em;
+  margin-bottom: 1.1rem;
+}
+.droem__titel span { display: block; color: #fff; }
+.droem__titel em { display: block; color: var(--roed); font-style: italic; margin-left: .14em; }
+.droem__lead { color: var(--paa-moerk); font-size: clamp(1rem, 2.2vw, 1.12rem); max-width: 46ch; }
+
+/* --- de tre kort --- */
+.droem__kort {
+  display: grid; gap: clamp(1rem, 2.2vw, 1.6rem);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+}
+.dkort {
+  background: var(--hvid); border-radius: var(--r-l);
+  padding: clamp(1.3rem, 2.6vw, 1.8rem);
+}
+.dkort__nr {
+  display: grid; place-items: center; width: 34px; height: 34px;
+  border-radius: 9px; background: var(--roed); color: #fff;
+  font-family: "Outfit", sans-serif; font-weight: 700; font-size: 1rem;
+  margin-bottom: 1rem;
+}
+.sektion--moerk .dkort h3 { color: var(--sort); font-size: 1.12rem; margin-bottom: .5rem; }
+.dkort p { color: var(--tekst-2); font-size: .93rem; }
+
+/* --- roadmap --- */
+.droem__rute { margin-bottom: clamp(2rem, 4.5vw, 3rem); }
+.droem__rutehoved {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap; margin-bottom: 1.8rem;
+}
+.sektion--moerk .droem__rutehoved h3 {
+  font-size: clamp(1.4rem, 3.4vw, 2rem); letter-spacing: -.02em;
+}
+.droem__antal { color: var(--paa-moerk-2); font-size: .92rem; }
+.droem__antal b { color: #fff; font-family: "Outfit", sans-serif; }
+
+.rute {
+  position: relative; list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: .6rem;
+}
+.rute::before {
+  content: ""; position: absolute; top: 9px; left: 10px; right: 10px; height: 2px;
+  background: rgba(255, 255, 255, .18);
+}
+.rute li { position: relative; }
+.rute i {
+  display: block; width: 20px; height: 20px; border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, .35); background: var(--sort);
+  margin-bottom: 1rem; position: relative; z-index: 1;
+}
+.rute b {
+  display: block; font-family: "Outfit", sans-serif; font-weight: 800;
+  font-size: clamp(1rem, 2.1vw, 1.3rem); color: #fff; line-height: 1.1;
+}
+.rute span { display: block; font-size: .8rem; color: var(--paa-moerk-2); margin-top: .2rem; }
+
+/* målet, og de milepæle der er nået */
+.rute li:last-child i,
+.rute li.naaet i { background: var(--roed); border-color: var(--roed); box-shadow: 0 0 0 4px rgba(237, 26, 33, .18); }
+.rute li:last-child b,
+.rute li.naaet b { color: var(--roed); }
+
+@media (max-width: 760px) {
+  .rute { grid-template-columns: repeat(2, 1fr); gap: 1.4rem 1rem; }
+  .rute::before { display: none; }
+  .rute i { margin-bottom: .55rem; }
+}
+
+/* --- afsluttende bånd --- */
+.droem__cta {
+  background: var(--hvid); border-radius: var(--r-l);
+  padding: clamp(1.5rem, 3.4vw, 2.4rem);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1.4rem; flex-wrap: wrap;
+}
+.sektion--moerk .droem__cta h3 {
+  color: var(--sort); font-size: clamp(1.25rem, 3vw, 1.75rem);
+  letter-spacing: -.02em; margin-bottom: .35rem; max-width: 22ch;
+}
+.droem__cta p { color: var(--tekst-2); font-size: .93rem; max-width: 52ch; }
+.droem__cta .knap { flex: none; }
+.droem__cta .knap svg { width: 16px; height: 16px; }
+@media (max-width: 620px) {
+  .droem__cta { flex-direction: column; align-items: stretch; }
+  .droem__cta .knap { width: 100%; }
+}
+
 .om__grid {
   display: grid; gap: clamp(1.8rem, 4.5vw, 3.5rem);
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
