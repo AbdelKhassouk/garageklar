@@ -291,14 +291,39 @@
   var rute = $("#droem-rute");
   if (rute && typeof KONFIG.YOUTUBE_ABONNENTER === "number") {
     var antal = KONFIG.YOUTUBE_ABONNENTER;
+
     var chip = $("#droem-antal");
     if (chip) {
       $("b", chip).textContent = new Intl.NumberFormat("da-DK").format(antal);
       chip.hidden = false;
     }
-    $$("li", rute).forEach(function (li) {
-      if (antal >= parseInt(li.getAttribute("data-maal"), 10)) { li.classList.add("naaet"); }
+
+    var poster = $$("li", rute);
+    var sidsteNaaet = -1;
+    poster.forEach(function (li, i) {
+      if (antal >= parseInt(li.getAttribute("data-maal"), 10)) {
+        li.classList.add("naaet");
+        sidsteNaaet = i;
+      }
     });
+
+    /* Farv vejen frem til det senest nåede mål. Punkterne herunder er de
+       samme koordinater som cirklerne ligger på i CSS'en. */
+    var sti = $("#rute-naaet");
+    if (sti && sidsteNaaet >= 0 && sti.getTotalLength) {
+      var PUNKT = [[24, 6], [62, 6], [62, 31], [24, 31], [24, 56], [62, 56], [43, 81]];
+      try {
+        var maal = PUNKT[sidsteNaaet];
+        var total = sti.getTotalLength();
+        var bedst = 0, mindst = Infinity;
+        for (var l = 0; l <= total; l += total / 400) {
+          var pt = sti.getPointAtLength(l);
+          var d = (pt.x - maal[0]) * (pt.x - maal[0]) + (pt.y - maal[1]) * (pt.y - maal[1]);
+          if (d < mindst) { mindst = d; bedst = l; }
+        }
+        sti.style.setProperty("--naaet", (bedst / total) * 100);
+      } catch (e) { /* ingen vej tegnet — cirklerne er stadig markeret */ }
+    }
   }
 
   /* =====================================================================
@@ -468,7 +493,7 @@
             "Vi har modtaget din henvendelse og kontakter dig hurtigst muligt på det oplyste nummer."
           );
         } else {
-          alert("Noget gik galt. Prøv igen, eller ring til os på 29 33 36 40.");
+          alert("Noget gik galt. Prøv igen, eller ring til os på 70 70 78 80.");
         }
       });
     });
@@ -584,7 +609,7 @@
           );
           window.scrollTo({ top: 0, behavior: "smooth" });
         } else {
-          alert("Noget gik galt. Prøv igen, eller ring til os på 29 33 36 40.");
+          alert("Noget gik galt. Prøv igen, eller ring til os på 70 70 78 80.");
         }
       });
     });

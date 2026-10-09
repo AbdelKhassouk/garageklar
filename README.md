@@ -43,7 +43,7 @@ Ydelsessider (SEO-landingssider)
 Øvrige sider
   priser/                 Prisliste + tilbudsboks
   omraader/               Oversigt over dækningsområde
-  om-os/
+  om-os/                 "Vores drøm" — samme sektion som på forsiden
   kontakt/
 
 Områdesider
@@ -108,7 +108,7 @@ steder.
 |---|---|
 | `persondatapolitik.html` | Navnet på **webhotel/hostmaster** (markeret i en gul boks på siden) |
 | `index.html` | **Trustpilot TrustBox** — indsæt jeres widget-kode i `<div id="trustbox">` |
-| `index.html` + footer | **YouTube- og Facebook-URL** (står nu som `@garageklar` / `/garageklar`) |
+| `index.html` + footer | **YouTube-URL** (står nu som `@garageklar`). Facebook-linket er rettet. |
 | `assets/js/main.js` | **`YOUTUBE_ABONNENTER`** — antal abonnenter til roadmappen i "Vores drøm" |
 
 ### 3. Trustpilot-anmeldelser
@@ -119,8 +119,10 @@ Trustpilot, henter widgetten automatisk de rigtige anmeldelser ind.
 
 ### 4. Cookies
 
-Siden sætter i sin nuværende form **ingen cookies**, og skrifttyperne er hostet
-lokalt — derfor er der ikke behov for en cookiebanner endnu.
+Siden sætter i sin nuværende form **ingen cookies**, bruger ingen localStorage,
+har ingen eksterne scripts og ingen indlejrede videoer, og skrifttyperne ligger
+som filer på sitet selv. Det er efterprøvet i koden — derfor er der ikke behov
+for en cookiebanner endnu.
 
 Tilføjer I senere Google Analytics, Meta Pixel, Trustpilot-widget eller indlejrede
 YouTube-videoer, **skal** der sættes en cookiebanner op med forudgående samtykke, og
@@ -211,62 +213,113 @@ strukturerede data i toppen af filen).
 
 ## Mangler fra jer
 
-### Tre billeder
+### To billeder til galleriet
 
-Nævnt i ønskedokumenterne, men ligger hverken i projektet eller i Drive-mappen
-**Content (Billeder/Videoer)** — tjekket igen 1. oktober:
-
-| Billede | Hvor det skal bruges | Status |
+| Billede | Hvor | Status |
 |---|---|---|
-| Kasper og Kristian - Om os | `Vores drøm` på forsiden og `/om-os/` | Ikke uploadet |
 | Kælderrum - Før | Før/efter-galleriet, plads nr. 6 | Ikke uploadet |
 | Kælderrum - Efter | Før/efter-galleriet, plads nr. 6 | Ikke uploadet |
 
-Pladserne er klar. Når billederne kommer:
+Læg `kaelderrum-foer.jpg`, `kaelderrum-foer.webp`, `kaelderrum-efter.jpg` og
+`kaelderrum-efter.webp` i `assets/img/foer-efter/` (kvadratiske, 900 × 900,
+beskåret helt ens) og fjern `//`-tegnene omkring den sidste linje i `FE`-listen i
+`assets/js/main.js`.
 
-- **Om os-billedet:** læg filen som `assets/img/team/kasper-kristian.jpg`
-  (+ `.webp`), samme udsnit som nu (1184 × 880). Så skifter den begge steder
-  af sig selv.
-- **Kælderrum:** læg `kaelderrum-foer.jpg`, `kaelderrum-foer.webp`,
-  `kaelderrum-efter.jpg` og `kaelderrum-efter.webp` i `assets/img/foer-efter/`
-  (kvadratiske, 900 × 900, beskåret helt ens) og fjern `//`-tegnene omkring den
-  sidste linje i `FE`-listen i `assets/js/main.js`.
+⚠ Galleriet står i dag som en **diamant** — tre kort øverst, to forskudt
+nedenunder. Den opstilling gælder kun ved præcis fem kort. Kommer kælderrum ind
+som nr. 6, falder galleriet automatisk tilbage til et almindeligt 3 + 3-gitter.
 
-  ⚠ Galleriet står i dag som en **diamant** — tre kort øverst, to forskudt
-  nedenunder. Den opstilling gælder kun ved præcis fem kort. Kommer kælderrum
-  ind som nr. 6, falder galleriet automatisk tilbage til et almindeligt
-  3 + 3-gitter. Det sker af sig selv, men så er diamanten væk.
-
-Der er **bevidst ikke sat et midlertidigt eller AI-genereret billede** ind i
-galleriet. Overskriften siger "fra rigtige opgaver".
+Billedet af Kasper og Kristian er skiftet. Det er hentet ud af ønskedokumentets
+PDF, fordi det aldrig blev lagt i Drive-mappen, og det er derfor kun 788 × 591 px.
+Det er skarpt nok til den plads, det fylder, men ikke til skærme med dobbelt
+opløsning. Send originalen, hvis den skal være knivskarp — så lægger jeg den ind
+som `assets/img/team/kasper-kristian.jpg` (+ `.webp`), beskåret 4 : 3.
 
 ### Antal YouTube-abonnenter
-
-"Vores drøm" har en roadmap mod 100.000 abonnenter. Tallet for, hvor I er i
-dag, står ikke nogen steder — så det er ikke gættet:
 
 ```js
 YOUTUBE_ABONNENTER: null,   // i assets/js/main.js
 ```
 
-Så længe det er `null`, er chippen "Abonnenter i dag" skjult, og ingen milepæle
-er markeret som nået. Sæt tallet (fx `YOUTUBE_ABONNENTER: 340`), så vises det,
-og de milepæle I har passeret, bliver røde.
+Så længe det er `null`, er chippen "Abonnenter i dag" skjult, alle cirkler på
+roadmappen er tomme, og vejen er grå hele vejen. Sæt tallet (fx
+`YOUTUBE_ABONNENTER: 340`), så sker der tre ting af sig selv: tallet vises,
+de passerede milepæle bliver røde, og vejen farves rød frem til den seneste.
 
-Husk samtidig at rette den rigtige YouTube-URL — den står stadig som
-`@garageklar` i footeren, i heroen og på knappen i "Vores drøm".
+Husk samtidig at rette YouTube-URL'en — den står stadig som `@garageklar`.
+
+### Trustpilot-verifikation
+
+Filen `60621c00-6c6f-4aed-91ea-bce8a0333001.html` skal ligge i sidens rod, så
+`https://garageklar.dk/60621c00-6c6f-4aed-91ea-bce8a0333001.html` svarer.
+
+Den er **ikke** lagt ind, fordi indholdet skal matche Trustpilots fil præcis —
+gætter man, fejler verifikationen. Send filen (eller indholdet), så lægger jeg
+den i roden. `.nojekyll` er allerede oprettet, så GitHub Pages serverer
+rodfiler uændret.
+
+Bemærk også: adressen peger på **garageklar.dk**, så verifikationen kan først
+gennemføres, når siden ligger på det rigtige domæne — ikke på github.io-forhåndsvisningen.
+
+### Webhotel i persondatapolitikken
+
+`persondatapolitik.html` har stadig en gul boks med
+`[navn på webhotel/hostmaster indsættes her]`. Den skal udfyldes med navnet på
+det webhotel, siden ender hos — og I skal have en databehandleraftale med dem.
+Bliver siden liggende på GitHub Pages, er svaret "GitHub, Inc.".
 
 ---
 
 ## Vores drøm
 
-Sektionen på forsiden (tidligere "Om os") er bygget efter jeres eget oplæg:
-overskrift, tre kort, roadmap og et afsluttende bånd. Billedet af Kasper og
-Kristian er beholdt til venstre, som I bad om.
+Sektionen findes to steder og er **ens begge steder**: på forsiden og på siden
+`/om-os/`, som nu hedder "Vores drøm" i menuen og i footeren. URL'en er stadig
+`/om-os/`, så gamle links ikke knækker.
 
-Teksten fra den gamle Om os-sektion er væk fra forsiden, men **siden
-`/om-os/` findes stadig uændret** og ligger fortsat i menuen. Sig til, hvis den
-også skal laves om.
+Ændrer I teksten, skal den rettes **begge steder**.
+
+### Roadmappen
+
+På bred skærm er den én vandret linje. På mobil (under 760 px) snor vejen sig som
+et S — tre rækker med to milepæle i hver, og målet nederst. Rækkefølgen er
+med vilje 100, 200, **500, 1.000**, 10.000, 50.000: anden række læses fra højre
+mod venstre, fordi vejen vender der.
+
+Vejen er en SVG-sti i `index.html` og `om-os/index.html`. Cirklerne er placeret med
+CSS på **de samme procentkoordinater** som stien (venstre spor 24 %, højre spor 62 %,
+målet 43 %, rækkerne på 6 %, 31 %, 56 % og 81 %). Flytter I det ene, skal det andet
+med — ellers ligger cirklerne ved siden af vejen.
+
+Målet 100.000 har rød kant og rødt tal, men **tom cirkel** — der er ingen mål nået
+endnu. Cirklen fyldes først, når `YOUTUBE_ABONNENTER` er sat højt nok.
+
+---
+
+## Rettet på de juridiske sider
+
+Tre ting på persondatapolitikken og cookiepolitikken passede ikke med, hvad siden
+faktisk gør. De er rettet — **læs dem igennem, før siden går i luften:**
+
+1. **Tredjelandsoverførsel.** Begge sider sagde, at der ikke sendes persondata ud
+   af EU. Det passer ikke: formularerne sender gennem Formspree, Inc. i USA, så
+   navn, telefon, adresse og vedhæftede billeder behandles uden for EU/EØS. Det
+   står der nu, med henvisning til databehandleraftalen og
+   standardkontraktbestemmelserne.
+
+2. **Cookiepolitikkens brødtekst** var ubearbejdet skabelontekst. Den lovede
+   annoncer, profilering, sporing og videregivelse til navngivne tredjeparter —
+   og henviste til en liste over dem, der ikke fandtes. Intet af det sker på
+   siden. Afsnittene om indsamlede oplysninger, formål og videregivelse er
+   skrevet om, så de beskriver det, der faktisk foregår: kun det kunden selv
+   skriver i formularerne, ingen analyse, ingen annoncering, ingen sporing.
+
+3. **To forskellige mailadresser.** De juridiske sider bad kunder sende
+   indsigts- og sletteanmodninger til `garageklar@hotmail.com`, mens resten af
+   sitet bruger `Kundeservicegarageklar@hotmail.com`. Nu bruges den samme
+   adresse overalt. ⚠ **Bekræft at det er den rigtige** — ellers lander GDPR-
+   anmodninger et sted, ingen læser.
+
+Mangler stadig: navnet på webhotellet, se afsnittet **Mangler fra jer**.
 
 ---
 
@@ -307,7 +360,9 @@ før I har rigtigt indhold at fylde i dem.
 
 ## Test
 
-Testet i Chrome på desktop (1440 px) og mobil (390 px):
+Testet i Chrome på desktop (1440 px) og mobil (390 px), samt en gennemløbning af
+alle bredder mellem 940 og 1400 px for at sikre, at knappen i tilbudsboksen ikke
+flytter sig, uanset hvilken opgavetype man vælger:
 ingen konsolfejl, ingen manglende filer, ingen vandret scroll på mobil.
 Tastaturnavigation, fokusfælde i menu og popup, Escape-lukning og formularvalidering
 virker. Der er skip-link, `aria`-mærkning og understøttelse af

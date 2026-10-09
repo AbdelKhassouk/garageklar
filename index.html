@@ -109,7 +109,7 @@
         <a href="indkoersel-og-udearealer/" data-luk-menu>Indkørsel og udearealer</a>
         <a href="priser/" data-luk-menu>Priser</a>
         <a href="omraader/" data-luk-menu>Områder vi dækker</a>
-        <a href="om-os/" data-luk-menu>Om os</a>
+        <a href="om-os/" data-luk-menu>Vores drøm</a>
         <a href="kontakt/" data-luk-menu>Kontakt</a>
       </nav>
 
@@ -265,8 +265,6 @@
       </article>
 
     </div>
-
-    <!-- Tilkøb: fliserensning -->
     
 
   </div>
@@ -531,7 +529,7 @@
       <figure class="droem__billede ind" style="margin:0">
         <picture>
           <source srcset="assets/img/team/kasper-kristian.webp" type="image/webp">
-          <img src="assets/img/team/kasper-kristian.jpg" alt="Kristian og Kasper fra GarageKlar i arbejdstøj foran en garageport" width="1184" height="880" loading="lazy">
+          <img src="assets/img/team/kasper-kristian.jpg" alt="Kristian og Kasper fra GarageKlar i GarageKlar-T-shirts" width="788" height="591" loading="lazy">
         </picture>
         <figcaption>Kristian og Kasper — folkene bag GarageKlar</figcaption>
       </figure>
@@ -570,15 +568,25 @@
         <p class="droem__antal" id="droem-antal" hidden>Abonnenter i dag: <b></b></p>
       </div>
 
-      <ol class="rute" id="droem-rute">
+      <p class="rute__start">Start</p>
+
+      <div class="rute__ramme">
+        <svg class="rute__vej" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path class="rute__asfalt"  d="M 0,6 H 62 C 92,6 92,31 62,31 H 24 C 6,31 6,56 24,56 H 62 C 92,56 92,81 43,81" vector-effect="non-scaling-stroke"/>
+          <path class="rute__stribe"  d="M 0,6 H 62 C 92,6 92,31 62,31 H 24 C 6,31 6,56 24,56 H 62 C 92,56 92,81 43,81" vector-effect="non-scaling-stroke"/>
+          <path class="rute__naaet" id="rute-naaet" pathLength="100"
+                d="M 0,6 H 62 C 92,6 92,31 62,31 H 24 C 6,31 6,56 24,56 H 62 C 92,56 92,81 43,81" vector-effect="non-scaling-stroke"/>
+        </svg>
+        <ol class="rute" id="droem-rute">
           <li data-maal="100"><i aria-hidden="true"></i><b>100</b><span>De første følgere</span></li>
           <li data-maal="200"><i aria-hidden="true"></i><b>200</b><span>Flere følger med</span></li>
           <li data-maal="500"><i aria-hidden="true"></i><b>500</b><span>Et fællesskab tager form</span></li>
           <li data-maal="1000"><i aria-hidden="true"></i><b>1.000</b><span>Kanalen tjener penge</span></li>
           <li data-maal="10000"><i aria-hidden="true"></i><b>10.000</b><span>Første gratis opgave</span></li>
           <li data-maal="50000"><i aria-hidden="true"></i><b>50.000</b><span>Gratis opgaver hver måned</span></li>
-          <li data-maal="100000"><i aria-hidden="true"></i><b>100.000</b><span>Drømmen er nået</span></li>
-      </ol>
+          <li data-maal="100000" class="rute__maal"><i aria-hidden="true"></i><b>100.000</b><span>Drømmen er nået</span></li>
+        </ol>
+      </div>
     </div>
 
     <div class="droem__cta ind">
@@ -741,7 +749,7 @@
         <p>Rydningsfirma. Vi rydder garager, udhuse, annekser, kældre og indkørsler i Midtjylland.</p>
         <div class="fod__sociale">
           <a href="https://www.youtube.com/@garageklar" target="_blank" rel="noopener" aria-label="GarageKlar på YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.8-1.8C18.3 5 12 5 12 5s-6.3 0-7.8.5A2.5 2.5 0 0 0 2.4 7.3C2 8.8 2 12 2 12s0 3.2.4 4.7a2.5 2.5 0 0 0 1.8 1.8C5.7 19 12 19 12 19s6.3 0 7.8-.5a2.5 2.5 0 0 0 1.8-1.8C22 15.2 22 12 22 12ZM10 15V9l5.2 3L10 15Z"/></svg></a>
-          <a href="https://www.facebook.com/garageklar" target="_blank" rel="noopener" aria-label="GarageKlar på Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v7h3v-7h3l1-3h-4v-2c0-.6.4-1 1-1Z"/></svg></a>
+          <a href="https://www.facebook.com/profile.php?id=61593324971609" target="_blank" rel="noopener" aria-label="GarageKlar på Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v7h3v-7h3l1-3h-4v-2c0-.6.4-1 1-1Z"/></svg></a>
           <a href="mailto:Kundeservicegarageklar@hotmail.com" aria-label="Send en mail til GarageKlar"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="m3 7 9 6 9-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
         </div>
       </div>
@@ -780,7 +788,7 @@
           <span style="display:block;margin-top:.4rem">GarageKlar<br>Østergade 27B, 1. th<br>7400 Herning<br>CVR: 46711904</span>
         </address>
         <ul style="margin-top:1rem">
-          <li><a href="om-os/">Om os</a></li>
+          <li><a href="om-os/">Vores drøm</a></li>
           <li><a href="kontakt/">Kontakt</a></li>
           <li><a href="index.html#faq">Spørgsmål &amp; svar</a></li>
         </ul>
