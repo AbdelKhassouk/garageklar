@@ -3,11 +3,12 @@
 Statisk hjemmeside. Ren HTML, CSS og JavaScript — ingen frameworks, ingen
 byggeproces. Filerne kan lægges direkte op på et hvilket som helst webhotel.
 
-**Forhåndsvisning:** <https://abdelkhassouk.github.io/garageklar/>
+**Live:** <https://www.garageklar.dk>
 
-Forhåndsvisningen kører på GitHub Pages og er kun til gennemsyn. Alle `canonical`-tags
-peger på `https://www.garageklar.dk`, så forhåndsvisningen bliver ikke indekseret af
-Google og kommer ikke til at konkurrere med det rigtige domæne.
+Siden ligger på GitHub Pages (repoet `AbdelKhassouk/garageklar`, grenen `main`) med
+domænet `www.garageklar.dk`. Domænet og DNS ligger hos DanDomain (abonnement: DNS
+Hotel). `garageklar.dk` uden www sendes videre til www. Alle `canonical`-tags
+peger på `https://www.garageklar.dk`. En push til `main` går live med det samme.
 
 ---
 
@@ -145,7 +146,7 @@ testet i Chrome på computer med en efterlignet telefon.
 
 | Hvor | Hvad mangler |
 |---|---|
-| `persondatapolitik.html` | Navnet på **webhotellet** — skrives ind, når siden går live (se "Webhotel i persondatapolitikken") |
+| Trustpilot-verifikation | Tryk **"Verificér domæne"** hos Trustpilot, når HTTPS virker på garageklar.dk (se "Trustpilot-verifikation") |
 | Trustpilot | **Profilen findes ikke offentligt endnu** — de to knapper på forsiden giver "siden findes ikke", indtil domænet er verificeret (se "Trustpilot") |
 | `index.html` + footer | **YouTube-URL** (står nu som `@garageklar`). Facebook, Instagram og TikTok er rigtige. |
 | `assets/js/main.js` | **`YOUTUBE_ABONNENTER`** — antal abonnenter til roadmappen i "Vores drøm" |
@@ -333,37 +334,27 @@ oprettes præcist (i Git Bash, stående i sidens rod):
 printf '%s' '60621c00-6c6f-4aed-91ea-bce8a0333001' > 60621c00-6c6f-4aed-91ea-bce8a0333001.html
 ```
 
-Den er **ikke lagt ind endnu**, fordi den først kan bruges, når siden ligger på
-garageklar.dk:
+Filen **ligger nu i roden** og er lavet sådan. Når HTTPS på domænet er
+aktivt, skal I trykke **"Verificér domæne"** hos Trustpilot.
 
-- Trustpilot henter filen over HTTPS på selve domænet. I dag viser garageklar.dk
-  DanDomains parkeringsside uden gyldigt certifikat, så verifikationen kan ikke
-  gå igennem fra forhåndsvisningen på github.io.
 - Filen gælder kun **én måned**, fra den blev lavet hos Trustpilot. Den stod i
   ønskedokumentet den 9. oktober 2026, så den udløber senest omkring den 9.
-  november. Går siden live senere, viser Trustpilot et nyt filnavn — reglen er
-  den samme: indholdet er filnavnet uden `.html`.
-- Tjek, at Trustpilot stadig viser det samme filnavn, før I trykker "Verificér
-  domæne". Filen må gerne slettes igen, når domænet er verificeret.
+  november. Viser Trustpilot et andet filnavn, er reglen den samme: indholdet er
+  filnavnet uden `.html`.
+- Filen må gerne slettes igen, når domænet er verificeret.
 
-Vil I ikke vente på, at siden går live, så brug **"Verificér med DNS"** hos
-Trustpilot i stedet. Kopiér den linje, Trustpilot viser
-(`trustpilot-one-time-verification-id=…`), og opret den som en TXT-record på
-domænet i DanDomains kundecenter under DNS-administration. Det virker, selvom
-siden ikke er live. DanDomain åbner kun for DNS-administration, når domænet står
-som DNS Hotel, Webhotel eller Mailhotel.
+Virker filen ikke, så brug **"Verificér med DNS"** hos Trustpilot i stedet.
+Kopiér den linje, Trustpilot viser (`trustpilot-one-time-verification-id=…`), og
+opret den som en TXT-record på domænet i DanDomains kundecenter under
+DNS-administration.
 
 ### Webhotel i persondatapolitikken
 
-Den gule boks er væk. `persondatapolitik.html` beskriver nu webhotellet uden at
-nævne det ved navn, og teksten passer, uanset hvor siden kommer til at ligge:
-webhotellet ser kun de tekniske oplysninger (IP-adresse, tidspunkt, hvilke sider
-der hentes), og det, man skriver i formularerne, bliver ikke gemt dér.
+Siden ligger på GitHub Pages, og `persondatapolitik.html` nævner nu GitHub, Inc.
+som webhotel. Flytter siden et andet sted hen, skal de to afsnit lige efter
+kommentaren i filen skiftes ud. Begge tekster står herunder.
 
-**Når siden går live, skal navnet skrives ind.** De to afsnit står lige efter
-kommentaren `Ved go-live` i filen. Erstat dem med den tekst, der passer.
-
-GitHub Pages, hvor forhåndsvisningen ligger i dag:
+GitHub Pages (bruges nu):
 
 ```html
 <p>Vores hjemmeside ligger hos <strong>GitHub, Inc.</strong> (tjenesten GitHub Pages), som er hjemmehørende i USA. Hjemmesiden har ingen database, så de oplysninger, du skriver i vores formularer, bliver ikke gemt hos GitHub — de sendes til os via vores formularudbyder som beskrevet ovenfor.</p>
@@ -455,7 +446,7 @@ Rettet i sidste runde (ønskedokument 21):
    persondatapolitikken"). Cookiesiden skrev, at der ikke opsamles IP-adresser —
    det gør ethvert webhotel, så den sætning er rettet.
 
-Mangler stadig: navnet på webhotellet, når siden går live.
+Webhotellet er nu nævnt ved navn (GitHub, Inc.).
 
 Bør læses igennem af jer — eller en jurist — før siden går live. Det er ikke
 rettet, fordi det er jeres tekst og jeres valg:
