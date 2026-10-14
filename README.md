@@ -227,12 +227,12 @@ Alle farver ligger som CSS-variabler i toppen af `style.css`. Brandrøden
 
 ### Åbningstider
 
-Åbningstiderne står fire steder. Ændres de, skal de rettes alle steder:
+Åbningstiderne står fire steder — alle med teksten "Mandag – Fredag: Kl. 9–17" og
+"Lørdag & Søndag: Lukket". Ændres de, skal de rettes alle steder:
 
-- footeren på alle sider (`fod__tider`) og menuen på alle sider (`menu__tid`):
-  "Mandag – Fredag: Kl. 9–17" og "Lørdag & Søndag: Lukket"
-- det mørke "Ring til os"-kort på `kontakt/index.html`:
-  "Mandag til fredag kl. 9–17" og "Lørdag og søndag lukket"
+- footeren på alle sider (`fod__tider`)
+- menuen på alle sider (`menu__tid`)
+- det mørke "Ring til os"-kort på `kontakt/index.html`
 - den strukturerede data øverst i `index.html` og `kontakt/index.html`
   (`openingHoursSpecification`)
 
