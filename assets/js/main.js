@@ -35,8 +35,20 @@
        milepæle, I har passeret, bliver markeret på vejen. null = skjult. */
     YOUTUBE_ABONNENTER: null,
 
-    MAKS_FILER: 8,
-    MAKS_FIL_MB: 12
+    /* Billeder i bestillingsformularen.
+       Formspree tager højst 25 MB pr. fil og afbryder en afsendelse, der varer
+       over 30 sekunder. Derfor gøres billederne mindre i browseren, før de sendes. */
+    MAKS_FILER: 5,          // Formspree skriver selv både 5 og 10 pr. forespørgsel — 5 er den sikre side
+    MAKS_FIL_MB: 10,        // pr. billede, efter det er gjort mindre
+    MAKS_I_ALT_MB: 15,      // alle billeder tilsammen
+    BILLED_KANT: 1920,      // længste side i pixels, når billedet er gjort mindre (0 = send billederne, som de er)
+    BILLED_KVALITET: 0.8,   // JPEG-kvalitet, 0-1
+
+    // Så længe ventes der på svar, før et forsøg opgives
+    SEND_TIMEOUT_SEK: 40,
+
+    // Hertil bedes kunden maile billederne, hvis de ikke kan sendes med formularen
+    BILLED_MAIL: "Kundeservicegarageklar@hotmail.com"
   };
 
   /* ------------------------------------------------------------ hjælpere */
@@ -45,6 +57,27 @@
 
   function kr(n) {
     return new Intl.NumberFormat("da-DK").format(Math.round(n)) + " kr.";
+  }
+
+  /* "2026-06-11" -> "11/6-2026 (torsdag)".
+     Et datofelt afleverer altid år-måned-dag, uanset hvordan browseren viser
+     datoen. Selve datoen laves ved at flytte rundt på teksten — der bruges med
+     vilje ikke new Date("2026-06-11"), for den læses som midnat UTC og kan give
+     dagen før på en enhed i en anden tidszone. */
+  var UGEDAGE = ["søndag", "mandag", "tirsdag", "onsdag", "torsdag", "fredag", "lørdag"];
+
+  function danskDato(v) {
+    v = (v || "").trim();
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v);
+    if (!m) { return v || "Ikke oplyst"; }   // tomt felt, eller fritekst fra en browser uden datovælger
+    var aar = parseInt(m[1], 10), md = parseInt(m[2], 10), dag = parseInt(m[3], 10);
+    var tekst = dag + "/" + md + "-" + aar;
+
+    // Ugedagen slås op midt på dagen i lokal tid, så hverken tidszone eller
+    // sommertid kan rykke den. Findes datoen ikke (31/2), kommer der ingen ugedag på.
+    var d = new Date(aar, md - 1, dag, 12);
+    if (d.getMonth() === md - 1 && d.getDate() === dag) { tekst += " (" + UGEDAGE[d.getDay()] + ")"; }
+    return tekst;
   }
 
   var FOKUSERBARE =
@@ -405,12 +438,20 @@
 
   function cifre(s) { return (s || "").replace(/\D/g, ""); }
 
+  // Bevidst løs: fanger tastefejl som "ole@" og "ole@gmail", ikke mere.
+  var EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  // Det der tjekkes: de påkrævede felter — og e-mail, hvis den er udfyldt.
+  var TJEKKES = '[required], input[type="email"]';
+
   function valider(form) {
     var ok = true, foerste = null;
-    $$("[required]", form).forEach(function (felt) {
+    $$(TJEKKES, form).forEach(function (felt) {
       var v = (felt.value || "").trim();
-      var gyldig = v !== "";
-      if (gyldig && felt.type === "tel") { gyldig = cifre(v).length >= 8; }
+      var gyldig = v !== "" || !felt.required;
+      if (gyldig && v !== "" && felt.type === "tel") { gyldig = cifre(v).length >= 8; }
+      // E-mail er frivillig, men Formspree afviser hele forespørgslen, hvis den er skrevet forkert.
+      if (gyldig && v !== "" && felt.type === "email") { gyldig = EMAIL.test(v); }
       visFejl(felt, !gyldig);
       if (!gyldig) { ok = false; if (!foerste) { foerste = felt; } }
     });
@@ -422,35 +463,89 @@
   }
 
   function ryd(form) {
-    $$("[required]", form).forEach(function (felt) {
+    $$(TJEKKES, form).forEach(function (felt) {
       felt.addEventListener("input", function () {
         if (felt.getAttribute("aria-invalid") === "true") { visFejl(felt, false); }
       });
     });
   }
 
-  function kvittering(titel, tekst) {
+  // ekstra er valgfri: et afsnit mere under teksten (må indeholde et link).
+  function kvittering(titel, tekst, ekstra) {
     return '<div class="kvit">' +
       '<div class="kvit__ikon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
       '<path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
       '<h2>' + titel + '</h2><p>' + tekst + '</p>' +
+      (ekstra ? '<p>' + ekstra + '</p>' : '') +
       '<a class="knap knap--sort" href="index.html">Tilbage til forsiden</a></div>';
+  }
+
+  /* Oversætter Formsprees svar til noget, resten af koden kan reagere på.
+     Fejl kommer som JSON. En feltfejl har et feltnavn med:
+       { "errors": [{ "code": "TYPE_EMAIL", "field": "email", "message": "…" }] }
+     Fejlkoden mangler ofte. Sådan svarede den rigtige formular (status 400), da
+     den fik et billede med på et abonnement uden filer:
+       { "error": "File Uploads Not Permitted",
+         "errors": [{ "message": "File Uploads Not Permitted" }] }
+     Derfor genkendes en filfejl både på koden og på selve teksten.
+     status 0 betyder, at der slet ikke kom et svar (intet net, afbrudt, timeout). */
+  var FILFEJL = /^(NO_FILE_UPLOADS|TOO_MANY_FILES|FILES_TOO_BIG)$|file uploads? not permitted/i;
+
+  function tolk(status, tekst) {
+    var j = {};
+    try { j = JSON.parse(tekst) || {}; } catch (e) { /* ikke JSON — fx en fejlside undervejs */ }
+
+    var svar = {
+      ok: status >= 200 && status < 300,
+      status: status,
+      koder: [],        // Formsprees fejlkoder
+      beskeder: [],     // Formsprees egne fejltekster (engelske)
+      felter: [],       // navne på felter, Formspree ikke vil godtage
+      filfejl: false    // true, når fejlen handler om de vedhæftede filer
+    };
+    (Array.isArray(j.errors) ? j.errors : []).forEach(function (f) {
+      if (f.code) { svar.koder.push(f.code); }
+      if (f.message) { svar.beskeder.push(f.message); }
+      if (FILFEJL.test(f.code || "") || FILFEJL.test(f.message || "")) {
+        svar.filfejl = true;
+      } else if (f.field) {
+        svar.felter.push(f.field);
+      }
+    });
+    if (typeof j.error === "string" && j.error) {
+      if (!svar.beskeder.length) { svar.beskeder.push(j.error); }
+      if (FILFEJL.test(j.error)) { svar.filfejl = true; }
+    }
+    if (status === 413) { svar.filfejl = true; }   // "for stor" fra et led foran Formspree
+    return svar;
   }
 
   /**
    * Sender formulardata. Er FORM_ENDPOINT tom, køres demo-tilstand:
    * data logges i konsollen og kvitteringen vises.
+   *
+   * faerdig(ok, svar) — svar kommer fra tolk() og fortæller, hvad der gik galt.
+   * tekst er valgfri og vises på knappen imens (ellers "Sender …").
    */
-  function send(form, data, knap, faerdig) {
+  function send(form, data, knap, faerdig, tekst) {
     var oprindelig = knap.innerHTML;
     knap.disabled = true;
-    knap.innerHTML = "Sender …";
+    knap.innerHTML = tekst || "Sender …";
+
+    // Knappen sættes tilbage, FØR faerdig() kaldes — så faerdig() selv kan sende én gang til.
+    function slut(svar) {
+      knap.disabled = false;
+      knap.innerHTML = oprindelig;
+      faerdig(svar.ok, svar);
+    }
 
     if (!KONFIG.FORM_ENDPOINT) {
       var udskrift = {};
-      data.forEach(function (v, k) { udskrift[k] = (v instanceof File) ? v.name : v; });
+      data.forEach(function (v, k) {
+        udskrift[k] = (v instanceof Blob) ? (v.name || "fil") + " (" + v.size + " bytes)" : v;
+      });
       console.info("[GarageKlar] Demo-tilstand — intet er sendt. Data:", udskrift);
-      setTimeout(function () { faerdig(true); }, 700);
+      setTimeout(function () { slut(tolk(200, "")); }, 700);
       return;
     }
 
@@ -458,18 +553,29 @@
       data.append(k, KONFIG.FORM_EKSTRA[k]);
     });
 
+    // Uden en grænse kan knappen stå på "Sender …" for evigt på en dårlig forbindelse.
+    var styring = window.AbortController ? new AbortController() : null;
+    var ur = setTimeout(function () {
+      if (styring) { styring.abort(); }
+    }, KONFIG.SEND_TIMEOUT_SEK * 1000);
+
     // Accept: application/json får Formspree til at svare med JSON i stedet for
     // at omdirigere til deres egen kvitteringsside.
     fetch(KONFIG.FORM_ENDPOINT, {
       method: "POST",
       body: data,
-      headers: { "Accept": "application/json" }
+      headers: { "Accept": "application/json" },
+      signal: styring ? styring.signal : undefined
     })
-      .then(function (r) { faerdig(r.ok); })
-      .catch(function () { faerdig(false); })
-      .then(function () {
-        knap.disabled = false;
-        knap.innerHTML = oprindelig;
+      // Svaret læses altid — også ved fejl. Det er dér, Formspree skriver hvorfor.
+      .then(function (r) {
+        return r.text().then(function (t) { return tolk(r.status, t); });
+      })
+      .catch(function () { return tolk(0, ""); })
+      // Står til sidst, så en fejl inde i faerdig() ikke bliver til "kunne ikke sendes".
+      .then(function (svar) {
+        clearTimeout(ur);
+        slut(svar);
       });
   }
 
@@ -535,83 +641,358 @@
     $("#f-tillaeg").value = tillaeg || "Ingen";
     $("#f-pris").value    = opgave ? (fra ? "Fra " + fra + " kr." : "Kontakt os") : "";
 
-    /* --- billedupload --- */
+    /* --- billedupload ---
+       To felter: "Tag et billede" (kameraet) og "Vælg billeder" (billeder der
+       allerede ligger på telefonen eller computeren).
+
+       Billederne gøres mindre i browseren, før de sendes: et telefonbillede på
+       4-10 MB bliver til omkring 0,5 MB. Formspree afbryder en afsendelse, der
+       varer over 30 sekunder, så det afgør, om billederne når frem på mobilnet.
+       Kan browseren ikke læse et billede (fx HEIC i Chrome), sendes originalen. */
     var filfelt = $("#billeder");
+    var kamerafelt = $("#billeder-kamera");
     var liste = $("#filliste");
     var uploadboks = $("#uploadboks");
-    var valgte = [];
+    var filtal = $("#filtal");
+    var filbesked = $("#filbesked");
 
-    function tegnFiler() {
-      liste.innerHTML = "";
-      valgte.forEach(function (fil, i) {
-        var d = document.createElement("div");
-        d.className = "fil";
-        var url = URL.createObjectURL(fil);
-        d.innerHTML =
-          '<img src="' + url + '" alt="">' +
-          '<span class="fil__navn">' + fil.name + '</span>' +
-          '<button type="button" aria-label="Fjern billede">' +
-          '<svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button>';
-        $("button", d).addEventListener("click", function () {
-          URL.revokeObjectURL(url);
-          valgte.splice(i, 1);
-          tegnFiler();
-        });
-        liste.appendChild(d);
+    var MB = 1024 * 1024;
+    var valgte = [];        // klar til afsendelse: { fil, navn, url }
+    var koe = [];           // venter på at blive gjort klar
+    var arbejder = false;   // true, mens køen kører
+    var sprunget = [];      // beskeder om det, der ikke kom med
+    var naarKlar = null;    // sat, hvis der trykkes "Send", mens køen kører
+
+    function mb(bytes) { return (bytes / MB).toFixed(1).replace(".", ",") + " MB"; }
+
+    function samlet() {
+      return valgte.reduce(function (sum, p) { return sum + p.fil.size; }, 0);
+    }
+
+    /* File.type gættes ud fra filendelsen og kan være tom — fx .heic i Chrome og
+       Edge på Windows. Derfor godkendes et billede også på endelsen alene. */
+    function erBillede(f) {
+      if (/^image\//.test(f.type)) { return f.type !== "image/svg+xml"; }
+      return /\.(jpe?g|png|gif|webp|heic|heif|avif|bmp|tiff?)$/i.test(f.name || "");
+    }
+
+    function opdaterTal() {
+      var n = valgte.length;
+      if (arbejder) {
+        filtal.textContent = "Gør billederne klar … ";
+      } else if (n) {
+        filtal.textContent = n + " billede" + (n === 1 ? "" : "r") + " klar til at blive sendt (" + mb(samlet()) + "). ";
+      } else {
+        filtal.textContent = "";
+      }
+    }
+
+    /* Gør ét billede mindre: højst BILLED_KANT på den længste side, gemt som JPEG.
+       Kalder tilbage med det nye billede — eller med null, når originalen skal
+       bruges (kan ikke læses, er lille nok i forvejen, eller blev ikke mindre). */
+    function skalerNed(fil, faerdig) {
+      // BILLED_KANT: 0 slår det hele fra — så sendes billederne, som de er.
+      if (!KONFIG.BILLED_KANT) { faerdig(null); return; }
+
+      var url = URL.createObjectURL(fil);
+      var img = new Image();
+      var afsluttet = false;
+      var ur;
+
+      function slut(blob) {
+        if (afsluttet) return;
+        afsluttet = true;
+        clearTimeout(ur);
+        URL.revokeObjectURL(url);
+        faerdig(blob);
+      }
+
+      // Giver en fil hverken "load" eller "error", må køen ikke gå i stå.
+      ur = setTimeout(function () { slut(null); }, 20000);
+
+      img.onerror = function () { slut(null); };
+      img.onload = function () {
+        var b = img.naturalWidth, h = img.naturalHeight;
+        if (!b || !h) { slut(null); return; }
+
+        var faktor = Math.min(1, KONFIG.BILLED_KANT / Math.max(b, h));
+        // Lille nok i forvejen: lad billedet være.
+        if (faktor === 1 && fil.size <= MB && /^image\/(jpeg|png|webp)$/.test(fil.type)) { slut(null); return; }
+
+        try {
+          var c = document.createElement("canvas");
+          c.width = Math.round(b * faktor);
+          c.height = Math.round(h * faktor);
+          var ctx = c.getContext("2d");
+          ctx.fillStyle = "#fff";            // en gennemsigtig PNG må ikke få sort baggrund
+          ctx.fillRect(0, 0, c.width, c.height);
+          ctx.drawImage(img, 0, 0, c.width, c.height);
+
+          /* Sikkerhedstjek: en telefon, der mangler hukommelse, kan lade være med at
+             tegne noget uden at melde fejl. Så er lærredet ensfarvet — og så sendes
+             originalen i stedet for et tomt billede. */
+          var px = ctx.getImageData(0, 0, c.width, c.height).data, ens = true;
+          for (var i = 4004; i < px.length && ens; i += 4004) {
+            ens = px[i] === px[0] && px[i + 1] === px[1] && px[i + 2] === px[2];
+          }
+          if (ens) { c.width = c.height = 0; slut(null); return; }
+
+          c.toBlob(function (blob) {
+            c.width = c.height = 0;          // giver hukommelsen fri med det samme (Safari)
+            if (!blob || blob.type !== "image/jpeg") { slut(null); return; }
+            // Blev den ikke mindre, og er originalen et almindeligt format, så behold den.
+            if (blob.size >= fil.size && /^image\/(jpeg|png|webp|gif)$/.test(fil.type)) { slut(null); return; }
+            slut(blob);
+          }, "image/jpeg", KONFIG.BILLED_KVALITET);
+        } catch (e) { slut(null); }
+      };
+      img.src = url;
+    }
+
+    function tegnFil(post) {
+      var d = document.createElement("div");
+      d.className = "fil";
+
+      var img = document.createElement("img");
+      img.alt = "";
+      // Kan browseren ikke vise billedet (fx HEIC i Chrome), sendes det stadig med.
+      img.onerror = function () { d.classList.add("fil--ukendt"); };
+      img.src = post.url;
+
+      // textContent, ikke innerHTML: et filnavn kan indeholde < og &.
+      var navn = document.createElement("span");
+      navn.className = "fil__navn";
+      navn.textContent = post.navn;
+
+      var fjern = document.createElement("button");
+      fjern.type = "button";
+      fjern.setAttribute("aria-label", "Fjern " + post.navn);
+      fjern.innerHTML = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>';
+      fjern.addEventListener("click", function () {
+        // Find billedet selv — ikke et gemt nummer. Listen kan have ændret sig imens.
+        var i = valgte.indexOf(post);
+        if (i > -1) { valgte.splice(i, 1); }
+        URL.revokeObjectURL(post.url);
+        liste.removeChild(d);
+        opdaterTal();
+        // Fokus må ikke forsvinde sammen med knappen.
+        ($("button", liste) || filfelt).focus();
       });
-      $("#filtal").textContent = valgte.length
-        ? valgte.length + " billede" + (valgte.length === 1 ? "" : "r") + " valgt"
-        : "";
+
+      d.appendChild(img);
+      d.appendChild(navn);
+      d.appendChild(fjern);
+      liste.appendChild(d);
+    }
+
+    function naeste() {
+      var fil = koe.shift();
+      if (!fil) {
+        arbejder = false;
+        opdaterTal();
+        filbesked.textContent = sprunget.join(" ");
+        sprunget = [];
+        if (naarKlar) { var videre = naarKlar; naarKlar = null; videre(); }
+        return;
+      }
+      skalerNed(fil, function (mindre) {
+        var klar = mindre || fil;
+        var navn = fil.name || "billede";
+        if (mindre) { navn = navn.replace(/\.[^.]*$/, "") + ".jpg"; }
+
+        if (klar.size > KONFIG.MAKS_FIL_MB * MB) {
+          sprunget.push("“" + fil.name + "” er for stort (" + mb(klar.size) + ") og kom ikke med.");
+        } else if (samlet() + klar.size > KONFIG.MAKS_I_ALT_MB * MB) {
+          sprunget.push("“" + fil.name + "” kom ikke med, fordi billederne tilsammen fylder for meget.");
+        } else {
+          var post = { fil: klar, navn: navn, url: URL.createObjectURL(klar) };
+          valgte.push(post);
+          tegnFil(post);
+        }
+        naeste();
+      });
     }
 
     function tilfoej(filer) {
-      Array.prototype.forEach.call(filer, function (f) {
-        if (!/^image\//.test(f.type)) return;
-        if (f.size > KONFIG.MAKS_FIL_MB * 1024 * 1024) {
-          alert('"' + f.name + '" er for stor (maks ' + KONFIG.MAKS_FIL_MB + " MB).");
-          return;
+      var forMange = 0;
+      if (!arbejder) { sprunget = []; }
+
+      filer.forEach(function (f) {
+        if (!erBillede(f)) {
+          sprunget.push("“" + f.name + "” er ikke et billede og kom ikke med.");
+        } else if (f.size > 4 * KONFIG.MAKS_FIL_MB * MB) {
+          // Så store filer forsøges slet ikke — det kan vælte browseren på en telefon.
+          sprunget.push("“" + f.name + "” er alt for stort (" + mb(f.size) + ") og kom ikke med.");
+        } else if (valgte.length + koe.length + (arbejder ? 1 : 0) >= KONFIG.MAKS_FILER) {
+          forMange++;
+        } else {
+          koe.push(f);
         }
-        if (valgte.length >= KONFIG.MAKS_FILER) return;
-        valgte.push(f);
       });
-      tegnFiler();
+      if (forMange) {
+        sprunget.push("Du kan højst vedhæfte " + KONFIG.MAKS_FILER + " billeder — " + forMange + " kom ikke med.");
+      }
+
+      if (!arbejder) {
+        arbejder = true;
+        filbesked.textContent = "";
+        opdaterTal();
+        naeste();
+      }
     }
 
-    filfelt.addEventListener("change", function () { tilfoej(filfelt.files); filfelt.value = ""; });
+    [filfelt, kamerafelt].forEach(function (felt) {
+      if (!felt) return;
+      felt.addEventListener("change", function () {
+        // Kopiér listen, FØR feltet nulstilles — ellers kan den være tom, når køen når frem.
+        var filer = Array.prototype.slice.call(felt.files || []);
+        felt.value = "";          // så det samme billede kan vælges igen
+        tilfoej(filer);
+      });
+    });
 
-    ["dragenter", "dragover"].forEach(function (n) {
-      uploadboks.addEventListener(n, function (e) { e.preventDefault(); uploadboks.classList.add("over"); });
-    });
-    ["dragleave", "drop"].forEach(function (n) {
-      uploadboks.addEventListener(n, function (e) { e.preventDefault(); uploadboks.classList.remove("over"); });
-    });
-    uploadboks.addEventListener("drop", function (e) {
-      if (e.dataTransfer && e.dataTransfer.files) { tilfoej(e.dataTransfer.files); }
-    });
+    // if: så kan hele upload-boksen fjernes fra bestilling.html, uden at resten går i stykker.
+    if (uploadboks) {
+      ["dragenter", "dragover"].forEach(function (n) {
+        uploadboks.addEventListener(n, function (e) { e.preventDefault(); uploadboks.classList.add("over"); });
+      });
+      ["dragleave", "drop"].forEach(function (n) {
+        uploadboks.addEventListener(n, function (e) { e.preventDefault(); uploadboks.classList.remove("over"); });
+      });
+      uploadboks.addEventListener("drop", function (e) {
+        var filer = Array.prototype.slice.call((e.dataTransfer && e.dataTransfer.files) || []);
+        if (filer.length) {
+          tilfoej(filer);
+        } else {
+          filbesked.textContent = "Det, du slap, var ikke en fil. Gem billedet på computeren først, og træk filen herind.";
+        }
+      });
+    }
 
     /* --- afsendelse --- */
-    ryd(bestil);
-    bestil.addEventListener("submit", function (e) {
-      e.preventDefault();
-      if (!valider(bestil)) return;
+    var sendknap = $('button[type="submit"]', bestil);
+    var sendbesked = $("#bestilstatus");
 
+    /* Bygger det, der sendes. I andet forsøg (uden billeder) skrives der i stedet,
+       hvorfor de mangler — så I kan se, at I skal bede om dem. */
+    function byg(medBilleder, aarsag) {
       var data = new FormData(bestil);
-      valgte.forEach(function (f, i) { data.append("billede_" + (i + 1), f, f.name); });
+      data.set("onsket_dato", danskDato($("#b-dato").value));
+
+      var status = "Ingen";
+      if (valgte.length && medBilleder) {
+        valgte.forEach(function (p, i) {
+          // Løbenummer foran navnet: alt taget med iPhone-kameraet hedder "image.jpg".
+          data.append("billede_" + (i + 1), p.fil, (i + 1) + "-" + p.navn);
+        });
+        status = valgte.length + " stk. (" + mb(samlet()) + ") — ligger som links i mailen";
+      } else if (valgte.length) {
+        status = "Kunden valgte " + valgte.length + " billede(r), men de kunne IKKE sendes med (" + aarsag +
+          "). Kunden er bedt om at maile dem.";
+      }
+      data.append("billeder_status", status);
+
       data.append("_subject", "Ny forespørgsel fra prisberegneren — GarageKlar");
       data.append("_type", "Forespørgsel fra prisberegner");
       data.append("_side", location.href);
+      return data;
+    }
 
-      send(bestil, data, $('button[type="submit"]', bestil), function (ok) {
-        if (ok) {
-          $("#bestilkort").innerHTML = kvittering(
-            "Tak for din forespørgsel!",
-            "Vi har modtaget dine oplysninger og vender tilbage hurtigst muligt for at aftale det videre forløb. Du hører fra os på telefon."
-          );
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        } else {
-          alert("Noget gik galt. Prøv igen, eller ring til os på 70 70 78 80.");
+    // Årsagen, som den kommer til at stå i mailen til jer.
+    function aarsagTil(svar) {
+      var alt = svar.koder.concat(svar.beskeder).join(", ");
+      if (/NO_FILE_UPLOADS|not permitted/i.test(alt)) {
+        return "formularens abonnement hos Formspree tager ikke imod filer";
+      }
+      if (alt) { return alt; }
+      return svar.status ? "fejl " + svar.status : "intet svar — forbindelsen var for langsom eller blev afbrudt";
+    }
+
+    /* Kan det hjælpe at sende én gang til uden billeder? Ja, medmindre fejlen
+       tydeligt handler om noget andet. */
+    function kanSkyldesBilleder(svar) {
+      if (svar.filfejl) { return true; }            // Formspree siger det selv
+      if (svar.status === 429) { return false; }    // for mange forsøg på kort tid — vent i stedet
+      return !svar.felter.length;                   // et forkert felt bliver ikke rigtigt af at fjerne billederne
+    }
+
+    function kvitter(billederMangler) {
+      var navn = ($("#b-navn").value || "").trim();
+      var ekstra = "";
+      if (billederMangler) {
+        ekstra = "<strong>Dine billeder kom desværre ikke med.</strong> Send dem gerne på mail til " +
+          '<a href="mailto:' + KONFIG.BILLED_MAIL + "?subject=" +
+          encodeURIComponent("Billeder til forespørgsel" + (navn ? " — " + navn : "")) + '">' +
+          KONFIG.BILLED_MAIL + "</a>, og skriv dit navn og telefonnummer i mailen.";
+      }
+      valgte.forEach(function (p) { URL.revokeObjectURL(p.url); });
+
+      $("#bestilkort").innerHTML = kvittering(
+        "Tak for din forespørgsel!",
+        "Vi har modtaget dine oplysninger og vender tilbage hurtigst muligt for at aftale det videre forløb. Du hører fra os på telefon.",
+        ekstra
+      );
+      // Flyt fokus til kvitteringen, så den også bliver læst op af en skærmlæser.
+      var h = $("#bestilkort h2");
+      h.setAttribute("tabindex", "-1");
+      h.focus({ preventScroll: true });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function visSendfejl(svar) {
+      var tekst = "Forespørgslen blev ikke sendt. Prøv igen om lidt — eller ring til os på 70 70 78 80.";
+      if (svar.felter.indexOf("email") > -1) {
+        var mail = $("#b-email");
+        visFejl(mail, true);
+        mail.focus();
+        tekst = "E-mailadressen ser ikke rigtig ud. Ret den, eller lad feltet stå tomt, og send igen.";
+      } else if (svar.status === 429) {
+        tekst = "Der er sendt for mange forespørgsler på kort tid. Vent et minut, og prøv igen.";
+      } else if (svar.status === 0) {
+        tekst = "Vi kunne ikke få forbindelse. Tjek din internetforbindelse, og prøv igen — eller ring til os på 70 70 78 80.";
+      }
+      sendbesked.textContent = tekst;
+    }
+
+    function afsend() {
+      var medBilleder = valgte.length > 0;
+      sendbesked.textContent = "";
+
+      send(bestil, byg(medBilleder), sendknap, function (ok, svar) {
+        if (ok) { kvitter(false); return; }
+
+        /* En forespørgsel må aldrig gå tabt på grund af billederne. Kan fejlen
+           skyldes dem (ikke med i abonnementet, for store, for langsomt net),
+           sendes den én gang til uden — og kunden bedes maile billederne. */
+        if (medBilleder && kanSkyldesBilleder(svar)) {
+          send(bestil, byg(false, aarsagTil(svar)), sendknap, function (ok2, svar2) {
+            if (ok2) { kvitter(true); } else { visSendfejl(svar2); }
+          }, "Sender uden billeder …");
+          return;
         }
-      });
+        visSendfejl(svar);
+      }, medBilleder ? "Sender billeder …" : "");
+    }
+
+    ryd(bestil);
+    bestil.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (naarKlar) return;                 // venter allerede på billederne
+      if (!valider(bestil)) return;
+
+      // Billederne er stadig ved at blive gjort klar: vent, og send så af sig selv.
+      if (arbejder) {
+        var foer = sendknap.innerHTML;
+        sendknap.disabled = true;
+        sendknap.innerHTML = "Gør billederne klar …";
+        naarKlar = function () {
+          sendknap.disabled = false;
+          sendknap.innerHTML = foer;
+          afsend();
+        };
+        return;
+      }
+      afsend();
     });
   }
 

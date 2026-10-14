@@ -216,6 +216,12 @@ p { margin: 0; text-wrap: pretty; }
 }
 .knap--lys:hover { --knap-bg: rgba(255,255,255,.1); --knap-kant: #fff; }
 
+/* Sekundær knap på de mørke kort (kontaktsiden og anmeldelser) */
+.knap--moerk {
+  --knap-bg: var(--sort-3); --knap-fg: #fff; --knap-kant: rgba(255, 255, 255, .14);
+}
+.knap--moerk:hover { --knap-bg: var(--sort-4); --knap-kant: rgba(255, 255, 255, .3); }
+
 .knap--fuld { width: 100%; }
 .knap--stor { padding: 1.05rem 1.8rem; font-size: 1.02rem; }
 
@@ -1077,30 +1083,60 @@ a[href^="mailto:"] { overflow-wrap: anywhere; }
 /* ===================================================================
    ANMELDELSER
    =================================================================== */
-.anm__boks {
-  background: var(--hvid); border: 1px solid var(--linje);
-  border-radius: var(--r-l); padding: clamp(1.6rem, 4vw, 3rem);
-  text-align: center; box-shadow: var(--skygge-s);
+/* Mørkt kort i samme stil som "Ring til os"-kortet på kontaktsiden.
+   Her er med vilje hverken Trustpilot-logo eller stjerner: Trustpilots
+   varemærkeregler tillader ikke hjemmelavede udgaver, og stjerner uden
+   anmeldelser ville vise en bedømmelse, der ikke findes. */
+.anm__kort {
+  position: relative; isolation: isolate; overflow: hidden;
+  display: grid; gap: clamp(1.6rem, 4vw, 3.2rem);
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: center;
+  padding: clamp(1.4rem, 4.4vw, 3.2rem);
+  background: var(--sort); color: var(--paa-moerk);
+  border: 1px solid rgba(255, 255, 255, .1); border-radius: var(--r-l);
+  box-shadow: var(--skygge-l);
 }
-.anm__stjerner { display: inline-flex; gap: 5px; margin-bottom: 1.1rem; }
-.anm__stjerner span {
-  width: 34px; height: 34px; background: #00b67a;
-  display: grid; place-items: center; border-radius: 3px;
+.anm__kort::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background:
+    radial-gradient(75% 95% at 0% 0%, rgba(237, 26, 33, .24), transparent 62%),
+    repeating-linear-gradient(-68deg, rgba(255,255,255,.03) 0 2px, transparent 2px 11px);
 }
-.anm__stjerner svg { width: 24px; height: 24px; color: #fff; }
-.anm__logo {
-  display: inline-flex; align-items: center; gap: .5rem;
-  font-family: "Outfit", sans-serif; font-weight: 700; font-size: 1.15rem;
-  margin-bottom: .8rem;
-}
-.anm__logo svg { width: 24px; height: 24px; color: #00b67a; }
-.anm__boks p { color: var(--tekst-2); max-width: 58ch; margin: 0 auto 1.6rem; }
+@media (max-width: 860px) { .anm__kort { grid-template-columns: 1fr; } }
 
-.anm__tomt {
-  margin-top: 1.8rem; padding: 1rem 1.2rem;
-  border: 1px dashed var(--linje); border-radius: var(--r-m);
-  font-size: .84rem; color: var(--tekst-3); max-width: 62ch; margin-inline: auto;
+.anm__tekst p { color: var(--paa-moerk-2); max-width: 52ch; }
+.anm__tekst .anm__mrk {
+  font-family: "Outfit", sans-serif; font-size: .7rem; font-weight: 600;
+  letter-spacing: .22em; text-transform: uppercase; margin-bottom: .8rem;
 }
+.anm__titel { font-size: clamp(1.7rem, 4.2vw, 2.7rem); color: #fff; margin-bottom: 1rem; }
+.anm__titel em { display: block; font-style: normal; color: var(--roed); }
+.anm__knapper { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.6rem; }
+@media (max-width: 560px) { .anm__knapper .knap { flex: 1 1 100%; } }
+.anm__tekst .anm__note { margin-top: 1rem; font-size: .82rem; }
+
+.anm__trin {
+  padding: clamp(1.1rem, 2.6vw, 1.6rem);
+  background: var(--sort-2); border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: var(--r-m);
+}
+.anm__trin h3 { font-size: 1.05rem; color: #fff; margin-bottom: 1.1rem; }
+.anm__trin ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; counter-reset: anm; }
+.anm__trin li { position: relative; padding-left: 2.8rem; counter-increment: anm; }
+.anm__trin li::before {
+  content: counter(anm); position: absolute; left: 0; top: .1rem;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--roed); color: #fff; display: grid; place-items: center;
+  font-family: "Outfit", sans-serif; font-weight: 800; font-size: .88rem;
+}
+.anm__trin b { display: block; color: #fff; font-weight: 700; font-size: .96rem; }
+.anm__trin span { display: block; font-size: .88rem; line-height: 1.55; color: var(--paa-moerk-2); }
+
+.anm__ekstra {
+  margin-top: 1.6rem; text-align: center; font-size: .95rem; color: var(--tekst-2);
+}
+.anm__ekstra a { color: var(--roed-m); font-weight: 600; }
 
 /* ===================================================================
    OM OS
@@ -1390,7 +1426,7 @@ a[href^="mailto:"] { overflow-wrap: anywhere; }
    HTML-attributten som bredde, og logoet bliver trukket i bredden. */
 .fod__brand img { height: 30px; width: auto; margin-bottom: 1rem; }
 .fod__brand p { font-size: .92rem; max-width: 34ch; }
-.fod__sociale { display: flex; gap: .6rem; margin-top: 1.2rem; }
+.fod__sociale { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.2rem; }
 .fod__sociale a {
   width: 40px; height: 40px; border-radius: var(--r-s);
   border: 1px solid rgba(255, 255, 255, .18);
@@ -1411,19 +1447,10 @@ a[href^="mailto:"] { overflow-wrap: anywhere; }
 .fod address { font-style: normal; font-size: .93rem; display: grid; gap: .5rem; }
 .fod address a { display: inline-flex; align-items: center; gap: .5rem; overflow-wrap: anywhere; }
 .fod address svg { width: 15px; height: 15px; color: var(--roed); flex: none; }
-.fod address .fod__tider { display: inline-flex; align-items: center; gap: .5rem; }
-.menu__tid { display: block; color: var(--tekst-2); font-size: .88rem; padding-top: .2rem; }
-
-/* Åbningstider i sidekortet på kontaktsiden. */
-.sidekort .tider {
-  border: 1px solid var(--linje); border-radius: 10px;
-  padding: .75rem .9rem; margin-bottom: .9rem; line-height: 1.55;
-}
-.sidekort .tider b {
-  display: block; font-family: "Outfit", sans-serif;
-  font-size: .78rem; letter-spacing: .09em; text-transform: uppercase;
-  color: var(--roed); margin-bottom: .2rem;
-}
+/* Åbningstiderne står på to linjer — uret flugter med den første. */
+.fod address .fod__tider { display: inline-flex; align-items: flex-start; gap: .5rem; }
+.fod address .fod__tider svg { margin-top: .32em; }
+.menu__tid { display: block; color: var(--paa-moerk-2); font-size: .88rem; line-height: 1.5; padding-block: .2rem .35rem; }
 .fod__slogan {
   font-family: "Outfit", sans-serif; font-weight: 600;
   color: #fff; font-size: 1rem; margin-bottom: .45rem;
@@ -1543,18 +1570,21 @@ a[href^="mailto:"] { overflow-wrap: anywhere; }
 .form__note { font-size: .8rem; color: var(--tekst-3); line-height: 1.55; }
 .form__note a { color: var(--roed); }
 
+/* Besked over send-knappen, når en forespørgsel ikke kunne sendes */
+.form__status { margin-bottom: .8rem; font-size: .9rem; font-weight: 600; color: var(--roed-m); }
+.form__status:empty { margin: 0; }
+
 /* Upload */
 .upload {
   position: relative;
   border: 2px dashed var(--linje); border-radius: var(--r-m);
   padding: 1.6rem 1.2rem; text-align: center;
-  background: var(--sand); cursor: pointer;
+  background: var(--sand);
   transition: border-color .2s var(--ease), background-color .2s var(--ease);
 }
-.upload:hover, .upload.over { border-color: var(--roed); background: #fff5f5; }
-.upload input[type="file"] {
-  position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer;
-}
+.upload.over { border-color: var(--roed); background: #fff5f5; }
+/* Ellers blinker rammen, når man trækker en fil hen over ikonet og knapperne. */
+.upload.over * { pointer-events: none; }
 .upload__ikon {
   width: 44px; height: 44px; margin: 0 auto .7rem;
   border-radius: 50%; background: var(--hvid);
@@ -1564,6 +1594,16 @@ a[href^="mailto:"] { overflow-wrap: anywhere; }
 .upload__ikon svg { width: 21px; height: 21px; }
 .upload b { display: block; font-family: "Outfit", sans-serif; font-size: 1rem; }
 .upload span { font-size: .86rem; color: var(--tekst-2); }
+
+.upload__valg { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; margin-top: 1rem; }
+.upload__valg .knap { padding: .75rem 1.2rem; font-size: .92rem; cursor: pointer; }
+/* Filfelterne er skjult visuelt — fokusringen tegnes på knappen ved siden af. */
+.upload__valg input:focus-visible + .knap { outline: 3px solid var(--roed); outline-offset: 3px; }
+/* "Tag et billede" giver kun mening med et kamera i hånden: skjult ved mus og pegeplade. */
+@media (hover: hover) and (pointer: fine) { .upload__kamera { display: none; } }
+
+.upload__besked { margin-top: .6rem; font-size: .84rem; font-weight: 600; color: var(--roed-m); }
+.upload__besked:empty { margin: 0; }
 
 .filer { display: grid; grid-template-columns: repeat(auto-fill, minmax(86px, 1fr)); gap: .6rem; }
 .filer:empty { display: none; }
@@ -1585,6 +1625,13 @@ a[href^="mailto:"] { overflow-wrap: anywhere; }
   color: #fff; font-size: .6rem; text-align: center;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
+/* Billeder, browseren ikke selv kan vise (fx HEIC i Chrome) — de sendes stadig med. */
+.fil--ukendt img { display: none; }
+.fil--ukendt::before {
+  content: "Kan ikke vises her"; position: absolute; inset: 0 0 1.3rem 0;
+  display: grid; place-items: center; padding: .3rem;
+  font-size: .62rem; line-height: 1.3; color: var(--tekst-2); text-align: center;
+}
 
 /* Kvittering */
 .kvit { text-align: center; padding: 1rem 0; }
@@ -1597,6 +1644,9 @@ a[href^="mailto:"] { overflow-wrap: anywhere; }
 @keyframes pop { from { transform: scale(.5); opacity: 0; } to { transform: none; opacity: 1; } }
 .kvit h2 { margin-bottom: .6rem; }
 .kvit p { color: var(--tekst-2); max-width: 46ch; margin: 0 auto 1.6rem; }
+.kvit p a { color: var(--roed-m); font-weight: 600; }
+/* Overskriften får fokus, så kvitteringen bliver læst op — den skal ikke have ramme om sig. */
+.kvit h2:focus { outline: none; }
 
 /* ===================================================================
    BESTILLINGSSIDE (trin 2)
@@ -1753,6 +1803,68 @@ a[href^="mailto:"] { overflow-wrap: anywhere; }
 .sidekort__linje a { display: inline-flex; align-items: center; gap: .55rem; color: var(--tekst); text-decoration: none; font-weight: 600; }
 .sidekort__linje a:hover { color: var(--roed); }
 .sidekort__linje svg { width: 16px; height: 16px; color: var(--roed); flex: none; }
+
+/* Mørkt "Ring til os"-kort på kontaktsiden. Bygger oven på .sidekort
+   (placering, afrunding, sticky) og skifter kun flade og indhold. */
+.ringkort {
+  background: var(--sort); border-color: rgba(255, 255, 255, .1);
+  color: var(--paa-moerk); box-shadow: var(--skygge-m);
+  padding: clamp(1.4rem, 3.2vw, 2.1rem);
+}
+/* Kortet er højere end de øvrige sidekort — på lave skærme må det ikke klæbe,
+   ellers kan de nederste links ikke nås. */
+@media (max-height: 760px) { .ringkort { position: static; } }
+
+.ringkort .ringkort__mrk {
+  font-size: .7rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--paa-moerk-2); margin-bottom: .55rem;
+}
+.ringkort__nr {
+  display: block; width: fit-content;
+  font-family: "Outfit", sans-serif; font-weight: 800;
+  font-size: clamp(2.1rem, 11vw, 3.9rem); line-height: 1; letter-spacing: -.03em;
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+  color: var(--roed); text-decoration: none;
+  transition: color .2s var(--ease);
+}
+.ringkort__nr:hover { color: var(--roed-l); }
+/* I to spalter er kortet smalt — her følger tallet spaltens bredde. */
+@media (min-width: 901px) { .ringkort__nr { font-size: clamp(2.4rem, 4.6vw, 3.9rem); } }
+
+.ringkort__tider {
+  display: flex; align-items: flex-start; gap: .8rem;
+  margin-top: 1.4rem; padding: .95rem 1.05rem;
+  background: var(--sort-2); border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: var(--r-m);
+}
+.ringkort__tider svg { width: 20px; height: 20px; flex: none; margin-top: .12rem; color: var(--paa-moerk); }
+.ringkort .ringkort__tider p { font-size: .88rem; line-height: 1.55; color: var(--paa-moerk-2); }
+.ringkort__tider b { display: block; font-size: .98rem; font-weight: 700; color: #fff; margin-bottom: .1rem; }
+
+.ringkort .ringkort__note {
+  display: flex; align-items: flex-start; gap: .6rem;
+  margin-top: 1rem; font-size: .84rem; line-height: 1.55; color: var(--paa-moerk-2);
+}
+.ringkort__note svg { width: 16px; height: 16px; flex: none; margin-top: .2rem; }
+
+.ringkort .knap { margin-top: 1.4rem; }
+.ringkort .knap + .knap { margin-top: .7rem; }
+
+.ringkort__liste {
+  margin-top: 1.6rem; border-top: 1px solid rgba(255, 255, 255, .12);
+  display: grid; font-size: .92rem;
+}
+.ringkort__liste a {
+  display: flex; align-items: center; gap: .7rem;
+  padding: .9rem 0; color: #fff; font-weight: 600; text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+  transition: color .18s var(--ease);
+}
+.ringkort__liste a:last-child { border-bottom: 0; padding-bottom: .15rem; }
+.ringkort__liste a:hover { color: var(--roed-l); }
+.ringkort__liste svg { width: 17px; height: 17px; flex: none; color: var(--roed); }
+.ringkort__liste .pil { width: 15px; height: 15px; margin-left: auto; transition: transform .2s var(--ease); }
+.ringkort__liste a:hover .pil { transform: translateX(4px); }
 
 /* Trin-for-trin */
 .trin__grid {

@@ -94,39 +94,99 @@ Der er indbygget:
 - **Honeypot** (`_gotcha`) på begge formularer — Formspree kasserer automatisk
   indsendelser, hvor feltet er udfyldt. Det stopper de fleste simple spambots.
 - **`_subject`**, så mails lander med en læsbar emnelinje.
-
-⚠ **Vedhæftede billeder kræver et betalt Formspree-abonnement.** På gratisplanen
-bliver filerne ikke sendt med — resten af formularen kommer stadig igennem.
-Tjek at I får billederne med, første gang I tester bestillingsformularen.
+- **Dansk dato.** Ønsket dato står i mailen som `11/6-2026 (torsdag)` — ikke som
+  browserens `2026-06-11`. Er datoen ikke udfyldt, står der `Ikke oplyst`.
+- **Tjek af e-mail.** Feltet er frivilligt, men Formspree afviser hele
+  forespørgslen, hvis adressen er skrevet forkert. Derfor tjekkes den, før der
+  sendes.
 
 Bekræft desuden afsender-mailen i Formspree, ellers ender indsendelserne ingen
-steder.
+steder. Gratisplanen dækker 50 indsendelser om måneden for de to formularer
+tilsammen. Derefter gemmer Formspree dem uden at sende mail.
+
+#### Billeder i bestillingsformularen
+
+⚠ **Billeder kræver et betalt Formspree-abonnement** (Personal: 15 USD om
+måneden eller 120 USD om året — ca. 800 kr. om året, oktober 2026).
+
+Det er prøvet mod den rigtige formular den 13. oktober 2026: på gratisplanen
+svarer Formspree `400 File Uploads Not Permitted` og afviser **hele**
+forespørgslen, ikke kun billederne. Det var derfor, billeder ikke kunne
+vedhæftes — det har intet at gøre med, om siden er live.
+
+Formularen tager nu højde for det:
+
+- Bliver en forespørgsel med billeder afvist, sendes den automatisk én gang til
+  **uden** billeder, og kunden bliver bedt om at maile dem. Forespørgslen går
+  aldrig tabt. Feltet `billeder_status` i mailen fortæller, hvad der skete.
+- Billederne gøres mindre i browseren, før de sendes (længste side 1920 px,
+  typisk under 1 MB pr. billede). Formspree afbryder en afsendelse, der varer
+  over 30 sekunder, så det afgør, om billederne når frem på mobilnet.
+- På telefonen er der to knapper: **Tag et billede** (kameraet) og **Vælg
+  billeder** (billeder, der allerede ligger på telefonen). Før åbnede kameraet
+  direkte, så man ikke kunne vælge et billede, man havde taget i forvejen.
+- Filer, der ikke kommer med (ikke et billede, for mange, for store), bliver
+  nævnt i en rød linje under boksen. HEIC-billeder fra iPhone godtages, også når
+  browseren ikke selv kan vise dem.
+
+Med et betalt abonnement kommer billederne som **links i mailen**, ikke som
+vedhæftede filer, og de ligger hos Formspree i USA. Tallene (antal billeder,
+størrelse, ventetid) står øverst i `assets/js/main.js`. "Maks 5 billeder" står
+også som tekst i `bestilling.html` — ret begge steder.
+
+Vil I ikke betale for upload, så erstat upload-blokken i `bestilling.html` (den
+`<div>`, der starter lige efter kommentaren `<!-- billedupload`) med en linje om
+at sende billederne på mail. Scriptet klarer sig uden boksen.
+
+Ikke afprøvet endnu: en rigtig iPhone og en rigtig Android-telefon. Koden er
+testet i Chrome på computer med en efterlignet telefon.
 
 ### 2. Udfyld de manglende oplysninger
 
 | Hvor | Hvad mangler |
 |---|---|
-| `persondatapolitik.html` | Navnet på **webhotel/hostmaster** (markeret i en gul boks på siden) |
-| `index.html` | **Trustpilot TrustBox** — indsæt jeres widget-kode i `<div id="trustbox">` |
-| `index.html` + footer | **YouTube-URL** (står nu som `@garageklar`). Facebook-linket er rettet. |
+| `persondatapolitik.html` | Navnet på **webhotellet** — skrives ind, når siden går live (se "Webhotel i persondatapolitikken") |
+| Trustpilot | **Profilen findes ikke offentligt endnu** — de to knapper på forsiden giver "siden findes ikke", indtil domænet er verificeret (se "Trustpilot") |
+| `index.html` + footer | **YouTube-URL** (står nu som `@garageklar`). Facebook, Instagram og TikTok er rigtige. |
 | `assets/js/main.js` | **`YOUTUBE_ABONNENTER`** — antal abonnenter til roadmappen i "Vores drøm" |
 
-### 3. Trustpilot-anmeldelser
+### 3. Trustpilot
 
-Der er **bevidst ikke skrevet eksempel-anmeldelser** ind i koden. Opdigtede
-anmeldelser er ulovlige efter markedsføringsloven. Så snart I opretter profilen på
-Trustpilot, henter widgetten automatisk de rigtige anmeldelser ind.
+Sektionen "Hvad siger vores kunder?" på forsiden er et mørkt kort med to knapper
+— **Skriv en anmeldelse** og **Se vores profil** — og tre trin, der viser, hvordan
+man gør.
+
+Der er **med vilje hverken eksempel-anmeldelser, Trustpilot-logo eller stjerner**
+på siden:
+
+- Opdigtede anmeldelser og stjerner uden rigtige anmeldelser er vildledende efter
+  markedsføringsloven. De fem grønne stjerner, der stod før, viste en bedømmelse,
+  som ikke findes.
+- Trustpilots varemærkeregler tillader ikke hjemmelavede udgaver af deres logo og
+  stjerner ("The Customer may not use other variations of Trustpilot Designs").
+
+Når I har fået anmeldelser, kan Trustpilots egen widget (TrustBox) sættes ind i
+`<div id="trustbox">` i `index.html`. Den viser de rigtige stjerner og
+anmeldelser. Se afsnittet om cookies, før den sættes ind.
+
+⚠ Den 13. oktober 2026 svarede både `dk.trustpilot.com/review/garageklar.dk` og
+`dk.trustpilot.com/evaluate/garageklar.dk` med "siden findes ikke". Knapperne
+virker først, når profilen er aktiv — se "Trustpilot-verifikation" længere nede.
+**Tjek begge knapper, før siden går live.**
 
 ### 4. Cookies
 
-Siden sætter i sin nuværende form **ingen cookies**, bruger ingen localStorage,
-har ingen eksterne scripts og ingen indlejrede videoer, og skrifttyperne ligger
-som filer på sitet selv. Det er efterprøvet i koden — derfor er der ikke behov
-for en cookiebanner endnu.
+Siden sætter **ingen cookies**, bruger ingen localStorage, har ingen eksterne
+scripts og ingen indlejrede videoer, og skrifttyperne ligger som filer på sitet
+selv. Derfor skal der ikke være noget cookiebanner. `cookiepolitik.html` siger nu
+det samme — den gamle skabelontekst om statistik og målrettede annoncer er væk,
+og noten "Til udvikleren" er fjernet fra siden.
 
 Tilføjer I senere Google Analytics, Meta Pixel, Trustpilot-widget eller indlejrede
-YouTube-videoer, **skal** der sættes en cookiebanner op med forudgående samtykke, og
-afsnittet om tredjeparter i `cookiepolitik.html` skal opdateres.
+YouTube-videoer, skal det tjekkes først. Gemmer eller læser de noget hos den
+besøgende, **skal** der sættes et cookiebanner op med forudgående samtykke, og
+`cookiepolitik.html` og `persondatapolitik.html` skal nævne tredjeparten.
+Cookiesiden lover i dag, at intet er indlejret, og at der bliver spurgt først.
 
 ---
 
@@ -163,6 +223,17 @@ videre til trin 2, så I kan give en fast pris ud fra oplysningerne.
 
 Alle farver ligger som CSS-variabler i toppen af `style.css`. Brandrøden
 (`--roed: #ed1a21`) er pipettet direkte fra jeres logo.
+
+### Åbningstider
+
+Åbningstiderne står fire steder. Ændres de, skal de rettes alle steder:
+
+- footeren på alle sider (`fod__tider`) og menuen på alle sider (`menu__tid`):
+  "Mandag – Fredag: Kl. 9–17" og "Lørdag & Søndag: Lukket"
+- det mørke "Ring til os"-kort på `kontakt/index.html`:
+  "Mandag til fredag kl. 9–17" og "Lørdag og søndag lukket"
+- den strukturerede data øverst i `index.html` og `kontakt/index.html`
+  (`openingHoursSpecification`)
 
 ### Før/efter-billeder
 
@@ -250,23 +321,78 @@ Husk samtidig at rette YouTube-URL'en — den står stadig som `@garageklar`.
 
 ### Trustpilot-verifikation
 
-Filen `60621c00-6c6f-4aed-91ea-bce8a0333001.html` skal ligge i sidens rod, så
-`https://garageklar.dk/60621c00-6c6f-4aed-91ea-bce8a0333001.html` svarer.
+Trustpilot vil se filen `60621c00-6c6f-4aed-91ea-bce8a0333001.html` i sidens rod,
+så `https://garageklar.dk/60621c00-6c6f-4aed-91ea-bce8a0333001.html` svarer.
 
-Den er **ikke** lagt ind, fordi indholdet skal matche Trustpilots fil præcis —
-gætter man, fejler verifikationen. Send filen (eller indholdet), så lægger jeg
-den i roden. `.nojekyll` er allerede oprettet, så GitHub Pages serverer
-rodfiler uændret.
+Filen lå ikke i den delte Drive-mappe, men den behøver ikke blive sendt.
+Trustpilots egen kode laver filen i browseren, og indholdet er altid filnavnet
+uden `.html` — 36 tegn, uden linjeskift og uden HTML omkring. Den kan altså
+oprettes præcist (i Git Bash, stående i sidens rod):
 
-Bemærk også: adressen peger på **garageklar.dk**, så verifikationen kan først
-gennemføres, når siden ligger på det rigtige domæne — ikke på github.io-forhåndsvisningen.
+```
+printf '%s' '60621c00-6c6f-4aed-91ea-bce8a0333001' > 60621c00-6c6f-4aed-91ea-bce8a0333001.html
+```
+
+Den er **ikke lagt ind endnu**, fordi den først kan bruges, når siden ligger på
+garageklar.dk:
+
+- Trustpilot henter filen over HTTPS på selve domænet. I dag viser garageklar.dk
+  DanDomains parkeringsside uden gyldigt certifikat, så verifikationen kan ikke
+  gå igennem fra forhåndsvisningen på github.io.
+- Filen gælder kun **én måned**, fra den blev lavet hos Trustpilot. Den stod i
+  ønskedokumentet den 9. oktober 2026, så den udløber senest omkring den 9.
+  november. Går siden live senere, viser Trustpilot et nyt filnavn — reglen er
+  den samme: indholdet er filnavnet uden `.html`.
+- Tjek, at Trustpilot stadig viser det samme filnavn, før I trykker "Verificér
+  domæne". Filen må gerne slettes igen, når domænet er verificeret.
+
+Vil I ikke vente på, at siden går live, så brug **"Verificér med DNS"** hos
+Trustpilot i stedet. Kopiér den linje, Trustpilot viser
+(`trustpilot-one-time-verification-id=…`), og opret den som en TXT-record på
+domænet i DanDomains kundecenter under DNS-administration. Det virker, selvom
+siden ikke er live. DanDomain åbner kun for DNS-administration, når domænet står
+som DNS Hotel, Webhotel eller Mailhotel.
 
 ### Webhotel i persondatapolitikken
 
-`persondatapolitik.html` har stadig en gul boks med
-`[navn på webhotel/hostmaster indsættes her]`. Den skal udfyldes med navnet på
-det webhotel, siden ender hos — og I skal have en databehandleraftale med dem.
-Bliver siden liggende på GitHub Pages, er svaret "GitHub, Inc.".
+Den gule boks er væk. `persondatapolitik.html` beskriver nu webhotellet uden at
+nævne det ved navn, og teksten passer, uanset hvor siden kommer til at ligge:
+webhotellet ser kun de tekniske oplysninger (IP-adresse, tidspunkt, hvilke sider
+der hentes), og det, man skriver i formularerne, bliver ikke gemt dér.
+
+**Når siden går live, skal navnet skrives ind.** De to afsnit står lige efter
+kommentaren `Ved go-live` i filen. Erstat dem med den tekst, der passer.
+
+GitHub Pages, hvor forhåndsvisningen ligger i dag:
+
+```html
+<p>Vores hjemmeside ligger hos <strong>GitHub, Inc.</strong> (tjenesten GitHub Pages), som er hjemmehørende i USA. Hjemmesiden har ingen database, så de oplysninger, du skriver i vores formularer, bliver ikke gemt hos GitHub — de sendes til os via vores formularudbyder som beskrevet ovenfor.</p>
+<p>Når du besøger hjemmesiden, modtager GitHub de tekniske oplysninger, der er nødvendige for at vise siden: din IP-adresse, tidspunktet for besøget, hvilke sider og filer der hentes, og oplysninger om din browser og enhed. GitHub oplyser, at IP-adressen bliver logget og gemt af sikkerhedshensyn. GitHub behandler oplysningerne efter sine egne vilkår og sin egen <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">privatlivspolitik</a>, og de kan blive behandlet uden for EU/EØS, herunder i USA. GitHub er certificeret under EU-U.S. Data Privacy Framework, som EU-Kommissionen har vurderet giver et tilstrækkeligt beskyttelsesniveau. Vi bruger ikke oplysningerne til statistik eller markedsføring.</p>
+```
+
+DanDomain, hvor domænet ligger:
+
+```html
+<p>Vores hjemmeside ligger på et webhotel hos <strong>Dandomain A/S</strong>, Højvangen 4, 8660 Skanderborg, CVR-nr. 29412006, som fungerer som vores databehandler. Hjemmesiden har ingen database, så de oplysninger, du skriver i vores formularer, bliver ikke gemt på webhotellet — de sendes til os via vores formularudbyder som beskrevet ovenfor.</p>
+<p>Når du besøger hjemmesiden, behandler Dandomain på vores vegne de tekniske oplysninger, der er nødvendige for at vise siden og beskytte den mod misbrug: din IP-adresse, tidspunktet for besøget, hvilke sider og filer der hentes, og oplysninger om din browser og enhed. Oplysningerne opbevares i Dandomains datacentre i Danmark. Vi bruger dem ikke til statistik eller markedsføring.</p>
+```
+
+Værd at vide, før I vælger:
+
+- **GitHub Pages** er gratis og kører allerede. Men GitHubs vilkår siger, at Pages
+  ikke er beregnet til at drive forretning på, GitHub tilbyder ingen
+  databehandleraftale til gratis konti, og besøgendes IP-adresser bliver logget
+  af et amerikansk firma. Sætningen "Vi har indgået databehandleraftaler med
+  vores databehandlere" lige under afsnittet passer så ikke på webhotellet. Koden
+  skal ligge offentligt, og denne README kan læses af alle på `/README.md`.
+- **Et dansk webhotel** — fx DanDomain, hvor domænet i forvejen ligger — koster et
+  abonnement, men giver en databehandleraftale, datacentre i Danmark og en aftale
+  i jeres eget navn. DanDomains prisliste viser "Kontakt os"; deres egne prisdata
+  siger 29 kr. om måneden i første periode og 159 kr. derefter, ekskl. moms — få
+  det bekræftet, før I bestiller. Filerne lægges op med FTP. `README.md`,
+  `.gitignore`, `.gitattributes`, `.nojekyll` og `kilde-materiale/` skal ikke med.
+
+Dette er udviklerens gennemgang, ikke juridisk rådgivning.
 
 ---
 
@@ -319,7 +445,35 @@ faktisk gør. De er rettet — **læs dem igennem, før siden går i luften:**
    adresse overalt. ⚠ **Bekræft at det er den rigtige** — ellers lander GDPR-
    anmodninger et sted, ingen læser.
 
-Mangler stadig: navnet på webhotellet, se afsnittet **Mangler fra jer**.
+Rettet i sidste runde (ønskedokument 21):
+
+4. **Cookiesiden** sagde stadig i indledningen, at siden bruger cookies til
+   statistik og målrettede annoncer. Det gør den ikke. Indledningen og afsnittet
+   "Cookies" siger nu, at der ingen cookies sættes, og at der bliver spurgt om
+   samtykke først, hvis det nogensinde ændrer sig. Noten "Til udvikleren" er væk.
+5. **Webhotellet** er beskrevet i persondatapolitikken uden navn (se "Webhotel i
+   persondatapolitikken"). Cookiesiden skrev, at der ikke opsamles IP-adresser —
+   det gør ethvert webhotel, så den sætning er rettet.
+
+Mangler stadig: navnet på webhotellet, når siden går live.
+
+Bør læses igennem af jer — eller en jurist — før siden går live. Det er ikke
+rettet, fordi det er jeres tekst og jeres valg:
+
+- Persondatapolitikken nævner betalingsoplysninger, ordrebekræftelse og
+  leveringsbekræftelse. Siden tager ikke imod betaling og sender ingen af delene.
+- Persondatapolitikken siger, at oplysninger slettes efter 5 år. Cookiesiden
+  siger, at der ikke kan gives en tidsramme. Vælg én regel.
+- Sætningen om, at navn og e-mail bliver overført til Trustpilot, passer kun, hvis
+  I selv sender kundeoplysninger til Trustpilot (fx invitationer). Følger kunden
+  bare linket, overfører I ingenting.
+- Der står, at overførslen til Formspree sker på grundlag af Formsprees
+  databehandleraftale. Formspree skriver selv, at de bruger EU's
+  standardkontrakter, men en egentlig databehandleraftale ligger ikke offentligt
+  — bed dem om den.
+- Henvendelser lander i en Hotmail-indbakke. Datatilsynet regner mailudbydere som
+  databehandlere, og den almindelige Hotmail-aftale har ingen databehandleraftale.
+  En firmamail på eget domæne løser det.
 
 ---
 
