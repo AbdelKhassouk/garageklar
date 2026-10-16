@@ -101,25 +101,28 @@ Der er indbygget:
   forespørgslen, hvis adressen er skrevet forkert. Derfor tjekkes den, før der
   sendes.
 
-Bekræft desuden afsender-mailen i Formspree, ellers ender indsendelserne ingen
-steder. Gratisplanen dækker 50 indsendelser om måneden for de to formularer
-tilsammen. Derefter gemmer Formspree dem uden at sende mail.
+Formspree-kontoen hedder "Garage Klar", og mails fra formularen går til
+**garageklar@hotmail.com** (indstillet i Formspree — ikke i koden). Kontoen kører
+på **Personal-planen** (købt 16. oktober 2026): 200 indsendelser om måneden for
+de to formularer tilsammen. Bliver grænsen nået, gemmer Formspree indsendelserne
+uden at sende mail.
 
 #### Billeder i bestillingsformularen
 
-⚠ **Billeder kræver et betalt Formspree-abonnement** (Personal: 15 USD om
-måneden eller 120 USD om året — ca. 800 kr. om året, oktober 2026).
+**Billeder virker.** Testet på www.garageklar.dk den 16. oktober 2026: en
+forespørgsel med et billede gik igennem i første forsøg, og billedet ligger på
+forespørgslen i Formspree. Kunden ser ingen besked om manglende billeder.
 
-Det er prøvet mod den rigtige formular den 13. oktober 2026: på gratisplanen
-svarer Formspree `400 File Uploads Not Permitted` og afviser **hele**
-forespørgslen, ikke kun billederne. Det var derfor, billeder ikke kunne
-vedhæftes — det har intet at gøre med, om siden er live.
-
-Formularen tager nu højde for det:
+Før opgraderingen svarede Formspree `400 File Uploads Not Permitted` og afviste
+**hele** forespørgslen, når der var billeder med — derfor kom billederne ikke
+med. Billeder kræver altså, at abonnementet er betalt. Formularen tager stadig
+højde for, at det kan gå galt:
 
 - Bliver en forespørgsel med billeder afvist, sendes den automatisk én gang til
   **uden** billeder, og kunden bliver bedt om at maile dem. Forespørgslen går
-  aldrig tabt. Feltet `billeder_status` i mailen fortæller, hvad der skete.
+  aldrig tabt. Feltet `billeder_status` i mailen fortæller, hvad der skete. Står
+  der "formularens abonnement hos Formspree tager ikke imod filer", er
+  abonnementet udløbet.
 - Billederne gøres mindre i browseren, før de sendes (længste side 1920 px,
   typisk under 1 MB pr. billede). Formspree afbryder en afsendelse, der varer
   over 30 sekunder, så det afgør, om billederne når frem på mobilnet.
@@ -130,12 +133,15 @@ Formularen tager nu højde for det:
   nævnt i en rød linje under boksen. HEIC-billeder fra iPhone godtages, også når
   browseren ikke selv kan vise dem.
 
-Med et betalt abonnement kommer billederne som **links i mailen**, ikke som
-vedhæftede filer, og de ligger hos Formspree i USA. Tallene (antal billeder,
+Billederne kommer som **links i mailen**, ikke som vedhæftede filer, og de ligger
+hos Formspree i USA. Formspree skriver ikke, hvor længe linkene virker. Billederne
+kan altid hentes i Formspree under formularen → Submissions (kræver login).
+Kontoen har 1 GB til billeder; når den er fuld, sletter Formspree de ældste filer
+først — gem de billeder, I skal bruge, i sagen. Tallene (antal billeder,
 størrelse, ventetid) står øverst i `assets/js/main.js`. "Maks 5 billeder" står
 også som tekst i `bestilling.html` — ret begge steder.
 
-Vil I ikke betale for upload, så erstat upload-blokken i `bestilling.html` (den
+Opsiger I abonnementet, så erstat upload-blokken i `bestilling.html` (den
 `<div>`, der starter lige efter kommentaren `<!-- billedupload`) med en linje om
 at sende billederne på mail. Scriptet klarer sig uden boksen.
 
@@ -278,8 +284,14 @@ tilbudsboksen og på ydelsessiderne:
 
 Skal et tal ændres, skal det rettes **tre steder**: `FRA_PRISER` i
 `assets/js/main.js`, prislisten i `priser/index.html` og prisboksen på den
-pågældende ydelsesside (`sidekort__pris` samt `price`/`minPrice` i den
-strukturerede data i toppen af filen).
+pågældende ydelsesside (`moerkkort__pris` — fx `<span>Fra</span> 595 kr.` — samt
+`price`/`minPrice` i den strukturerede data i toppen af filen). Bysiderne viser
+fra-prisen for garage (595 kr.) i deres egen prisboks.
+
+Prisboksen på ydelses- og områdesiderne er det samme mørke kort som "Ring til
+os" på kontaktsiden (klassen `moerkkort` i `style.css`). Rubrikken "Fast pris,
+før vi går i gang" og noten om "to mand" er skrevet ud for hver side, så hver
+side beholder sin egen tekst — ret dem direkte i siden.
 
 ---
 
@@ -458,10 +470,10 @@ rettet, fordi det er jeres tekst og jeres valg:
 - Sætningen om, at navn og e-mail bliver overført til Trustpilot, passer kun, hvis
   I selv sender kundeoplysninger til Trustpilot (fx invitationer). Følger kunden
   bare linket, overfører I ingenting.
-- Der står, at overførslen til Formspree sker på grundlag af Formsprees
-  databehandleraftale. Formspree skriver selv, at de bruger EU's
-  standardkontrakter, men en egentlig databehandleraftale ligger ikke offentligt
-  — bed dem om den.
+- Formspree skriver selv, at de bruger EU's standardkontrakter, men en egentlig
+  databehandleraftale ligger ikke offentligt. Persondatapolitikken nævner derfor
+  nu kun standardkontrakterne. Bed Formspree om en databehandleraftale, og skriv
+  den ind, når I har den.
 - Henvendelser lander i en Hotmail-indbakke. Datatilsynet regner mailudbydere som
   databehandlere, og den almindelige Hotmail-aftale har ingen databehandleraftale.
   En firmamail på eget domæne løser det.

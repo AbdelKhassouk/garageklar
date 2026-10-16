@@ -1171,6 +1171,17 @@ a[href^="mailto:"] { overflow-wrap: anywhere; }
 .droem__titel em { display: block; color: var(--roed); font-style: italic; margin-left: .94em; }
 .droem__lead { color: var(--paa-moerk); font-size: clamp(1rem, 2.2vw, 1.12rem); max-width: 46ch; }
 
+/* Mobil: titel, mærke, tekst og billedtekst står i midten, og titlen er større.
+   DRØM er stadig forskudt mod højre — margin-left flytter midten en halv
+   margin til højre, så blokken som helhed står centreret. */
+@media (max-width: 900px) {
+  .droem__intro { text-align: center; }
+  .droem__titel { font-size: clamp(3.4rem, 20vw, 5rem); }
+  .droem__titel em { margin-left: 1.24em; }
+  .droem__lead { margin-inline: auto; }
+  .droem__billede figcaption { text-align: center; }
+}
+
 /* --- de tre kort --- */
 .droem__kort {
   display: grid; gap: clamp(1rem, 2.2vw, 1.6rem);
@@ -1414,12 +1425,23 @@ a[href^="mailto:"] { overflow-wrap: anywhere; }
    FOOTER
    =================================================================== */
 .fod { background: var(--sort); color: var(--paa-moerk-2); padding-top: clamp(3rem, 7vw, 5rem); }
+/* Kontakt-spalten er den bredeste, så mailadressen står på én linje på en
+   almindelig computerskærm. */
 .fod__grid {
   display: grid; gap: clamp(1.8rem, 4vw, 3rem);
-  grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, .7fr) minmax(0, 1.55fr);
   padding-bottom: clamp(2rem, 5vw, 3.5rem);
 }
-@media (max-width: 900px) { .fod__grid { grid-template-columns: 1fr 1fr; } }
+/* Under 1150 px er der ikke plads til fire spalter med mailen på én linje:
+   logo og tekst får deres egen række, og de tre lister deler resten. */
+@media (max-width: 1150px) {
+  .fod__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.4fr); }
+  .fod__brand { grid-column: 1 / -1; }
+}
+@media (max-width: 900px) {
+  .fod__grid { grid-template-columns: 1fr 1fr; }
+  .fod__brand { grid-column: auto; }
+}
 @media (max-width: 560px) { .fod__grid { grid-template-columns: 1fr; } }
 
 /* width: auto er nødvendig — uden den bruger browseren width="900" fra
@@ -1804,22 +1826,23 @@ a[href^="mailto:"] { overflow-wrap: anywhere; }
 .sidekort__linje a:hover { color: var(--roed); }
 .sidekort__linje svg { width: 16px; height: 16px; color: var(--roed); flex: none; }
 
-/* Mørkt "Ring til os"-kort på kontaktsiden. Bygger oven på .sidekort
-   (placering, afrunding, sticky) og skifter kun flade og indhold. */
-.ringkort {
+/* Mørkt sidekort: "Ring til os" på kontaktsiden og prisboksen på ydelses- og
+   områdesiderne. Bygger oven på .sidekort (placering, afrunding, sticky) og
+   skifter kun flade og indhold. */
+.moerkkort {
   background: var(--sort); border-color: rgba(255, 255, 255, .1);
   color: var(--paa-moerk); box-shadow: var(--skygge-m);
   padding: clamp(1.4rem, 3.2vw, 2.1rem);
 }
 /* Kortet er højere end de øvrige sidekort — på lave skærme må det ikke klæbe,
    ellers kan de nederste links ikke nås. */
-@media (max-height: 760px) { .ringkort { position: static; } }
+@media (max-height: 760px) { .moerkkort { position: static; } }
 
-.ringkort .ringkort__mrk {
+.moerkkort .moerkkort__mrk {
   font-size: .7rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase;
   color: var(--paa-moerk-2); margin-bottom: .55rem;
 }
-.ringkort__nr {
+.moerkkort__nr {
   display: block; width: fit-content;
   font-family: "Outfit", sans-serif; font-weight: 800;
   font-size: clamp(2.1rem, 11vw, 3.9rem); line-height: 1; letter-spacing: -.03em;
@@ -1827,44 +1850,55 @@ a[href^="mailto:"] { overflow-wrap: anywhere; }
   color: var(--roed); text-decoration: none;
   transition: color .2s var(--ease);
 }
-.ringkort__nr:hover { color: var(--roed-l); }
+.moerkkort__nr:hover { color: var(--roed-l); }
 /* I to spalter er kortet smalt — her følger tallet spaltens bredde. */
-@media (min-width: 901px) { .ringkort__nr { font-size: clamp(2.4rem, 4.6vw, 3.9rem); } }
+@media (min-width: 901px) { .moerkkort__nr { font-size: clamp(2.4rem, 4.6vw, 3.9rem); } }
 
-.ringkort__tider {
+/* Prisen: "Fra" i hvid og halv størrelse, beløbet stort og rødt. */
+.moerkkort .moerkkort__pris {
+  font-family: "Outfit", sans-serif; font-weight: 800;
+  font-size: clamp(2.2rem, 11vw, 3.8rem); line-height: 1; letter-spacing: -.03em;
+  font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--roed);
+}
+.moerkkort__pris span { font-size: .5em; letter-spacing: -.01em; color: #fff; margin-right: .1em; }
+/* Største pris er "Fra 2.495 kr." — den skal kunne stå på én linje i den smalle spalte. */
+@media (min-width: 901px) { .moerkkort .moerkkort__pris { font-size: clamp(2.2rem, 4.1vw, 3.8rem); } }
+.moerkkort .moerkkort__under { margin-top: .5rem; font-size: .84rem; color: var(--paa-moerk-2); }
+
+.moerkkort__panel {
   display: flex; align-items: flex-start; gap: .8rem;
   margin-top: 1.4rem; padding: .95rem 1.05rem;
   background: var(--sort-2); border: 1px solid rgba(255, 255, 255, .12);
   border-radius: var(--r-m);
 }
-.ringkort__tider svg { width: 20px; height: 20px; flex: none; margin-top: .12rem; color: var(--paa-moerk); }
-.ringkort .ringkort__tider p { font-size: .88rem; line-height: 1.55; color: var(--paa-moerk-2); }
-.ringkort__tider b { display: block; font-size: .98rem; font-weight: 700; color: #fff; margin-bottom: .1rem; }
+.moerkkort__panel svg { width: 20px; height: 20px; flex: none; margin-top: .12rem; color: var(--paa-moerk); }
+.moerkkort .moerkkort__panel p { font-size: .88rem; line-height: 1.55; color: var(--paa-moerk-2); }
+.moerkkort__panel b { display: block; font-size: .98rem; font-weight: 700; color: #fff; margin-bottom: .1rem; }
 
-.ringkort .ringkort__note {
+.moerkkort .moerkkort__note {
   display: flex; align-items: flex-start; gap: .6rem;
   margin-top: 1rem; font-size: .84rem; line-height: 1.55; color: var(--paa-moerk-2);
 }
-.ringkort__note svg { width: 16px; height: 16px; flex: none; margin-top: .2rem; }
+.moerkkort__note svg { width: 16px; height: 16px; flex: none; margin-top: .2rem; }
 
-.ringkort .knap { margin-top: 1.4rem; }
-.ringkort .knap + .knap { margin-top: .7rem; }
+.moerkkort .knap { margin-top: 1.4rem; }
+.moerkkort .knap + .knap { margin-top: .7rem; }
 
-.ringkort__liste {
+.moerkkort__liste {
   margin-top: 1.6rem; border-top: 1px solid rgba(255, 255, 255, .12);
   display: grid; font-size: .92rem;
 }
-.ringkort__liste a {
+.moerkkort__liste a {
   display: flex; align-items: center; gap: .7rem;
   padding: .9rem 0; color: #fff; font-weight: 600; text-decoration: none;
   border-bottom: 1px solid rgba(255, 255, 255, .08);
   transition: color .18s var(--ease);
 }
-.ringkort__liste a:last-child { border-bottom: 0; padding-bottom: .15rem; }
-.ringkort__liste a:hover { color: var(--roed-l); }
-.ringkort__liste svg { width: 17px; height: 17px; flex: none; color: var(--roed); }
-.ringkort__liste .pil { width: 15px; height: 15px; margin-left: auto; transition: transform .2s var(--ease); }
-.ringkort__liste a:hover .pil { transform: translateX(4px); }
+.moerkkort__liste a:last-child { border-bottom: 0; padding-bottom: .15rem; }
+.moerkkort__liste a:hover { color: var(--roed-l); }
+.moerkkort__liste svg { width: 17px; height: 17px; flex: none; color: var(--roed); }
+.moerkkort__liste .pil { width: 15px; height: 15px; margin-left: auto; transition: transform .2s var(--ease); }
+.moerkkort__liste a:hover .pil { transform: translateX(4px); }
 
 /* Trin-for-trin */
 .trin__grid {

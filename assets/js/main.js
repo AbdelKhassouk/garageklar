@@ -663,7 +663,11 @@
     var sprunget = [];      // beskeder om det, der ikke kom med
     var naarKlar = null;    // sat, hvis der trykkes "Send", mens køen kører
 
-    function mb(bytes) { return (bytes / MB).toFixed(1).replace(".", ",") + " MB"; }
+    // Under 1 MB vises kB — ellers står et lille billede som "0,0 MB".
+    function mb(bytes) {
+      if (bytes < MB) { return Math.max(1, Math.round(bytes / 1024)) + " kB"; }
+      return (bytes / MB).toFixed(1).replace(".", ",") + " MB";
+    }
 
     function samlet() {
       return valgte.reduce(function (sum, p) { return sum + p.fil.size; }, 0);
