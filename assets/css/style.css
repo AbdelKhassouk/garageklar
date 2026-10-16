@@ -1172,12 +1172,16 @@ a[href^="mailto:"] { overflow-wrap: anywhere; }
 .droem__lead { color: var(--paa-moerk); font-size: clamp(1rem, 2.2vw, 1.12rem); max-width: 46ch; }
 
 /* Mobil: titel, mærke, tekst og billedtekst står i midten, og titlen er større.
-   DRØM er stadig forskudt mod højre — margin-left flytter midten en halv
-   margin til højre, så blokken som helhed står centreret. */
+   Titlen er en blok, der er præcis så bred som VORES + DRØM, og den blok står i
+   midten — inden i den står ordene venstrestillet med DRØM forskudt mod højre,
+   så de to ord tilsammen er centreret. */
 @media (max-width: 900px) {
   .droem__intro { text-align: center; }
-  .droem__titel { font-size: clamp(3.4rem, 20vw, 5rem); }
-  .droem__titel em { margin-left: 1.24em; }
+  .droem__titel {
+    width: fit-content; margin-inline: auto; text-align: left;
+    font-size: clamp(3.4rem, 21vw, 5.4rem);
+  }
+  .droem__titel em { margin-left: .74em; }
   .droem__lead { margin-inline: auto; }
   .droem__billede figcaption { text-align: center; }
 }

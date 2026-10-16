@@ -282,11 +282,18 @@ tilbudsboksen og på ydelsessiderne:
 | Dødsbo | 2.495,- |
 | Erhvervslokale | Kontakt os |
 
-Skal et tal ændres, skal det rettes **tre steder**: `FRA_PRISER` i
-`assets/js/main.js`, prislisten i `priser/index.html` og prisboksen på den
-pågældende ydelsesside (`moerkkort__pris` — fx `<span>Fra</span> 595 kr.` — samt
-`price`/`minPrice` i den strukturerede data i toppen af filen). Bysiderne viser
-fra-prisen for garage (595 kr.) i deres egen prisboks.
+Skal et tal ændres, så ret `FRA_PRISER` i `assets/js/main.js` og **søg derefter
+efter det gamle beløb i alle `.html`-filer** — i alle skrivemåder (fx `595`,
+`1.195` og `1195`) — og ret hvert sted. Beløbet står blandt andet i:
+
+- prislisten og spørgsmål/svar på `/priser/` (tekst og struktureret data)
+- ydelsessidens titel, beskrivelse, strukturerede data (`price`/`minPrice`) og
+  prisboks (`moerkkort__pris`, fx `<span>Fra</span> 595 kr.`)
+- prisboksen på de fem bysider, som viser garagens fra-pris (595 kr.)
+
+Tekster om den laveste pris ("fra 595 kr." på forsiden, kontaktsiden, i
+bysidernes beskrivelser og i `handelsbetingelser.html` punkt 3) skal kun rettes,
+hvis den laveste pris ændrer sig.
 
 Prisboksen på ydelses- og områdesiderne er det samme mørke kort som "Ring til
 os" på kontaktsiden (klassen `moerkkort` i `style.css`). Rubrikken "Fast pris,
@@ -432,8 +439,8 @@ faktisk gør. De er rettet — **læs dem igennem, før siden går i luften:**
 1. **Tredjelandsoverførsel.** Begge sider sagde, at der ikke sendes persondata ud
    af EU. Det passer ikke: formularerne sender gennem Formspree, Inc. i USA, så
    navn, telefon, adresse og vedhæftede billeder behandles uden for EU/EØS. Det
-   står der nu, med henvisning til databehandleraftalen og
-   standardkontraktbestemmelserne.
+   står der nu, med henvisning til EU-Kommissionens standardkontraktbestemmelser
+   (Formspree har ingen offentlig databehandleraftale — se nederst).
 
 2. **Cookiepolitikkens brødtekst** var ubearbejdet skabelontekst. Den lovede
    annoncer, profilering, sporing og videregivelse til navngivne tredjeparter —
@@ -474,6 +481,10 @@ rettet, fordi det er jeres tekst og jeres valg:
   databehandleraftale ligger ikke offentligt. Persondatapolitikken nævner derfor
   nu kun standardkontrakterne. Bed Formspree om en databehandleraftale, og skriv
   den ind, når I har den.
+- Sætningen "Vi har indgået databehandleraftaler med vores databehandlere …" er
+  fjernet fra persondatapolitikken (oktober 2026), fordi der i dag ikke er
+  aftaler med Formspree, GitHub eller Hotmail. Indgå aftalerne, og sæt den ind
+  igen, når de er på plads.
 - Henvendelser lander i en Hotmail-indbakke. Datatilsynet regner mailudbydere som
   databehandlere, og den almindelige Hotmail-aftale har ingen databehandleraftale.
   En firmamail på eget domæne løser det.
