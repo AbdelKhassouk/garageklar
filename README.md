@@ -183,17 +183,27 @@ virker først, når profilen er aktiv — se "Trustpilot-verifikation" længere 
 
 ### 4. Cookies
 
-Siden sætter **ingen cookies**, bruger ingen localStorage, har ingen eksterne
-scripts og ingen indlejrede videoer, og skrifttyperne ligger som filer på sitet
-selv. Derfor skal der ikke være noget cookiebanner. `cookiepolitik.html` siger nu
-det samme — den gamle skabelontekst om statistik og målrettede annoncer er væk,
-og noten "Til udvikleren" er fjernet fra siden.
+Meta Pixel **2461409487713869** måler sidevisninger (`PageView`) efter et
+frivilligt samtykke til markedsføring. Intet Meta-script og ingen Pixel-anmodninger
+indlæses før accept. Der sendes ingen formularoplysninger eller særlige
+lead-/formularhændelser, og avanceret matching bruges ikke.
 
-Tilføjer I senere Google Analytics, Meta Pixel, Trustpilot-widget eller indlejrede
-YouTube-videoer, skal det tjekkes først. Gemmer eller læser de noget hos den
-besøgende, **skal** der sættes et cookiebanner op med forudgående samtykke, og
-`cookiepolitik.html` og `persondatapolitik.html` skal nævne tredjeparten.
-Cookiesiden lover i dag, at intet er indlejret, og at der bliver spurgt først.
+Banneret har både accept og afvisning. **Cookieindstillinger** i footeren åbner
+valget igen. Et ja eller nej huskes på eget domæne i localStorage under
+`garageklar.marketing-consent.v1` som `{marketing: boolean, updatedAt: ISO-dato}`.
+Valget udløber efter **180 dage**. Ved tilbagetrækning genindlæses siden uden
+pixlen, og dens `_fbp`- og `_fbc`-cookies på eget domæne slettes. Allerede
+overførte oplysninger og cookies på Metas egne domæner slettes ikke af dette.
+
+Meta kan modtage IP-adresse, browser-/enhedsoplysninger, sidens URL,
+henvisningsside og cookieidentifikatorer. `cookiepolitik.html` og
+`persondatapolitik.html` beskriver brugen. I Metas Events Manager skal automatisk
+avanceret matching og automatisk registrering af hændelser være slået fra, så
+indstillingerne fortsat svarer til sidens begrænsede brug af pixlen.
+
+Skrifttyper, billeder og video ligger fortsat på sitet selv. Tilføjes andre
+tjenester, fx Google Analytics, Trustpilot-widget eller indlejrede
+YouTube-videoer, skal deres samtykke og beskrivelser vurderes særskilt.
 
 ---
 
@@ -442,12 +452,9 @@ faktisk gør. De er rettet — **læs dem igennem, før siden går i luften:**
    står der nu, med henvisning til EU-Kommissionens standardkontraktbestemmelser
    (Formspree har ingen offentlig databehandleraftale — se nederst).
 
-2. **Cookiepolitikkens brødtekst** var ubearbejdet skabelontekst. Den lovede
-   annoncer, profilering, sporing og videregivelse til navngivne tredjeparter —
-   og henviste til en liste over dem, der ikke fandtes. Intet af det sker på
-   siden. Afsnittene om indsamlede oplysninger, formål og videregivelse er
-   skrevet om, så de beskriver det, der faktisk foregår: kun det kunden selv
-   skriver i formularerne, ingen analyse, ingen annoncering, ingen sporing.
+2. **Cookiepolitikkens brødtekst** var ubearbejdet skabelontekst og blev tidligere
+   begrænset til formularer og webhotel. Den er nu opdateret sammen med
+   persondatapolitikken til også at beskrive Meta Pixel efter samtykke til markedsføring.
 
 3. **To forskellige mailadresser.** De juridiske sider bad kunder sende
    indsigts- og sletteanmodninger til `garageklar@hotmail.com`, mens resten af
@@ -457,10 +464,9 @@ faktisk gør. De er rettet — **læs dem igennem, før siden går i luften:**
 
 Rettet i sidste runde (ønskedokument 21):
 
-4. **Cookiesiden** sagde stadig i indledningen, at siden bruger cookies til
-   statistik og målrettede annoncer. Det gør den ikke. Indledningen og afsnittet
-   "Cookies" siger nu, at der ingen cookies sættes, og at der bliver spurgt om
-   samtykke først, hvis det nogensinde ændrer sig. Noten "Til udvikleren" er væk.
+4. **Cookiesiden** beskrev tidligere ingen cookies. Efter tilføjelsen af Meta
+   Pixel beskriver den nu forudgående samtykke, den lokale lagring af valget,
+   markedsføringscookies og muligheden for at trække samtykket tilbage.
 5. **Webhotellet** er beskrevet i persondatapolitikken uden navn (se "Webhotel i
    persondatapolitikken"). Cookiesiden skrev, at der ikke opsamles IP-adresser —
    det gør ethvert webhotel, så den sætning er rettet.

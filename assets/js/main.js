@@ -55,6 +55,172 @@
   var $ = function (s, k) { return (k || document).querySelector(s); };
   var $$ = function (s, k) { return Array.prototype.slice.call((k || document).querySelectorAll(s)); };
 
+  /* Meta Pixel: ingen forbindelse til Meta før et aktivt ja til markedsføring.
+     main.js er fælles for alle sider, så både samtykke og PageView følger med. */
+  (function () {
+    var PIXEL_ID = "2461409487713869";
+    var SAMTYKKE_NOEGLE = "garageklar.marketing-consent.v1";
+    var SAMTYKKE_ALDER = 180 * 24 * 60 * 60 * 1000;
+    var pixelStartet = false;
+    var sidsteFokus = null;
+    var script = document.currentScript;
+    var cookieUrl = new URL("../../cookiepolitik.html", script.src).href;
+
+    function laesSamtykke() {
+      try {
+        var valg = JSON.parse(localStorage.getItem(SAMTYKKE_NOEGLE));
+        var alder = valg && Date.now() - Date.parse(valg.updatedAt);
+        if (valg && typeof valg.marketing === "boolean" && alder >= 0 && alder < SAMTYKKE_ALDER) {
+          return valg;
+        }
+        localStorage.removeItem(SAMTYKKE_NOEGLE);
+      } catch (e) {
+        // Ugyldige værdier ryddes; uden browserlager spørger vi igen på næste side.
+        try { localStorage.removeItem(SAMTYKKE_NOEGLE); } catch (fejl) { /* Blokeret lager. */ }
+      }
+      return null;
+    }
+
+    function fjernMetaLager() {
+      try {
+        ["_fbp", "_fbc"].forEach(function (navn) {
+          var udloeb = navn + "=; Max-Age=0; path=/; SameSite=Lax";
+          document.cookie = udloeb;
+          var dele = location.hostname.split(".");
+          while (dele.length > 1) {
+            document.cookie = udloeb + "; domain=" + dele.join(".");
+            document.cookie = udloeb + "; domain=." + dele.join(".");
+            dele.shift();
+          }
+        });
+      } catch (e) { /* Siden virker også, hvis browseren blokerer cookieadgang. */ }
+      try {
+        localStorage.removeItem("lastExternalReferrer");
+        localStorage.removeItem("lastExternalReferrerTime");
+      } catch (e) { /* Lager kan være blokeret i browseren. */ }
+    }
+
+    function startPixel() {
+      if (pixelStartet) return;
+      pixelStartet = true;
+      /* Metas standardkø; scriptet hentes først her, efter samtykke. */
+      if (!window.fbq) {
+        var n = window.fbq = function () {
+          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+        };
+        if (!window._fbq) window._fbq = n;
+        n.push = n;
+        n.loaded = true;
+        n.version = "2.0";
+        n.queue = [];
+      }
+      window.fbq("consent", "grant");
+      // Kun PageView: ingen automatiske hændelser eller formularoplysninger.
+      window.fbq("set", "autoConfig", false, PIXEL_ID);
+      window.fbq("init", PIXEL_ID);
+      window.fbq("track", "PageView");
+      var metaScript = document.createElement("script");
+      metaScript.async = true;
+      metaScript.src = "https://connect.facebook.net/en_US/fbevents.js";
+      document.head.appendChild(metaScript);
+    }
+
+    var valg = laesSamtykke();
+    var panel = document.createElement("section");
+    panel.className = "cookies";
+    panel.setAttribute("aria-labelledby", "cookietitel");
+    panel.hidden = true;
+    panel.innerHTML =
+      '<div class="cookies__tekst"><h2 id="cookietitel">Cookies til markedsføring</h2>' +
+      '<p>Med dit samtykke bruger vi Meta Pixel til at måle besøg og effekten af vores annoncer på Facebook og Instagram. ' +
+      'Meta modtager oplysninger om dit besøg og din browser og kan knytte dem til din Meta-profil. ' +
+      'Du kan bruge hele siden, selv om du siger nej. <a class="cookies__politik">Læs cookiepolitikken</a>.</p>' +
+      '<p class="cookies__status" aria-live="polite"></p></div>' +
+      '<div class="cookies__knapper">' +
+      '<button type="button" class="cookies__valg" data-cookie-afvis>Afvis markedsføring</button>' +
+      '<button type="button" class="cookies__valg" data-cookie-accepter>Acceptér markedsføring</button>' +
+      '<button type="button" class="cookies__luk" data-cookie-luk>Luk uden ændringer</button></div>';
+    $(".cookies__politik", panel).href = cookieUrl;
+    document.body.appendChild(panel);
+
+    var indstillinger = document.createElement("button");
+    indstillinger.type = "button";
+    indstillinger.className = "cookieindstillinger";
+    indstillinger.textContent = "Cookieindstillinger";
+    indstillinger.setAttribute("aria-controls", "cookievalg");
+    indstillinger.setAttribute("aria-expanded", "false");
+    panel.id = "cookievalg";
+    var fod = $(".fod__bund nav");
+    if (fod) fod.appendChild(indstillinger);
+
+    function aabn(fokus) {
+      sidsteFokus = fokus ? document.activeElement : null;
+      $(".cookies__status", panel).textContent = valg ?
+        "Dit nuværende valg: markedsføring er " + (valg.marketing ? "accepteret." : "afvist.") : "";
+      $("[data-cookie-luk]", panel).hidden = !valg;
+      panel.hidden = false;
+      indstillinger.setAttribute("aria-expanded", "true");
+      if (fokus) $("[data-cookie-afvis]", panel).focus();
+    }
+
+    function luk() {
+      var fokusIPanel = panel.contains(document.activeElement);
+      panel.hidden = true;
+      indstillinger.setAttribute("aria-expanded", "false");
+      if (fokusIPanel && sidsteFokus) sidsteFokus.focus({ preventScroll: true });
+      else if (fokusIPanel && fod) indstillinger.focus({ preventScroll: true });
+      sidsteFokus = null;
+    }
+
+    function opdaterPixel() {
+      if (valg && valg.marketing) {
+        startPixel();
+      } else {
+        if (pixelStartet && window.fbq) window.fbq("consent", "revoke");
+        fjernMetaLager();
+        // Genindlæs for også at fjerne allerede indlæst Meta-kode fra hukommelsen.
+        if (pixelStartet) location.reload();
+      }
+    }
+
+    function gemValg(marketing) {
+      valg = { marketing: marketing, updatedAt: new Date().toISOString() };
+      try {
+        localStorage.setItem(SAMTYKKE_NOEGLE, JSON.stringify(valg));
+      } catch (e) {
+        // Et gammelt ja må ikke overleve et nej, hvis lageret er fyldt.
+        try { localStorage.removeItem(SAMTYKKE_NOEGLE); } catch (fejl) { /* Blokeret lager. */ }
+      }
+      luk();
+      opdaterPixel();
+    }
+
+    indstillinger.addEventListener("click", function () { aabn(true); });
+    $("[data-cookie-afvis]", panel).addEventListener("click", function () { gemValg(false); });
+    $("[data-cookie-accepter]", panel).addEventListener("click", function () { gemValg(true); });
+    $("[data-cookie-luk]", panel).addEventListener("click", luk);
+    panel.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && valg) { e.preventDefault(); luk(); }
+    });
+
+    // Et nej i en anden fane eller efter gendannelse fra browserens sidecache gælder også her.
+    function synkroniserValg() {
+      valg = laesSamtykke();
+      if (!valg) aabn(false);
+      else luk();
+      opdaterPixel();
+    }
+    window.addEventListener("storage", function (e) {
+      if (e.key === SAMTYKKE_NOEGLE || e.key === null) synkroniserValg();
+    });
+    window.addEventListener("pageshow", function (e) {
+      if (e.persisted) synkroniserValg();
+    });
+
+    if (!valg) aabn(false);
+    opdaterPixel();
+  })();
+
   function kr(n) {
     return new Intl.NumberFormat("da-DK").format(Math.round(n)) + " kr.";
   }
