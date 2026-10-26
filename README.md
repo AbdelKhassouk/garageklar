@@ -66,7 +66,7 @@ assets/
   img/brand/              Logo (lys + mørk), ikon, favicons
   img/foer-efter/         10 billeder — 5 opgaver × før/efter (diamantopstilling)
   img/team/               Kristian, Kasper og fælles billede
-  img/ydelser/            Billeder til Private / Erhverv / CTA-bånd
+  img/ydelser/            Baggrundsbillede til CTA-båndet nederst på siderne
   img/danmark.svg         Kort med Herning markeret
   video/                  Web-optimerede videoer + posterbilleder
 
@@ -95,8 +95,13 @@ Der er indbygget:
 - **Honeypot** (`_gotcha`) på begge formularer — Formspree kasserer automatisk
   indsendelser, hvor feltet er udfyldt. Det stopper de fleste simple spambots.
 - **`_subject`**, så mails lander med en læsbar emnelinje.
-- **Dansk dato.** Ønsket dato står i mailen som `11/6-2026 (torsdag)` — ikke som
-  browserens `2026-06-11`. Er datoen ikke udfyldt, står der `Ikke oplyst`.
+- **Hvornår skal det ordnes?** Kunden vælger "På en specifik dato", "Før en
+  dato" eller "Jeg er fleksibel" (inden for 3, 7 eller 14 dage), og om opgaven
+  skal løses i et bestemt tidsrum (morgen, middag, eftermiddag, aften — flere kan
+  vælges). Tidsrummene vises kun, når der er svaret Ja. I mailen står valget i to
+  felter, `hvornaar` og `tidsrum`, fx `Før en dato: 29/10-2026 (torsdag)` og
+  `Ja: Morgen (før kl. 10), Middag (kl. 10–14)`. Datoen står på dansk — ikke som
+  browserens `2026-10-29`. Har kunden ikke valgt noget, står der `Ikke oplyst`.
 - **Tjek af e-mail.** Feltet er frivilligt, men Formspree afviser hele
   forespørgslen, hvis adressen er skrevet forkert. Derfor tjekkes den, før der
   sendes.
@@ -424,6 +429,11 @@ Sektionen findes to steder og er **ens begge steder**: på forsiden og på siden
 
 Ændrer I teksten, skal den rettes **begge steder**.
 
+På forsiden ligger sektionen lige under toppen, efterfulgt af "Få et gratis
+tilbud" (prisberegneren). Sektionen "Vi rydder op — du får pladsen tilbage" er
+fjernet. Knapperne "Tilbud – Private" og "Tilbud – Erhverv" i topbjælken går
+derfor nu til prisberegneren og til siden Erhvervsrydning.
+
 ### Roadmappen
 
 På bred skærm er den én vandret linje. På mobil (under 760 px) snor vejen sig som
@@ -518,6 +528,9 @@ rette med — numrene står kun i overskrifterne.
 - Struktureret data (JSON-LD): `LocalBusiness` på forsiden, kontakt og
   områdesider, `Service` på ydelsessider, `FAQPage` hvor der er spørgsmål, og
   `BreadcrumbList` på alle undersider.
+- På de seks ydelsessider står "Det får du med i prisen" øverst. Brødteksten
+  under listen er skjult på mobil (under 700 px), som I har bedt om. Den ligger
+  stadig i HTML'en, så Google læser den med.
 - Alle canonicals peger på `https://www.garageklar.dk`. Ligger siden midlertidigt
   et andet sted (fx GitHub Pages), bliver den derfor ikke indekseret — det er med
   vilje. Skift domænet i alle `canonical`- og `og:url`-tags samt `sitemap.xml`,

@@ -20,8 +20,8 @@
 <header class="bjaelke" id="bjaelke">
   <div class="ramme bjaelke__inder">
     <div class="bjaelke__venstre">
-      <a class="bfane" href="index.html#privat">Tilbud <b>–</b> <span class="lang">Private</span></a>
-      <a class="bfane" href="index.html#erhverv">Tilbud <b>–</b> <span class="lang">Erhverv</span></a>
+      <a class="bfane" href="index.html#beregner">Tilbud <b>–</b> <span class="lang">Private</span></a>
+      <a class="bfane" href="erhvervsrydning/">Tilbud <b>–</b> <span class="lang">Erhverv</span></a>
     </div>
 
     <a class="logo" href="index.html" aria-label="GarageKlar — til forsiden">
@@ -96,17 +96,116 @@
           </div>
         </div>
 
-        <div class="form__rk">
-          <div>
-            <label class="etiket" for="b-dato">Ønsket dato</label>
-            <input type="date" id="b-dato" name="onsket_dato">
-          </div>
-          <div>
-            <label class="etiket" for="b-email">E-mail</label>
-            <input type="email" id="b-email" name="email" autocomplete="email" placeholder="dig@eksempel.dk">
-            <p class="fejl" data-fejl-for="b-email">Skriv en gyldig e-mailadresse — eller lad feltet stå tomt.</p>
-          </div>
+        <div>
+          <label class="etiket" for="b-email">E-mail</label>
+          <input type="email" id="b-email" name="email" autocomplete="email" placeholder="dig@eksempel.dk">
+          <p class="fejl" data-fejl-for="b-email">Skriv en gyldig e-mailadresse — eller lad feltet stå tomt.</p>
         </div>
+
+        <!-- Hvornår skal det ordnes?
+             Radioknapper, datofelter og tidsrum sendes ikke, som de er — main.js
+             skriver valget pænt ind i de to skjulte felter "hvornaar" og "tidsrum". -->
+        <fieldset class="tid">
+          <legend class="etiket">Hvornår skal det ordnes?</legend>
+          <input type="hidden" name="hvornaar">
+          <div class="tid__liste">
+            <div class="tid__raekke">
+              <label class="tid__valg">
+                <input class="skjult-visuelt" type="radio" name="hvornaar_valg" value="specifik">
+                <span class="tid__radio" aria-hidden="true"></span>
+                <span class="tid__tekst"><b>På en specifik dato</b><small>Vi kommer på den dag, du vælger</small></span>
+              </label>
+              <div class="tid__ekstra">
+                <label class="datochip">
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16.5" rx="2" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M8 2.5v4M16 2.5v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                  <span class="datochip__tekst">Vælg dato</span>
+                  <input type="date" id="b-dato-specifik" aria-label="Vælg den dag, vi skal komme">
+                </label>
+                <p class="fejl" data-fejl-for="b-dato-specifik">Vælg den dag, vi skal komme.</p>
+              </div>
+            </div>
+            <div class="tid__raekke">
+              <label class="tid__valg">
+                <input class="skjult-visuelt" type="radio" name="hvornaar_valg" value="foer">
+                <span class="tid__radio" aria-hidden="true"></span>
+                <span class="tid__tekst"><b>Før en dato</b><small>Få udført din opgave før en bestemt dato</small></span>
+              </label>
+              <div class="tid__ekstra">
+                <label class="datochip">
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16.5" rx="2" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M8 2.5v4M16 2.5v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                  <span class="datochip__tekst">Vælg dato</span>
+                  <input type="date" id="b-dato-foer" aria-label="Vælg datoen, opgaven skal være udført før">
+                </label>
+                <p class="fejl" data-fejl-for="b-dato-foer">Vælg datoen, opgaven skal være udført før.</p>
+              </div>
+            </div>
+            <div class="tid__raekke">
+              <label class="tid__valg">
+                <input class="skjult-visuelt" type="radio" name="hvornaar_valg" value="fleksibel">
+                <span class="tid__radio" aria-hidden="true"></span>
+                <span class="tid__tekst"><b>Jeg er fleksibel</b><small>Jeg er fleksibel med datoen for udførelsen</small></span>
+              </label>
+              <div class="tid__ekstra">
+                <div class="vaelger">
+                  <button type="button" class="vaelger__knap" id="flex-knap" aria-haspopup="listbox" aria-expanded="false" aria-controls="flex-liste">
+                    <span id="flex-tekst">I løbet af de næste 14 dage</span>
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                  <ul class="vaelger__liste" id="flex-liste" role="listbox" tabindex="-1" aria-label="Hvor fleksibel er du?" hidden>
+                    <li role="option" id="flex-3" aria-selected="false">I løbet af de næste 3 dage</li>
+                    <li role="option" id="flex-7" aria-selected="false">I løbet af de næste 7 dage</li>
+                    <li role="option" id="flex-14" aria-selected="true">I løbet af de næste 14 dage</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="tid">
+          <legend class="etiket">Skal opgaven løses i et bestemt tidsrum?</legend>
+          <input type="hidden" name="tidsrum">
+          <div class="janej">
+            <label class="janej__valg">
+              <input class="skjult-visuelt" type="radio" name="tidsrum_valg" value="nej" checked>
+              <span class="tid__radio" aria-hidden="true"></span>Nej
+            </label>
+            <label class="janej__valg">
+              <input class="skjult-visuelt" type="radio" name="tidsrum_valg" value="ja">
+              <span class="tid__radio" aria-hidden="true"></span>Ja
+            </label>
+          </div>
+          <div class="tidsrum" id="tidsrum" hidden>
+            <p class="tidsrum__hjaelp">Vælg gerne flere tidsrum, så finder vi det, der passer bedst.</p>
+            <div class="tidsrum__kort">
+              <label class="tkort">
+                <input class="skjult-visuelt" type="checkbox" value="Morgen (før kl. 10)">
+                <span class="tkort__tjek" aria-hidden="true"></span>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2v8m-4-4 4-4 4 4M4.9 10.9l1.4 1.4M2 18h2m16 0h2m-2.9-7.1-1.4 1.4M22 22H2m14-4a4 4 0 0 0-8 0" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <b>Morgen</b><small>Før kl. 10</small>
+              </label>
+              <label class="tkort">
+                <input class="skjult-visuelt" type="checkbox" value="Middag (kl. 10–14)">
+                <span class="tkort__tjek" aria-hidden="true"></span>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.9"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+                <b>Middag</b><small>Kl. 10 til 14</small>
+              </label>
+              <label class="tkort">
+                <input class="skjult-visuelt" type="checkbox" value="Eftermiddag (kl. 14–18)">
+                <span class="tkort__tjek" aria-hidden="true"></span>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 10V2m4 4-4 4-4-4M4.9 10.9l1.4 1.4M2 18h2m16 0h2m-2.9-7.1-1.4 1.4M22 22H2m14-4a4 4 0 0 0-8 0" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <b>Efter&shy;middag</b><small>Kl. 14 til 18</small>
+              </label>
+              <label class="tkort">
+                <input class="skjult-visuelt" type="checkbox" value="Aften (efter kl. 18)">
+                <span class="tkort__tjek" aria-hidden="true"></span>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg>
+                <b>Aften</b><small>Efter kl. 18</small>
+              </label>
+            </div>
+            <p class="fejl" id="tidsrum-fejl">Vælg mindst ét tidsrum — eller vælg Nej.</p>
+          </div>
+        </fieldset>
 
         <div>
           <label class="etiket" for="b-besked">Kort om opgaven</label>

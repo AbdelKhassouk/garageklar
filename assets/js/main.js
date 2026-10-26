@@ -1039,6 +1039,157 @@
       });
     }
 
+    /* --- hvornår skal det ordnes? ---
+       Tre valg: en bestemt dag, før en dato eller fleksibel (3/7/14 dage).
+       Datochippen er et usynligt datofelt lagt hen over en knap, så telefonen
+       viser sin egen datovælger; på computer åbnes den med showPicker(). */
+    var MAANEDER = ["januar", "februar", "marts", "april", "maj", "juni", "juli",
+      "august", "september", "oktober", "november", "december"];
+
+    function nul(n) { return (n < 10 ? "0" : "") + n; }
+    function idag() {
+      var d = new Date();
+      return d.getFullYear() + "-" + nul(d.getMonth() + 1) + "-" + nul(d.getDate());
+    }
+    // "2026-10-29" -> "29. oktober" (årstallet kommer kun med, hvis det ikke er i år)
+    function kortDato(v) {
+      var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || "");
+      if (!m) { return ""; }
+      var t = parseInt(m[3], 10) + ". " + MAANEDER[parseInt(m[2], 10) - 1];
+      return parseInt(m[1], 10) === new Date().getFullYear() ? t : t + " " + m[1];
+    }
+
+    $$(".datochip", bestil).forEach(function (chip) {
+      var felt = $('input[type="date"]', chip);
+      var tekst = $(".datochip__tekst", chip);
+      felt.min = idag();
+      function vis() {
+        tekst.textContent = kortDato(felt.value) || "Vælg dato";
+        if (felt.value) { visFejl(felt, false); }
+      }
+      function aabn() {
+        if (felt.showPicker) { try { felt.showPicker(); } catch (e) { /* ældre browser — feltet åbner selv */ } }
+      }
+      felt.addEventListener("input", vis);
+      felt.addEventListener("change", vis);
+      felt.addEventListener("click", aabn);
+      felt.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); aabn(); }
+      });
+      vis();
+    });
+
+    // "I løbet af de næste … dage": en lille liste med tastaturstyring (listbox).
+    var flexKnap = $("#flex-knap");
+    var flexListe = $("#flex-liste");
+    var flexValg = $$('[role="option"]', flexListe);
+    var flexAktiv = 0;
+
+    function flexValgt() {
+      for (var i = 0; i < flexValg.length; i++) {
+        if (flexValg[i].getAttribute("aria-selected") === "true") { return i; }
+      }
+      return flexValg.length - 1;
+    }
+    function flexMarker(i) {
+      flexAktiv = Math.max(0, Math.min(flexValg.length - 1, i));
+      flexValg.forEach(function (li, j) { li.classList.toggle("aktiv", j === flexAktiv); });
+      flexListe.setAttribute("aria-activedescendant", flexValg[flexAktiv].id);
+    }
+    function flexAabn() {
+      flexListe.hidden = false;
+      flexKnap.setAttribute("aria-expanded", "true");
+      flexMarker(flexValgt());
+      flexListe.focus();
+    }
+    function flexLuk(fokus) {
+      if (flexListe.hidden) { return; }
+      flexListe.hidden = true;
+      flexKnap.setAttribute("aria-expanded", "false");
+      if (fokus) { flexKnap.focus(); }
+    }
+    function flexVaelg(i) {
+      flexValg.forEach(function (li, j) { li.setAttribute("aria-selected", j === i ? "true" : "false"); });
+      $("#flex-tekst").textContent = flexValg[i].textContent;
+      flexLuk(true);
+    }
+
+    flexKnap.addEventListener("click", function () {
+      if (flexListe.hidden) { flexAabn(); } else { flexLuk(true); }
+    });
+    flexKnap.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); flexAabn(); }
+    });
+    flexListe.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowDown") { e.preventDefault(); flexMarker(flexAktiv + 1); }
+      else if (e.key === "ArrowUp") { e.preventDefault(); flexMarker(flexAktiv - 1); }
+      else if (e.key === "Home") { e.preventDefault(); flexMarker(0); }
+      else if (e.key === "End") { e.preventDefault(); flexMarker(flexValg.length - 1); }
+      else if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flexVaelg(flexAktiv); }
+      else if (e.key === "Escape") { e.preventDefault(); flexLuk(true); }
+      else if (e.key === "Tab") { flexLuk(false); }
+    });
+    flexValg.forEach(function (li, i) {
+      li.addEventListener("click", function () { flexVaelg(i); });
+      li.addEventListener("mousemove", function () { if (flexAktiv !== i) { flexMarker(i); } });
+    });
+    document.addEventListener("click", function (e) {
+      if (!flexListe.hidden && !e.target.closest(".vaelger")) { flexLuk(false); }
+    });
+
+    // Nej/Ja: tidsrummene vises kun ved Ja.
+    var tidsrum = $("#tidsrum");
+    var tidsrumFejl = $("#tidsrum-fejl");
+    function tidsrumJa() { return !!$('input[name="tidsrum_valg"][value="ja"]:checked', bestil); }
+    $$('input[name="tidsrum_valg"]', bestil).forEach(function (r) {
+      r.addEventListener("change", function () {
+        tidsrum.hidden = !tidsrumJa();
+        tidsrumFejl.classList.remove("vis");
+      });
+    });
+    $$('input[type="checkbox"]', tidsrum).forEach(function (c) {
+      c.addEventListener("change", function () { tidsrumFejl.classList.remove("vis"); });
+    });
+    $$('input[name="hvornaar_valg"]', bestil).forEach(function (r) {
+      r.addEventListener("change", function () {
+        $$(".datochip input", bestil).forEach(function (felt) { visFejl(felt, false); });
+      });
+    });
+
+    // Valgt dato skal være udfyldt (og ikke ligge før i dag), og Ja kræver mindst ét tidsrum.
+    function validerTid(fokus) {
+      var foerste = null;
+      var valg = $('input[name="hvornaar_valg"]:checked', bestil);
+      $$(".tid__raekke", bestil).forEach(function (raekke) {
+        var felt = $('input[type="date"]', raekke);
+        if (!felt) { return; }
+        var mangler = valg && raekke.contains(valg) && (!felt.value || felt.value < idag());
+        visFejl(felt, !!mangler);
+        if (mangler && !foerste) { foerste = felt; }
+      });
+      var udenTidsrum = tidsrumJa() && !$('input[type="checkbox"]:checked', tidsrum);
+      tidsrumFejl.classList.toggle("vis", udenTidsrum);
+      if (udenTidsrum && !foerste) { foerste = $('input[type="checkbox"]', tidsrum); }
+      if (foerste && fokus) {
+        foerste.focus({ preventScroll: true });
+        foerste.closest(".tid").scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+      return !foerste;
+    }
+
+    // Sådan står valget i mailen.
+    function hvornaarTekst() {
+      var valg = $('input[name="hvornaar_valg"]:checked', bestil);
+      if (!valg) { return "Ikke oplyst"; }
+      if (valg.value === "specifik") { return "På en specifik dato: " + danskDato($("#b-dato-specifik").value); }
+      if (valg.value === "foer") { return "Før en dato: " + danskDato($("#b-dato-foer").value); }
+      return "Jeg er fleksibel: " + $("#flex-tekst").textContent.toLowerCase();
+    }
+    function tidsrumTekst() {
+      if (!tidsrumJa()) { return "Nej"; }
+      return "Ja: " + $$('input[type="checkbox"]:checked', tidsrum).map(function (c) { return c.value; }).join(", ");
+    }
+
     /* --- afsendelse --- */
     var sendknap = $('button[type="submit"]', bestil);
     var sendbesked = $("#bestilstatus");
@@ -1047,7 +1198,10 @@
        hvorfor de mangler — så I kan se, at I skal bede om dem. */
     function byg(medBilleder, aarsag) {
       var data = new FormData(bestil);
-      data.set("onsket_dato", danskDato($("#b-dato").value));
+      data.set("hvornaar", hvornaarTekst());
+      data.set("tidsrum", tidsrumTekst());
+      data.delete("hvornaar_valg");
+      data.delete("tidsrum_valg");
 
       var status = "Ingen";
       if (valgte.length && medBilleder) {
@@ -1148,7 +1302,8 @@
     bestil.addEventListener("submit", function (e) {
       e.preventDefault();
       if (naarKlar) return;                 // venter allerede på billederne
-      if (!valider(bestil)) return;
+      var felterOk = valider(bestil);       // fokuserer selv det første forkerte felt
+      if (!validerTid(felterOk) || !felterOk) return;
 
       // Billederne er stadig ved at blive gjort klar: vent, og send så af sig selv.
       if (arbejder) {
