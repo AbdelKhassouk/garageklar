@@ -143,7 +143,9 @@ hos Formspree i USA. Formspree skriver ikke, hvor længe linkene virker. Billede
 kan altid hentes i Formspree under formularen → Submissions (kræver login).
 Kontoen har 1 GB til billeder; når den er fuld, sletter Formspree de ældste filer
 først — gem de billeder, I skal bruge, i sagen. Tallene (antal billeder,
-størrelse, ventetid) står øverst i `assets/js/main.js`. "Maks 5 billeder" står
+størrelse, ventetid) står øverst i `assets/js/main.js`. Kunden kan vedhæfte
+højst 10 billeder — det er Formspree's grænse pr. forespørgsel, så højere kan
+det ikke sættes. "Maks 10 billeder" står
 også som tekst i `bestilling.html` — ret begge steder.
 
 Opsiger I abonnementet, så erstat upload-blokken i `bestilling.html` (den

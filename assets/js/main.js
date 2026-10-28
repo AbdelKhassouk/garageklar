@@ -38,7 +38,7 @@
     /* Billeder i bestillingsformularen.
        Formspree tager højst 25 MB pr. fil og afbryder en afsendelse, der varer
        over 30 sekunder. Derfor gøres billederne mindre i browseren, før de sendes. */
-    MAKS_FILER: 5,          // Formspree skriver selv både 5 og 10 pr. forespørgsel — 5 er den sikre side
+    MAKS_FILER: 10,         // Formspree tager højst 10 filer pr. forespørgsel (Personal-abonnementet)
     MAKS_FIL_MB: 10,        // pr. billede, efter det er gjort mindre
     MAKS_I_ALT_MB: 15,      // alle billeder tilsammen
     BILLED_KANT: 1920,      // længste side i pixels, når billedet er gjort mindre (0 = send billederne, som de er)
